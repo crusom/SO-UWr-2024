@@ -1,0 +1,756 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="date" content=''>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/../style.css"/>
+
+    <title>writeup</title>
+
+  </head>
+  <body>
+
+<ul>
+<li><a href="#zadanie-1" id="toc-zadanie-1">Zadanie 1</a>
+<ul>
+<li><a
+href="#na-podstawie-rysunku-4.15-z-4.6-przedstaw-stany-procesu-w-systemie-linux."
+id="toc-na-podstawie-rysunku-4.15-z-4.6-przedstaw-stany-procesu-w-systemie-linux.">Na
+podstawie rysunku 4.15 z §4.6 przedstaw stany procesu w systemie
+Linux.</a></li>
+<li><a href="#podaj-akcje-albo-zdarzenia-wyzwalające-zmianę-stanu."
+id="toc-podaj-akcje-albo-zdarzenia-wyzwalające-zmianę-stanu.">Podaj
+akcje albo zdarzenia wyzwalające zmianę stanu.</a></li>
+<li><a
+href="#które-przejścia-mogą-być-rezultatem-działań-podejmowanych-przez-jądro-systemu-operacyjnego-kod-sterowników-proces-użytkownika"
+id="toc-które-przejścia-mogą-być-rezultatem-działań-podejmowanych-przez-jądro-systemu-operacyjnego-kod-sterowników-proces-użytkownika">Które
+przejścia mogą być rezultatem działań podejmowanych przez: jądro systemu
+operacyjnego, kod sterowników, proces użytkownika?</a></li>
+<li><a
+href="#wyjaśnij-różnice-między-snem-przerywalnym-i-nieprzerywalnym."
+id="toc-wyjaśnij-różnice-między-snem-przerywalnym-i-nieprzerywalnym.">Wyjaśnij
+różnice między snem przerywalnym i nieprzerywalnym.</a></li>
+<li><a
+href="#czy-proces-może-zablokować-lub-zignorować-sygnał-sigkill-lub-sigsegv"
+id="toc-czy-proces-może-zablokować-lub-zignorować-sygnał-sigkill-lub-sigsegv">Czy
+proces może zablokować lub zignorować sygnał «SIGKILL» lub
+«SIGSEGV»?</a></li>
+</ul></li>
+<li><a href="#zadanie-2" id="toc-zadanie-2">Zadanie 2</a></li>
+<li><a
+href="#wyjaśnij-różnice-w-tworzeniu-procesów-w-systemie-linux-10.3.3-i-winnt-11.4.3."
+id="toc-wyjaśnij-różnice-w-tworzeniu-procesów-w-systemie-linux-10.3.3-i-winnt-11.4.3.">Wyjaśnij
+różnice w tworzeniu procesów w systemie Linux (§10.3.3) i WinNT
+(§11.4.3).</a>
+<ul>
+<li><a href="#linux" id="toc-linux">linux</a></li>
+<li><a href="#windows" id="toc-windows">windows</a></li>
+<li><a
+href="#załóżmy-że-system-posiada-wywołanie-spawn-o-takich-samych-argumentach-jak-execve.-zastępuje-ono-parę-wywołań-fork-i-execve-a-realizuje-takie-samo-zadanie.-dlaczego-w-takim-przypadku-mielibyśmy-problemy-z-dodaniem-do-powłoki-obsługi-przekierowania-standardowego-wejściawyjścia-odpowiednio-zdo-pliku-albo-łączenia-dowolnych-procesów-potokami"
+id="toc-załóżmy-że-system-posiada-wywołanie-spawn-o-takich-samych-argumentach-jak-execve.-zastępuje-ono-parę-wywołań-fork-i-execve-a-realizuje-takie-samo-zadanie.-dlaczego-w-takim-przypadku-mielibyśmy-problemy-z-dodaniem-do-powłoki-obsługi-przekierowania-standardowego-wejściawyjścia-odpowiednio-zdo-pliku-albo-łączenia-dowolnych-procesów-potokami">Załóżmy,
+że system posiada wywołanie spawn, o takich samych argumentach jak
+execve. Zastępuje ono parę wywołań fork i execve, a realizuje takie samo
+zadanie. Dlaczego w takim przypadku mielibyśmy problemy z dodaniem do
+powłoki obsługi przekierowania standardowego wejścia/wyjścia odpowiednio
+z/do pliku albo łączenia dowolnych procesów potokami?</a></li>
+</ul></li>
+<li><a href="#zadanie-3" id="toc-zadanie-3">Zadanie 3</a>
+<ul>
+<li><a
+href="#na-podstawie-dokumentacji-fork2-8.3-i-execve2-8.10-wymień-najważniejsze-zasoby-procesu-które-są-a-dziedziczone-przez-proces-potomny-b-przekazywane-do-nowego-programu-załadowanego-do-przestrzeni-adresowej."
+id="toc-na-podstawie-dokumentacji-fork2-8.3-i-execve2-8.10-wymień-najważniejsze-zasoby-procesu-które-są-a-dziedziczone-przez-proces-potomny-b-przekazywane-do-nowego-programu-załadowanego-do-przestrzeni-adresowej.">Na
+podstawie dokumentacji fork(2) (§8.3) i execve(2) (§8.10) wymień
+najważniejsze zasoby procesu, które są (a) dziedziczone przez proces
+potomny (b) przekazywane do nowego programu załadowanego do przestrzeni
+adresowej.</a></li>
+<li><a
+href="#czemu-przed-wywołaniem-fork-należy-opróżnić-bufory-biblioteki-stdio3"
+id="toc-czemu-przed-wywołaniem-fork-należy-opróżnić-bufory-biblioteki-stdio3">Czemu
+przed wywołaniem fork należy opróżnić bufory biblioteki
+stdio(3)?</a></li>
+<li><a
+href="#co-jądro-robi-w-trakcie-wywołania-execve-z-konfiguracją-zainstalowanych-procedur-obsługi-sygnałów"
+id="toc-co-jądro-robi-w-trakcie-wywołania-execve-z-konfiguracją-zainstalowanych-procedur-obsługi-sygnałów">Co
+jądro robi w trakcie wywołania execve z konfiguracją zainstalowanych
+procedur obsługi sygnałów?</a></li>
+</ul></li>
+<li><a href="#zadanie-4" id="toc-zadanie-4">Zadanie 4</a>
+<ul>
+<li><a href="#który-sygnał-jest-wysyłany-domyślnie"
+id="toc-który-sygnał-jest-wysyłany-domyślnie">Który sygnał jest wysyłany
+domyślnie?</a></li>
+<li><a
+href="#który-sygnał-zostanie-dostarczony-jako-pierwszy-po-wybudzeniu-procesu"
+id="toc-który-sygnał-zostanie-dostarczony-jako-pierwszy-po-wybudzeniu-procesu">Który
+sygnał zostanie dostarczony jako pierwszy po wybudzeniu
+procesu?</a></li>
+<li><a href="#co-opisują-pozostałe-pola-pliku-status-dotyczące-sygnałów"
+id="toc-co-opisują-pozostałe-pola-pliku-status-dotyczące-sygnałów">Co
+opisują pozostałe pola pliku «status» dotyczące sygnałów?</a></li>
+</ul></li>
+<li><a href="#zadanie-5" id="toc-zadanie-5">Zadanie 5</a>
+<ul>
+<li><a
+href="#na-podstawie-kodu-źródłowy-sinit.c1-opowiedz-jakie-zadania-pełni-minimalny-program-rozruchowy-sinit.-jakie-akcje-wykonuje-pod-wpływem-wysyłania-do-niego-sygnałów-wymienionych-w-tablicy-sigmap"
+id="toc-na-podstawie-kodu-źródłowy-sinit.c1-opowiedz-jakie-zadania-pełni-minimalny-program-rozruchowy-sinit.-jakie-akcje-wykonuje-pod-wpływem-wysyłania-do-niego-sygnałów-wymienionych-w-tablicy-sigmap">Na
+podstawie kodu źródłowy sinit.c1 opowiedz jakie zadania pełni minimalny
+program rozruchowy sinit. Jakie akcje wykonuje pod wpływem wysyłania do
+niego sygnałów wymienionych w tablicy «sigmap»?</a></li>
+<li><a
+href="#do-czego-służą-procedury-sigprocmask2-i-sigwait3-w-jaki-sposób-grzebie-swoje-dzieci"
+id="toc-do-czego-służą-procedury-sigprocmask2-i-sigwait3-w-jaki-sposób-grzebie-swoje-dzieci">Do
+czego służą procedury sigprocmask(2) i sigwait(3)? W jaki sposób grzebie
+swoje dzieci?</a></li>
+</ul></li>
+<li><a href="#zadanie-6" id="toc-zadanie-6">Zadanie 6</a></li>
+<li><a href="#zadanie-7" id="toc-zadanie-7">Zadanie 7</a></li>
+<li><a href="#zadanie-8" id="toc-zadanie-8">Zadanie 8</a></li>
+</ul>
+<h2 id="zadanie-1">Zadanie 1</h2>
+<div class="highlight"><pre><span></span>Na podstawie rysunku 4.15 z §4.6 przedstaw stany procesu w systemie Linux. 
+Podaj akcje albo zdarzenia wyzwalające zmianę stanu. 
+Które przejścia mogą być rezultatem działań podejmowanych przez: jądro systemu operacyjnego, kod sterowników, proces użytkownika?  
+Wyjaśnij różnice między snem przerywalnym i nieprzerywalnym.  
+Czy proces może zablokować lub zignorować sygnał «SIGKILL» lub «SIGSEGV»?
+</pre></div>
+
+<h3
+id="na-podstawie-rysunku-4.15-z-4.6-przedstaw-stany-procesu-w-systemie-linux.">Na
+podstawie rysunku 4.15 z §4.6 przedstaw stany procesu w systemie
+Linux.</h3>
+<p><img src="./assets/fig4_15.png" /></p>
+<p>Stany:</p>
+<ul>
+<li>Running: This state value corresponds to two states. A Running
+process is either executing, or it is ready to execute.</li>
+<li>Interruptible: This is a blocked state, in which the process is
+waiting for an event, such as the end of an I/O operation, the
+availability of a resource, or a signal from another process.</li>
+<li>Uninterruptible: This is another blocked state. The difference
+between this and the Interruptible state is that in an Uninterruptible
+state, a process is waiting directly on hardware conditions and
+therefore will not handle any signals.</li>
+<li>Stopped: The process has been halted and can only resume by positive
+action from another process. For example, a process that is being
+debugged can be put into the Stopped state.</li>
+<li>Zombie: The process has been terminated but, for some reason, still
+must have its task structure in the process table.</li>
+</ul>
+<h3 id="podaj-akcje-albo-zdarzenia-wyzwalające-zmianę-stanu.">Podaj
+akcje albo zdarzenia wyzwalające zmianę stanu.</h3>
+<p>Zmiana stanu może być podejmowana głównie przez sygnały albo eventy
+(wywołanie syscalli).<br />
+Na przykład Executing -&gt; Ready, gdy skończy się kwant czasu albo
+Executing -&gt; Stopped, gdy debugger zatrzyma program (na przykład
+poprzez wrzucenie int3, tam gdzie chcemy breakpoint), int3 tworzy
+SIGTRAP</p>
+<h3
+id="które-przejścia-mogą-być-rezultatem-działań-podejmowanych-przez-jądro-systemu-operacyjnego-kod-sterowników-proces-użytkownika">Które
+przejścia mogą być rezultatem działań podejmowanych przez: jądro systemu
+operacyjnego, kod sterowników, proces użytkownika?</h3>
+<p>Jądro:</p>
+<ul>
+<li>-&gt; Ready (proces jest tworzony przez kernel)</li>
+<li>Ready &lt;-&gt; Executing (scheduler)</li>
+<li>Interruptible/Uninterruptible -&gt; Ready (jądro oznajmia, że jakies
+IO sie zakonczylo)</li>
+<li>Zombie -&gt; Terminated (użytkownik używa wait, a kernel grzebie
+proces)</li>
+</ul>
+<p>Sterowniki (sterownik to właściwie moduł kernela):</p>
+<ul>
+<li>Interruptible/Uninterruptible -&gt; Ready (jakies IO sie
+zakonczylo)</li>
+<li>Running -&gt; Interruptible/Uninterruptible (wywołanie systemowe
+jakieś)</li>
+</ul>
+<p>Użytkownik:</p>
+<ul>
+<li>Running -&gt; Interruptable (wywołanie jakichś syscalli, które można
+przerwać)</li>
+<li>Running -&gt; Stopped (debugging przez PTRACEME) albo wysłanie
+sygnału</li>
+<li>Stopped -&gt; Running(debugging przez PTRACEME) albo wysłanie
+sygnału</li>
+<li>Running -&gt; Zombie po exicie</li>
+</ul>
+<h3
+id="wyjaśnij-różnice-między-snem-przerywalnym-i-nieprzerywalnym.">Wyjaśnij
+różnice między snem przerywalnym i nieprzerywalnym.</h3>
+<p>Sen przerywany występuje gdy kernel wykonuje jakiś syscall, ale można
+go bezpiecznie przerwać.<br />
+Sen nieprzerywany jest wtedy, gdy kernel wykonuje syscall, ale nie można
+go bezpiecznie przerwać. Proces w tym stanie jest nieśmiertelny</p>
+<p><a
+href="https://stackoverflow.com/questions/223644/what-is-an-uninterruptible-process"
+class="uri">https://stackoverflow.com/questions/223644/what-is-an-uninterruptible-process</a></p>
+<div class="highlight"><pre><span></span>The classic example is read(). This is a system call that can take a long time (seconds) since it can potentially involve spinning up a hard drive, or moving heads. During most of this time, the process will be sleeping, blocking on the hardware.
+
+While the process is sleeping in the system call, it can receive a Unix asynchronous signal (say, SIGTERM), then the following happens:
+
+    The system call exits prematurely, and is set up to return -EINTR to user space.
+    The signal handler is executed.
+    If the process is still running, it gets the return value from the system call, and it can make the same call again.
+
+Returning early from the system call enables the user space code to immediately alter its behavior in response to the signal. For example, terminating cleanly in reaction to SIGINT or SIGTERM.
+</pre></div>
+
+<p><a
+href="https://unix.stackexchange.com/questions/646826/cant-kill-wget-process-with-kill-9"
+class="uri">https://unix.stackexchange.com/questions/646826/cant-kill-wget-process-with-kill-9</a></p>
+<div class="highlight"><pre><span></span>A classical case of long uninterruptible sleep is processes accessing files over NFS when the server is not responding; modern implementations tend not to impose uninterruptible sleep (e.g. under Linux, since kernel 2.6.25, SIGKILL does interrupt processes blocked on an NFS access).
+</pre></div>
+
+<h3
+id="czy-proces-może-zablokować-lub-zignorować-sygnał-sigkill-lub-sigsegv">Czy
+proces może zablokować lub zignorować sygnał «SIGKILL» lub
+«SIGSEGV»?</h3>
+<p>Na mocy słów cahira proces może zignorować SIGSEGV (ale nie
+powinien), ale nie może SIGKILL.<br />
+Szara strefa jest trochę jak proces jest w Uninterruble stanie, ale
+wtedy tak czy tak gdy z niego wyjdzie, to zostanie zabity.</p>
+<p>signal(7):</p>
+<div class="highlight"><pre><span></span>The signals SIGKILL and SIGSTOP cannot be caught, blocked, or ignored.
+</pre></div>
+
+<h2 id="zadanie-2">Zadanie 2</h2>
+<div class="highlight"><pre><span></span>Wyjaśnij różnice w tworzeniu procesów w systemie Linux (§10.3.3) i WinNT (§11.4.3).  
+Naszkicuj przebieg najważniejszych akcji podejmowanych przez jądro w trakcie obsługi funkcji fork(2) i execve(2).  
+Załóżmy, że system posiada wywołanie spawn, o takich samych argumentach jak execve.  
+Zastępuje ono parę wywołań fork i execve, a realizuje takie samo zadanie.  
+Dlaczego w takim przypadku mielibyśmy problemy z dodaniem do powłoki obsługi przekierowania standardowego wejścia/wyjścia odpowiednio z/do pliku albo łączenia dowolnych procesów potokami?
+</pre></div>
+
+<h2
+id="wyjaśnij-różnice-w-tworzeniu-procesów-w-systemie-linux-10.3.3-i-winnt-11.4.3.">Wyjaśnij
+różnice w tworzeniu procesów w systemie Linux (§10.3.3) i WinNT
+(§11.4.3).</h2>
+<h3 id="linux">linux</h3>
+<p>Linux korzysta z syscalla fork(), żeby stworzyć nowy proces, a potem
+execve(), żeby zastąpić jego przestrzeń adresową.</p>
+<p>W linuxie proces jest reprezentowany przez process descriptor, który
+wskazuje na <a
+href="https://elixir.mayuworld.com/linux/latest/source/include/linux/sched.h#L748">task_struct</a><br />
+Po wywołaniu forka tworzony jest nowy task_struct, który jest wypełniany
+w większości wartościami z task_structu parenta, za wyjątkiem oczywiście
+PID.<br />
+Fork korzysta z clone, używając strace możemy zobaczyć jakie flagi
+stosuje</p>
+<div id="cb6" class="sourceCode">
+<div class="highlight"><pre><span></span>clone<span class="o">(</span><span class="nv">child_stack</span><span class="o">=</span>NULL,<span class="w"> </span><span class="nv">flags</span><span class="o">=</span>CLONE_CHILD_CLEARTID<span class="p">|</span>CLONE_CHILD_SETTID<span class="p">|</span>SIGCHLD,<span class="w"> </span><span class="nv">child_tidptr</span><span class="o">=</span>0x7a3cf526fa10<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">183669</span>
+</pre></div>
+
+</div>
+<p>Widzimy jakieś flagi dotyczące thread id i SIGCHLD.</p>
+<p>Task struct zawiera:</p>
+<ul>
+<li>Parametry planowania</li>
+<li>Pointery do segmentów</li>
+<li>Sygnały, maski</li>
+<li>Rejestry</li>
+<li>System call state</li>
+<li>File descriptor table</li>
+<li>Accounting (current cpu time)</li>
+<li>Stos kernela</li>
+<li>Inne, pid, ppid, user i inne takie</li>
+</ul>
+<p>W szczególności dziecko dostaje swoją kopię file descriptorów.</p>
+<p>Dziecko dostaje swój adres space, ale strony nie są kopiowane, lecz
+używany jest copy on write.</p>
+<p>Wywoływany jest execve, tworzony jest nowy adres space a program jest
+mapowany do pamięci. Tworzony jest stos.<br />
+Argv, argc i environ są kopiowane na stos, <em>sygnały są
+resetowane</em>, a rejestry zerowane, program jest wywoływany. <img
+src="./assets/fig10_8.png" alt="Figure 10.8" /></p>
+<h3 id="windows">windows</h3>
+<p>Windows korzysta w funkcji Win32.CreateProcess, która wywołuje
+NtCreateUserProcess. CreateProcess przyjmuje sporo argumentów.<br />
+Win32.CreateProcess -&gt; kernel32.dll -&gt; NtCreateUserProcess</p>
+<ol type="1">
+<li>Konwertuje z Win32 path name na NT path name, szuka binarki w
+PATH</li>
+<li>NtCreateUserProcess działający w kernelu otwiera program i tworzy
+“section object”, który się używa do mapowania programu do vaddress
+space’u</li>
+<li>Process manager alokuje i inicjalizuje process object</li>
+<li>Memory manager tworzy przestrzeń adresową procesu</li>
+<li>Tworzona jest handle table, dziedziczone handle są kopiowane</li>
+<li>Strona współdzielona jest mapowana do pamięci, memory manager
+inicjalizuje working-set który decyduje jakie strony swappować, gdy jest
+mało pamięci. Nasz program jest mapowany do przestrzeni adresowej według
+section object.</li>
+<li>Tworzony jest PEB (informacje takie jak pointery do sterty, lista
+załadowanych bibliotek)</li>
+<li>Alokowana jest pamięć wirtualna, kopiowane są parametry procesu</li>
+<li>Przyznwany jest unikalny PID, korzystając z ID table</li>
+<li>Thread object jest alokowany i inicjalizowany. Stos uzytkownika jest
+zaalokowany razem z TEB. Context rekord zawierający początkowe wartości
+rejestrów dla wątku jest inicjalizowany.</li>
+<li>Proces jest dodawany do globalnej listy procesów. Caller otrzymuje
+handle do procesu i thread objects.</li>
+<li>NtCreateUserProcess powraca do trybu użytkownika z nowo utworzonym
+procesem, proces ma jeden wątek który jest suspenede.</li>
+<li>Jeśli wywołanie się nie powiodło to coś tam coś tam</li>
+<li>Rejestracja procesu w subsystemie csrss.exe. Subsystem wyświetla
+kursor w klepsydrą, potem już proces zwykle odpala swoje gui</li>
+<li>Jeśli proces jest ograniczony, to ograniczenia są wprowadzane</li>
+<li>Jeśli proces używa shims (ta libka do kompatybilnosci wstecznej), to
+są one stosowane</li>
+<li>Wywoływany jest NtResumeThread i zwracana jest callerowi struktura z
+ID i handle’ami do procesu i wątku, które zostały utworzone</li>
+</ol>
+<h3
+id="załóżmy-że-system-posiada-wywołanie-spawn-o-takich-samych-argumentach-jak-execve.-zastępuje-ono-parę-wywołań-fork-i-execve-a-realizuje-takie-samo-zadanie.-dlaczego-w-takim-przypadku-mielibyśmy-problemy-z-dodaniem-do-powłoki-obsługi-przekierowania-standardowego-wejściawyjścia-odpowiednio-zdo-pliku-albo-łączenia-dowolnych-procesów-potokami">Załóżmy,
+że system posiada wywołanie spawn, o takich samych argumentach jak
+execve. Zastępuje ono parę wywołań fork i execve, a realizuje takie samo
+zadanie. Dlaczego w takim przypadku mielibyśmy problemy z dodaniem do
+powłoki obsługi przekierowania standardowego wejścia/wyjścia odpowiednio
+z/do pliku albo łączenia dowolnych procesów potokami?</h3>
+<p>Wywołania fork i execve są dość ograniczone i przyjmują jedynie kilka
+argumentów. Działają imo według zasady KISS.<br />
+Ponieważ po forku dziecko dostaje kopie file descriptors, a file
+description jest dzielony</p>
+<div class="highlight"><pre><span></span>The child inherits copies of the parent&#39;s set of open file descriptors.  
+Each file descriptor in the child refers to the same open file description (see open(2)) as the corresponding file descriptor in the parent.  
+This means that the two file descriptors share open file status flags, file offset, and signal-driven I/O attributes  (see  the  description of F_SETOWN and F_SETSIG in fcntl(2)).
+</pre></div>
+
+<p>To gdyby od razu był wywoływany execve, to nowy program nadal miałby
+te same descriptory co rodzic.<br />
+Gdy mamy najpierw forka, a potem execve, to dziecko ma czas na zmiane
+descriptorów, np. przekierowania standardowego wyjścia do pliku.</p>
+<p>Na Windowsie nie ma tego problemu, ponieważ CreateProcess przyjmuje
+strukture STARTUPINFO, której możemy podać handle na
+stdout/stderr/stdin.<br />
+<a
+href="https://learn.microsoft.com/en-us/windows/win32/procthread/creating-a-child-process-with-redirected-input-and-output">Ten
+artykuł pokazuje jak można zrealizować przekierowania i potoki</a>.</p>
+<p>Teoretycznie możnaby przed spawn() zmienić file descriptory, a po
+wywołaniu parent powróciłby do oryginalnych file descriptorów, ale
+najprawdopodobniej w wielowątkowym programie mogłoby to powodować race
+conditions.<br />
+No i jest to zwyczajnie brzydki interfejs.</p>
+<p>APUE 8.3 dodaje, że przestrzeń między fork() a execve() daje nam też
+możliwość zmiany <code>user ID, signal disposition, and so on</code></p>
+<h2 id="zadanie-3">Zadanie 3</h2>
+<div class="highlight"><pre><span></span>Zadanie 3. Na podstawie dokumentacji fork(2) (§8.3) i execve(2) (§8.10) wymień najważniejsze zasoby procesu, które są (a) dziedziczone przez proces potomny (b) przekazywane do nowego programu załadowanego do przestrzeni adresowej.  
+Czemu przed wywołaniem fork należy opróżnić bufory biblioteki stdio(3)?  
+Co jądro robi w trakcie wywołania execve z konfiguracją zainstalowanych procedur obsługi sygnałów?
+</pre></div>
+
+<h3
+id="na-podstawie-dokumentacji-fork2-8.3-i-execve2-8.10-wymień-najważniejsze-zasoby-procesu-które-są-a-dziedziczone-przez-proces-potomny-b-przekazywane-do-nowego-programu-załadowanego-do-przestrzeni-adresowej.">Na
+podstawie dokumentacji fork(2) (§8.3) i execve(2) (§8.10) wymień
+najważniejsze zasoby procesu, które są (a) dziedziczone przez proces
+potomny (b) przekazywane do nowego programu załadowanego do przestrzeni
+adresowej.</h3>
+<ol type="a">
+<li></li>
+</ol>
+<p>fork (2) ładnie opisuje co się różni między parentem a procesem
+potomnym:</p>
+<div class="highlight"><pre><span></span>•  The child has its own unique process ID, and this PID does not match the ID of any existing process group (setpgid(2)) or session.
+•  The child&#39;s parent process ID is the same as the parent&#39;s process ID.
+•  The child does not inherit its parent&#39;s memory locks (mlock(2), mlockall(2)).
+•  Process resource utilizations (getrusage(2)) and CPU time counters (times(2)) are reset to zero in the child.
+•  The child&#39;s set of pending signals is initially empty (sigpending(2)).
+•  The child does not inherit semaphore adjustments from its parent (semop(2)).
+•  The child does not inherit process-associated record locks from its parent (fcntl(2)).  (On the other hand, it does inherit fcntl(2) open file description locks and flock(2)  locks
+  from its parent.)
+•  The child does not inherit timers from its parent (setitimer(2), alarm(2), timer_create(2)).
+•  The  child  does  not inherit outstanding asynchronous I/O operations from its parent (aio_read(3), aio_write(3)), nor does it inherit any asynchronous I/O contexts from its parent
+  (see io_setup(2)).
+</pre></div>
+
+<p>APUE ładnie opisuje co jest duplikowane:</p>
+<div class="highlight"><pre><span></span>• Real user ID, real group ID, effective user ID, and effective group ID
+• Supplementary group IDs
+• Process group ID
+• Session ID
+• Controlling terminal
+• The set-user-ID and set-group-ID flags
+• Current working directory
+• Root directory
+• File mode creation mask
+• Signal mask and dispositions
+• The close-on-exec flag for any open file descriptors
+• Environment
+• Attached shared memory segments
+• Memory mappings
+• Resource limits
+</pre></div>
+
+<ol start="2" type="a">
+<li></li>
+</ol>
+<p>man page znowu nam ładnie listuje co jest dziedziczone execve(2):</p>
+<div class="highlight"><pre><span></span>       All process attributes are preserved during an execve(), except the following:
+
+       •  The dispositions of any signals that are being caught are reset to the default (signal(7)).
+
+       •  Any alternate signal stack is not preserved (sigaltstack(2)).
+
+       •  Memory mappings are not preserved (mmap(2)).
+
+       •  Attached System V shared memory segments are detached (shmat(2)).
+
+       •  POSIX shared memory regions are unmapped (shm_open(3)).
+
+       •  Open POSIX message queue descriptors are closed (mq_overview(7)).
+
+       •  Any open POSIX named semaphores are closed (sem_overview(7)).
+
+       •  POSIX timers are not preserved (timer_create(2)).
+
+       •  Any open directory streams are closed (opendir(3)).
+
+       •  Memory locks are not preserved (mlock(2), mlockall(2)).
+
+       •  Exit handlers are not preserved (atexit(3), on_exit(3)).
+
+       •  The floating-point environment is reset to the default (see fenv(3)).
+
+       The process attributes in the preceding list are all specified in POSIX.1.  The following Linux-specific process attributes are also not preserved during an execve():
+
+       •  The process&#39;s &quot;dumpable&quot; attribute is set to the value 1, unless a set-user-ID program, a set-group-ID program, or a program with capabilities is being executed, in which case  the
+          dumpable  flag  may  instead  be  reset  to  the  value  in  /proc/sys/fs/suid_dumpable, in the circumstances described under PR_SET_DUMPABLE in prctl(2).  Note that changes to the
+          &quot;dumpable&quot; attribute may cause ownership of files in the process&#39;s /proc/pid directory to change to root:root, as described in proc(5).
+
+       •  The prctl(2) PR_SET_KEEPCAPS flag is cleared.
+
+       •  (Since Linux 2.4.36 / 2.6.23) If a set-user-ID or set-group-ID program is being executed, then the parent death signal set by prctl(2) PR_SET_PDEATHSIG flag is cleared.
+
+       •  The process name, as set by prctl(2) PR_SET_NAME (and displayed by ps -o comm), is reset to the name of the new executable file.
+
+       •  The SECBIT_KEEP_CAPS securebits flag is cleared.  See capabilities(7).
+
+       •  The termination signal is reset to SIGCHLD (see clone(2)).
+
+       •  The file descriptor table is unshared, undoing the effect of the CLONE_FILES flag of clone(2).
+</pre></div>
+
+<p>Z ważniejszych rzeczy: - handlery sygnałów są resetowane - oczywiście
+memory mapping jest inny</p>
+<h3
+id="czemu-przed-wywołaniem-fork-należy-opróżnić-bufory-biblioteki-stdio3">Czemu
+przed wywołaniem fork należy opróżnić bufory biblioteki stdio(3)?</h3>
+<p><a
+href="https://www.cs.uleth.ca/~holzmann/C/system/pipeforkexec.html"
+class="uri">https://www.cs.uleth.ca/~holzmann/C/system/pipeforkexec.html</a></p>
+<div class="highlight"><pre><span></span> For stdio functions, the child and parent have separate buffers (in their separate malloc arenas) and the input or output blocks will be mixed when the buffers are flushed. Obviously, stdio buffers should be flushed before a fork( ) which would be the parent&#39;s responsibility. Otherwise, both the child and the parent will have buffers with a copy of the unflushed data, which could result in duplicate copies on the I/O device
+</pre></div>
+
+<p>Generalnie dane który napłyneły do parenta a siedzą w bufferze
+najprawdopodobniej były skierowane własnie do niego.<br />
+Stąd musimy zflushować dane, żeby proces potomny nie otrzymał czegoś
+czego nie powinien.</p>
+<h3
+id="co-jądro-robi-w-trakcie-wywołania-execve-z-konfiguracją-zainstalowanych-procedur-obsługi-sygnałów">Co
+jądro robi w trakcie wywołania execve z konfiguracją zainstalowanych
+procedur obsługi sygnałów?</h3>
+<p>Resetuje</p>
+<div class="highlight"><pre><span></span>•  The dispositions of any signals that are being caught are reset to the default (signal(7)).
+</pre></div>
+
+<h2 id="zadanie-4">Zadanie 4</h2>
+<div class="highlight"><pre><span></span>Zadanie 4. Uruchom program «xeyes» po czym użyj na nim polecenia «kill», «pkill» i «xkill».  
+Który sygnał jest wysyłany domyślnie? Przy pomocy kombinacji klawiszy «CTRL+Z» wyślij «xeyes» sygnał «SIGTSTP», a następnie wznów jego wykonanie.  
+Przeprowadź inspekcję pliku «/proc/pid/status» i wyświetl maskę sygnałów oczekujących na dostarczenie.  
+Pokaż jak będzie się zmieniać, gdy będziemy wysyłać wstrzymanemu procesowi kolejno: «SIGUSR1», «SIGUSR2», «SIGHUP» i «SIGINT».  
+Co opisują pozostałe pola pliku «status» dotyczące sygnałów?  
+Który sygnał zostanie dostarczony jako pierwszy po wybudzeniu procesu?
+</pre></div>
+
+<h3 id="który-sygnał-jest-wysyłany-domyślnie">Który sygnał jest wysyłany
+domyślnie?</h3>
+<p>kill/pkill:</p>
+<div id="cb15" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="o">[</span>crusom@crusomcarbon<span class="w"> </span>so21_lista_2<span class="o">]</span>$<span class="w"> </span>xeyes
+Terminated
+<span class="o">[</span>crusom@crusomcarbon<span class="w"> </span>so21_lista_2<span class="o">]</span>$<span class="w"> </span><span class="nv">$?</span>
+bash:<span class="w"> </span><span class="m">143</span>:<span class="w"> </span><span class="nb">command</span><span class="w"> </span>not<span class="w"> </span>found
+</pre></div>
+
+</div>
+<p>Exit code to 128+n, gdzie n to numer sygnału, więc szybki lookup do
+man page’a i widzimy że</p>
+<div class="highlight"><pre><span></span>       SIGTERM         15          15      15      15
+</pre></div>
+
+<p>xkill:</p>
+<div id="cb17" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="o">[</span>crusom@crusomcarbon<span class="w"> </span>so21_lista_2<span class="o">]</span>$<span class="w"> </span>xeyes
+X<span class="w"> </span>connection<span class="w"> </span>to<span class="w"> </span>:0<span class="w"> </span>broken<span class="w"> </span><span class="o">(</span>explicit<span class="w"> </span><span class="nb">kill</span><span class="w"> </span>or<span class="w"> </span>server<span class="w"> </span>shutdown<span class="o">)</span>.
+</pre></div>
+
+</div>
+<p>Spojrzałem na strace i widzę, że nie jest wysyłany sygnał do procesu,
+tylko xkill łączy się z “/tmp/.X11-unix/X0”</p>
+<div id="cb18" class="sourceCode">
+<div class="highlight"><pre><span></span>connect<span class="o">(</span><span class="m">3</span>,<span class="w"> </span><span class="o">{</span><span class="nv">sa_family</span><span class="o">=</span>AF_UNIX,<span class="w"> </span><span class="nv">sun_path</span><span class="o">=</span>@<span class="s2">&quot;/tmp/.X11-unix/X0&quot;</span><span class="o">}</span>,<span class="w"> </span><span class="m">20</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+</pre></div>
+
+</div>
+<p>No i potem odbywa się komunikacja przez ten unix socket</p>
+<p>SIGUSR1:</p>
+<div id="cb19" class="sourceCode">
+<div class="highlight"><pre><span></span>ShdPnd:<span class="w">       </span><span class="m">0000000000000200</span>
+</pre></div>
+
+</div>
+<p>czyli 1&lt;&lt;9</p>
+<p>SIGUSR2:</p>
+<div id="cb20" class="sourceCode">
+<div class="highlight"><pre><span></span>ShdPnd:<span class="w"> </span>0000000000000a00
+</pre></div>
+
+</div>
+<p>czyli 1&lt;&lt;11</p>
+<p>SIGHUP:</p>
+<div id="cb21" class="sourceCode">
+<div class="highlight"><pre><span></span>ShdPnd:<span class="w"> </span>0000000000000a01
+</pre></div>
+
+</div>
+<p>czyli 1&lt;&lt;0</p>
+<p>SIGINT:</p>
+<div id="cb22" class="sourceCode">
+<div class="highlight"><pre><span></span>ShdPnd:<span class="w"> </span>0000000000000a03
+</pre></div>
+
+</div>
+<p>czyli 1&lt;&lt;1</p>
+<h3
+id="który-sygnał-zostanie-dostarczony-jako-pierwszy-po-wybudzeniu-procesu">Który
+sygnał zostanie dostarczony jako pierwszy po wybudzeniu procesu?</h3>
+<div id="cb23" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="o">[</span>crusom@crusomcarbon<span class="w"> </span>so21_lista_2<span class="o">]</span>$<span class="w"> </span><span class="nb">fg</span>
+xeyes
+Hangup
+</pre></div>
+
+</div>
+<p>Jako pierwszy został dostarczony sygnał SIGHUP, który zapala ostatni
+bit maski (tzn. najmniej znaczący bit).<br />
+Sygnały są przetwarzane po kolei właśnie idąc od najmniej ważnych
+bitów.</p>
+<h3 id="co-opisują-pozostałe-pola-pliku-status-dotyczące-sygnałów">Co
+opisują pozostałe pola pliku «status» dotyczące sygnałów?</h3>
+<p><a href="https://access.redhat.com/solutions/3478631"
+class="uri">https://access.redhat.com/solutions/3478631</a> <a
+href="https://www.man7.org/linux/man-pages/man7/signal.7.html"
+class="uri">https://www.man7.org/linux/man-pages/man7/signal.7.html</a></p>
+<p>SigQ:</p>
+<div class="highlight"><pre><span></span>The first of these is the number of currently queued signals for this real user ID, and the second is the resource limit on the number of queued signals for this process (see the description of RLIMIT_SIGPENDING in getrlimit(2)).
+</pre></div>
+
+<ul>
+<li>SigPnd - pending signals, sygnały które czekają na realizacje i są
+skierowane do wątku (być może czekają bo są chwilowo zablokowane)</li>
+<li>ShdPnd - jak wyżej, ale są skierowane do całego procesu</li>
+<li>SigBlk - blokowane sygnały, zwykle sygnały są blokowane czasowo</li>
+<li>SigCgt - łapane sygnały, czyli te które mają zdefiniowane
+handlery</li>
+<li>SigIgn - ignorowane sygnały, można ignorować wszystko za wyjątkiem
+SIGKILL i SIGSTOP</li>
+</ul>
+<h2 id="zadanie-5">Zadanie 5</h2>
+<div class="highlight"><pre><span></span>Zadanie 5. Na podstawie kodu źródłowy sinit.c1 opowiedz jakie zadania pełni minimalny program rozruchowy sinit.  
+Jakie akcje wykonuje pod wpływem wysyłania do niego sygnałów wymienionych w tablicy «sigmap»?  
+Do czego służą procedury sigprocmask(2) i sigwait(3)? W jaki sposób grzebie swoje dzieci?
+</pre></div>
+
+<p>Kod z komentarzami:</p>
+<div id="cb26" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="cm">/* See LICENSE file for copyright and license details. */</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/types.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/wait.h&gt;</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;signal.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
+
+<span class="cp">#define LEN(x)  (sizeof (x) / sizeof *(x))</span>
+<span class="cp">#define TIMEO   30</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">sigpoweroff</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">sigreap</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">sigreboot</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">spawn</span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="p">[]);</span>
+
+<span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">sig</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">handler</span><span class="p">)(</span><span class="kt">void</span><span class="p">);</span>
+<span class="p">}</span><span class="w"> </span><span class="n">sigmap</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="n">SIGUSR1</span><span class="p">,</span><span class="w"> </span><span class="n">sigpoweroff</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="n">SIGCHLD</span><span class="p">,</span><span class="w"> </span><span class="n">sigreap</span><span class="w">     </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="n">SIGALRM</span><span class="p">,</span><span class="w"> </span><span class="n">sigreap</span><span class="w">     </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="n">SIGINT</span><span class="p">,</span><span class="w">  </span><span class="n">sigreboot</span><span class="w">   </span><span class="p">},</span>
+<span class="p">};</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;config.h&quot;</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">sigset_t</span><span class="w"> </span><span class="n">set</span><span class="p">;</span>
+
+<span class="kt">int</span>
+<span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">sig</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// it should be init right</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">getpid</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">chdir</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// &#39;sigfillset&#39; initializes a signal set to contain all signals.</span>
+<span class="w">    </span><span class="n">sigfillset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">set</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// sigprocmask — examine and change blocked signals</span>
+<span class="w">    </span><span class="c1">// SIG_BLOCK The set of blocked signals is the union of the current set and the set argument.</span>
+<span class="w">    </span><span class="c1">// it blocks all signals, to then use sigwait, so that signals are handled synchronously.</span>
+<span class="w">    </span><span class="n">sigprocmask</span><span class="p">(</span><span class="n">SIG_BLOCK</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">set</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<span class="w">    </span><span class="n">spawn</span><span class="p">(</span><span class="n">rcinitcmd</span><span class="p">);</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// alarm() arranges for a SIGALRM signal to be delivered to the calling process in seconds seconds.</span>
+<span class="w">        </span><span class="n">alarm</span><span class="p">(</span><span class="n">TIMEO</span><span class="p">);</span>
+<span class="w">        </span><span class="c1">// The  sigwait()  function  suspends  execution  of the calling thread until one of the signals specified in the signal set set becomes pending.</span>
+<span class="w">        </span><span class="c1">// For a signal to become pending, it must first be blocked with sigprocmask(2).</span>
+<span class="w">        </span><span class="c1">// The function accepts the signal (removes it from the pending list of signals), and returns the signal number in sig.</span>
+<span class="w">        </span><span class="n">sigwait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">set</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sig</span><span class="p">);</span>
+<span class="w">        </span><span class="c1">// itaretes over possible signals and if it is defined, call the handler</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">LEN</span><span class="p">(</span><span class="n">sigmap</span><span class="p">);</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">sigmap</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">sig</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">sig</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">sigmap</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">handler</span><span class="p">();</span>
+<span class="w">                </span><span class="k">break</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="cm">/* not reachable */</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// self-explaining</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span>
+<span class="nf">sigpoweroff</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">spawn</span><span class="p">(</span><span class="n">rcpoweroffcmd</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// well, if we got an orphan who died then we need to reap him</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span>
+<span class="nf">sigreap</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">waitpid</span><span class="p">(</span><span class="mi">-1</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">WNOHANG</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">        </span><span class="p">;</span>
+<span class="w">    </span><span class="n">alarm</span><span class="p">(</span><span class="n">TIMEO</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="c1">// self-explaining</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span>
+<span class="nf">sigreboot</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">spawn</span><span class="p">(</span><span class="n">rcrebootcmd</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span>
+<span class="nf">spawn</span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">fork</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span>
+<span class="w">        </span><span class="c1">// &quot;The signals in set are removed from the current set of blocked signals.  It is permissible to attempt to unblock a signal which is not blocked.&quot;</span>
+<span class="w">        </span><span class="c1">// well, the program we are executing should not use the parents handlers.</span>
+<span class="w">        </span><span class="n">sigprocmask</span><span class="p">(</span><span class="n">SIG_UNBLOCK</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">set</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<span class="w">        </span><span class="c1">// &quot;setsid()  creates  a  new session if the calling process is not a process group leader.</span>
+<span class="w">        </span><span class="c1">// The calling process is the leader of the new session (i.e., its session ID is made the same as its process ID).</span>
+<span class="w">        </span><span class="c1">// The calling process also becomes the process group leader of a new process group in the session (i.e., its process group ID is made the same as its process ID).&quot;</span>
+<span class="w">        </span><span class="n">setsid</span><span class="p">();</span>
+<span class="w">        </span><span class="c1">// run the program</span>
+<span class="w">        </span><span class="c1">// remember that exec shouldn&#39;t return</span>
+<span class="w">        </span><span class="n">execvp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">argv</span><span class="p">);</span>
+<span class="w">        </span><span class="n">perror</span><span class="p">(</span><span class="s">&quot;execvp&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">_exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="mi">-1</span><span class="p">:</span>
+<span class="w">        </span><span class="n">perror</span><span class="p">(</span><span class="s">&quot;fork&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+<h3
+id="na-podstawie-kodu-źródłowy-sinit.c1-opowiedz-jakie-zadania-pełni-minimalny-program-rozruchowy-sinit.-jakie-akcje-wykonuje-pod-wpływem-wysyłania-do-niego-sygnałów-wymienionych-w-tablicy-sigmap">Na
+podstawie kodu źródłowy sinit.c1 opowiedz jakie zadania pełni minimalny
+program rozruchowy sinit. Jakie akcje wykonuje pod wpływem wysyłania do
+niego sygnałów wymienionych w tablicy «sigmap»?</h3>
+<p>Program rozruchowy sprawdza czy ma pid 1, uruchamia init program,
+blokuje wszystkie sygnały i ustawia alarm na 30 sekund.<br />
+Potem korzysta z sigwait i co 30 sekund próbuje grzebać dziecko, jeśli
+jakieś jest. Jeśli dostanie SIGINT to robi reboot, jeśli dostanie
+SIGUSR1 to wyłącza komputer, a jeśli SIGCHLD to grzebie dziecko.</p>
+<h3
+id="do-czego-służą-procedury-sigprocmask2-i-sigwait3-w-jaki-sposób-grzebie-swoje-dzieci">Do
+czego służą procedury sigprocmask(2) i sigwait(3)? W jaki sposób grzebie
+swoje dzieci?</h3>
+<p>Sigprocmask zmienia maske sygnałów, w tym przypadku korzysta z
+SIG_BLOCK, więc blokuje wszystkie sygnały.<br />
+Sigwait czeka, aż nie nadejdzie jakiś sygnał.<br />
+Dzieci są grzebane przez</p>
+<div id="cb27" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">waitpid</span><span class="p">(</span><span class="mi">-1</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">WNOHANG</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="p">;</span>
+<span class="n">alarm</span><span class="p">(</span><span class="n">TIMEO</span><span class="p">);</span>
+</pre></div>
+
+</div>
+<div class="highlight"><pre><span></span>-1     meaning wait for any child process.
+</pre></div>
+
+<div class="highlight"><pre><span></span>WNOHANG
+      return immediately if no child has exited.
+</pre></div>
+
+<div class="highlight"><pre><span></span>waitpid(): on success, returns the process ID of the child whose state has changed; if WNOHANG was specified and one or more child(ren) specified  by  pid  exist,  but  have  not  yet
+       changed state, then 0 is returned.  On failure, -1 is returned
+</pre></div>
+
+<p>No czyli po prostu sprawdzamy czy jest jakis dzieciak ktory musi byc
+pogrzebany.</p>
+<h2 id="zadanie-6">Zadanie 6</h2>
+<div class="highlight"><pre><span></span>Zadanie 6. Uzupełnij program «reaper.c» prezentujący powstawanie sierot. Proces główny przyjmuje rolę
+żniwiarza (ang. reaper ) przy użyciu prctl(2). Przy pomocy procedury «spawn» utwórz kolejno procesy
+syna i wnuka. Następnie osieroć wnuka kończąc działanie syna. Uruchom podproces wywołujący polecenie
+«ps», aby wskazać kto przygarnął sierotę – przykład poniżej (zwróć uwagę na numery grup procesów):
+1 PID PPID PGRP STAT CMD
+2 24886 24643 24886 S+ ./reaper (main)
+3 24888 24886 24887 S ./reaper (grandchild)
+4 24889 24886 24886 R+ /usr/bin/ps -o pid,ppid,pgrp,stat,cmd
+Po udanym eksperymencie należy zabić wnuka sygnałem «SIGINT», a następnie po nim posprzątać drukując
+jego kod wyjścia. Wysłanie «SIGINT» do procesu głównego jest zabronione! Zauważ, że proces główny nie
+zna numeru pid wnuka. W rozwiązaniu należy wykorzystać setpgid(2), pause(2), waitpid(2) i kill(2).
+UWAGA! Użycie funkcji sleep(3) lub podobnych do właściwego uszeregowania procesów jest zabronione!
+</pre></div>
+
+<div class="highlight"><pre><span></span>       A  subreaper  fulfills the role of init(1) for its descendant processes.  When a process becomes orphaned (i.e., its immediate parent terminates), then that process will be reparented
+       to the nearest still living ancestor subreaper.  Subsequently, calls to getppid(2) in the orphaned process will now return the PID of the subreaper process, and when the orphan termi‐
+       nates, it is the subreaper process that will receive a SIGCHLD signal and will be able to wait(2) on the process to discover its termination status.
+</pre></div>
+
+<p>kod źródłowy w reaper.c</p>
+<h2 id="zadanie-7">Zadanie 7</h2>
+<div class="highlight"><pre><span></span>Zadanie 7. Uzupełnij program «cycle.c», w którym procesy grają w piłkę przy pomocy sygnału «SIGUSR1».
+Proces główny tworzy n dzieci. Każde z nich czeka na piłkę, a po jej odebraniu podaje ją do swojego
+starszego brata. Zauważ, że najstarszy brat nie zna swojego najmłodszego rodzeństwa, ale zna je ojciec –
+więc należy go wciągnąć do gry! Niech tata rozpocznie grę rzucając piłkę do najmłodszego dziecka. Kiedy
+znudzi Ci się obserwowanie procesów grających w piłkę możesz nacisnąć «CTRL+C» co wyśle «SIGINT»
+do całej rodziny. Możesz wprowadź do zabawy dodatkową piłkę wysyłając sygnał «SIGUSR1» poleceniem
+«kill». Czy piłki ostatecznie skleją się w jedną? W rozwiązaniu należy wykorzystać sigprocmask(2),
+sigsuspend(2) i kill(2).
+UWAGA! Użycie funkcji sleep(3) lub podobnych do właściwego uszeregowania procesów jest zabronione!
+</pre></div>
+
+<h2 id="zadanie-8">Zadanie 8</h2>
+<div class="highlight"><pre><span></span>Reentrancy is a programming concept where a function or subroutine can be interrupted and then resumed before it finishes executing. This means that the function can be called again before it completes its previous execution. Reentrant code is designed to be safe and predictable when multiple instances of the same function are called simultaneously or in quick succession. A computer program or subroutine is called reentrant if multiple invocations can safely run concurrently on multiple processors, or if on a single-processor system its execution can be interrupted and a new execution of it can be safely started (it can be &quot;re-entered&quot;). The interruption could be caused by an internal action such as a jump or call, or by an external action such as an interrupt or signal, unlike recursion, where new invocations can only be caused by internal call.
+</pre></div>
+
+<p><img src="./assets/reetrant.png" /></p>
+  </body>
+</html>

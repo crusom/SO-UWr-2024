@@ -1,0 +1,35 @@
+Method: write
+
+real    0m1.276s
+user    0m0.285s
+sys     0m0.824s
+594c417685170dd3eb60286c0f634dc9  test
+
+Method: fwrite
+
+real    0m1.199s
+user    0m0.273s
+sys     0m0.859s
+594c417685170dd3eb60286c0f634dc9  test
+
+Method: fwrite-line
+
+real    0m1.479s
+user    0m0.323s
+sys     0m0.824s
+594c417685170dd3eb60286c0f634dc9  test
+
+Method: fwrite-full
+
+real    0m3.020s
+user    0m0.124s
+sys     0m0.372s
+594c417685170dd3eb60286c0f634dc9  test
+
+Method: writev
+
+real    0m0.805s
+user    0m0.004s
+sys     0m0.342s
+594c417685170dd3eb60286c0f634dc9  test
+

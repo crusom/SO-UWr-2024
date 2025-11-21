@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="date" content=''>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/../style.css"/>
+
+    <title>writeup</title>
+
+  </head>
+  <body>
+
+<ul>
+<li><a href="#zadanie-1" id="toc-zadanie-1">Zadanie 1</a>
+<ul>
+<li><a
+href="#w-nowej-powłoce-wystartuj-sleep-1000-jako-zadanie-drugoplanowe-i-sprawdź-kto-jest-jego-rodzicem."
+id="toc-w-nowej-powłoce-wystartuj-sleep-1000-jako-zadanie-drugoplanowe-i-sprawdź-kto-jest-jego-rodzicem.">W
+nowej powłoce wystartuj «sleep 1000» jako zadanie drugoplanowe i
+sprawdź, kto jest jego rodzicem.</a></li>
+<li><a
+href="#poleceniem-kill-wyślij-sygnał-sigkill-do-uruchomionej-wcześniej-powłoki-i-sprawdź-kto-stał-się-nowym-rodzicem-procesu-sleep"
+id="toc-poleceniem-kill-wyślij-sygnał-sigkill-do-uruchomionej-wcześniej-powłoki-i-sprawdź-kto-stał-się-nowym-rodzicem-procesu-sleep">Poleceniem
+«kill» wyślij sygnał «SIGKILL» do uruchomionej wcześniej powłoki i
+sprawdź, kto stał się nowym rodzicem procesu «sleep»</a></li>
+<li><a href="#co-się-dzieje-z-sesją-która-utraci-terminal-sterujący"
+id="toc-co-się-dzieje-z-sesją-która-utraci-terminal-sterujący">Co się
+dzieje z sesją, która utraci terminal sterujący?</a></li>
+</ul></li>
+<li><a href="#zadanie-2" id="toc-zadanie-2">Zadanie 2</a>
+<ul>
+<li><a
+href="#jak-zachowuje-się-sterownik-terminala-działającego-w-trybie-kanonicznym"
+id="toc-jak-zachowuje-się-sterownik-terminala-działającego-w-trybie-kanonicznym">Jak
+zachowuje się sterownik terminala działającego w trybie
+kanonicznym?</a></li>
+<li><a
+href="#posługując-się-rysunkiem-1-62-1-wytłumacz-w-jaki-sposób-przetwarza-on-znaki-w-tym-kody-sterujące-wchodzące-do-kolejki-wejściowej-i-kolejki-wyjściowej"
+id="toc-posługując-się-rysunkiem-1-62-1-wytłumacz-w-jaki-sposób-przetwarza-on-znaki-w-tym-kody-sterujące-wchodzące-do-kolejki-wejściowej-i-kolejki-wyjściowej">Posługując
+się rysunkiem [1, 62-1] wytłumacz w jaki sposób przetwarza on znaki (w
+tym kody sterujące) wchodzące do kolejki wejściowej i kolejki
+wyjściowej</a></li>
+<li><a
+href="#jak-konfigurację-terminala-powinien-zmienić-program-na-czas-wpisywania-hasła-przez-użytkownika"
+id="toc-jak-konfigurację-terminala-powinien-zmienić-program-na-czas-wpisywania-hasła-przez-użytkownika">jak
+konfigurację terminala powinien zmienić program na czas wpisywania hasła
+przez użytkownika</a></li>
+<li><a
+href="#czemu-edytory-takie-jak-vi1-konfigurują-sterownik-terminala-do-pracy-w-trybie-niekanonicznym"
+id="toc-czemu-edytory-takie-jak-vi1-konfigurują-sterownik-terminala-do-pracy-w-trybie-niekanonicznym">Czemu
+edytory takie jak vi(1) konfigurują sterownik terminala do pracy w
+trybie niekanonicznym?</a></li>
+<li><a href="#ciekawostka" id="toc-ciekawostka">ciekawostka</a></li>
+</ul></li>
+<li><a href="#zadanie-3" id="toc-zadanie-3">Zadanie 3</a>
+<ul>
+<li><a
+href="#wyświetl-konfigurację-terminala-przy-pomocy-polecenia-stty--a.-wskaż-znaki-które-sterownik-terminala-zamienia-na-sygnały-związane-z-zarządzaniem-zadaniami-służą-do-edycji-wiersza.-program"
+id="toc-wyświetl-konfigurację-terminala-przy-pomocy-polecenia-stty--a.-wskaż-znaki-które-sterownik-terminala-zamienia-na-sygnały-związane-z-zarządzaniem-zadaniami-służą-do-edycji-wiersza.-program">Wyświetl
+konfigurację terminala przy pomocy polecenia «stty -a». Wskaż znaki,
+które sterownik terminala: zamienia na sygnały związane z zarządzaniem
+zadaniami, służą do edycji wiersza. Program</a></li>
+<li><a
+href="#program-może-zostać-poinformowany-o-zmianie-rozmiaru-okna-terminala.-w-tym-celu-musi-zainstalować-procedurę-obsługi-sygnału-którego-jaką-procedurą-można-wczytać-nowy-rozmiar-okna"
+id="toc-program-może-zostać-poinformowany-o-zmianie-rozmiaru-okna-terminala.-w-tym-celu-musi-zainstalować-procedurę-obsługi-sygnału-którego-jaką-procedurą-można-wczytać-nowy-rozmiar-okna">Program
+może zostać poinformowany o zmianie rozmiaru okna terminala. W tym celu
+musi zainstalować procedurę obsługi sygnału – którego? Jaką procedurą
+można wczytać nowy rozmiar okna?</a></li>
+</ul></li>
+<li><a href="#zadanie-4" id="toc-zadanie-4">Zadanie 4</a>
+<ul>
+<li><a
+href="#posługując-się-poleceniem-echo--e-sterujacy-read-zaprezentuj-działanie-znaków-sterujących-oraz-sekwencji-csi."
+id="toc-posługując-się-poleceniem-echo--e-sterujacy-read-zaprezentuj-działanie-znaków-sterujących-oraz-sekwencji-csi.">Posługując
+się poleceniem «echo -e ’sterujacy’; read» zaprezentuj działanie znaków
+sterujących oraz sekwencji «CSI».</a></li>
+<li><a href="#deeemooo-d" id="toc-deeemooo-d">DEEEMooo :D</a></li>
+<li><a
+href="#uruchom-polecenie-cat-i-sprawdź-jak-zachowuje-się-naciśnięcie-klawiszy-funkcyjnych-i-kursora.-czemu-w-tym-przypadku-zachowanie-programu-cat-jest-inne-niż-powłoki-poleceń"
+id="toc-uruchom-polecenie-cat-i-sprawdź-jak-zachowuje-się-naciśnięcie-klawiszy-funkcyjnych-i-kursora.-czemu-w-tym-przypadku-zachowanie-programu-cat-jest-inne-niż-powłoki-poleceń">uruchom
+polecenie «cat» i sprawdź jak zachowuje się naciśnięcie klawiszy
+funkcyjnych i kursora. Czemu w tym przypadku zachowanie programu «cat»
+jest inne niż powłoki poleceń?</a></li>
+</ul></li>
+<li><a href="#zadanie-5" id="toc-zadanie-5">Zadanie 5</a></li>
+<li><a href="#zadanie-6" id="toc-zadanie-6">Zadanie 6</a>
+<ul>
+<li><a
+href="#dlaczego-jmpbuf-nie-przechowuje-wszystkich-rejestrów-procesora"
+id="toc-dlaczego-jmpbuf-nie-przechowuje-wszystkich-rejestrów-procesora">Dlaczego
+«Jmpbuf» nie przechowuje wszystkich rejestrów procesora?</a></li>
+</ul></li>
+<li><a href="#zadanie-7" id="toc-zadanie-7">Zadanie 7</a></li>
+<li><a href="#zadanie-8" id="toc-zadanie-8">Zadanie 8</a></li>
+<li><a href="#some-links" id="toc-some-links">some links</a></li>
+</ul>
+<h2 id="zadanie-1">Zadanie 1</h2>
+<h3
+id="w-nowej-powłoce-wystartuj-sleep-1000-jako-zadanie-drugoplanowe-i-sprawdź-kto-jest-jego-rodzicem.">W
+nowej powłoce wystartuj «sleep 1000» jako zadanie drugoplanowe i
+sprawdź, kto jest jego rodzicem.</h3>
+<div id="cb1" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="o">[</span>crusom@crusomcarbon<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>ps<span class="w"> </span>-o<span class="w"> </span>pid,ppid,tty,time,cmd
+<span class="w">    </span>PID<span class="w">    </span>PPID<span class="w"> </span>TT<span class="w">           </span>TIME<span class="w"> </span>CMD
+<span class="m">1057319</span><span class="w"> </span><span class="m">1057316</span><span class="w"> </span>pts/0<span class="w">    </span><span class="m">00</span>:00:00<span class="w"> </span>bash<span class="w"> </span>-i
+<span class="m">1057449</span><span class="w"> </span><span class="m">1057319</span><span class="w"> </span>pts/0<span class="w">    </span><span class="m">00</span>:00:00<span class="w"> </span>sleep<span class="w"> </span><span class="m">1000</span>
+<span class="m">1057470</span><span class="w"> </span><span class="m">1057319</span><span class="w"> </span>pts/0<span class="w">    </span><span class="m">00</span>:00:00<span class="w"> </span>ps<span class="w"> </span>-o<span class="w"> </span>pid,ppid,tty,time,cmd
+</pre></div>
+
+</div>
+<h3
+id="poleceniem-kill-wyślij-sygnał-sigkill-do-uruchomionej-wcześniej-powłoki-i-sprawdź-kto-stał-się-nowym-rodzicem-procesu-sleep">Poleceniem
+«kill» wyślij sygnał «SIGKILL» do uruchomionej wcześniej powłoki i
+sprawdź, kto stał się nowym rodzicem procesu «sleep»</h3>
+<div id="cb2" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="o">[</span>crusom@crusomcarbon<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>ps<span class="w"> </span>-eo<span class="w"> </span>pid,ppid,tty,time,cmd<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>sleep
+<span class="m">1057449</span><span class="w">       </span><span class="m">1</span><span class="w"> </span>?<span class="w">        </span><span class="m">00</span>:00:00<span class="w"> </span>sleep<span class="w"> </span><span class="m">1000</span>
+<span class="m">1058878</span><span class="w">  </span><span class="m">985342</span><span class="w"> </span>pts/3<span class="w">    </span><span class="m">00</span>:00:00<span class="w"> </span>grep<span class="w"> </span>sleep
+</pre></div>
+
+</div>
+<h3 id="co-się-dzieje-z-sesją-która-utraci-terminal-sterujący">Co się
+dzieje z sesją, która utraci terminal sterujący?</h3>
+<p>jest tracona.<br />
+Bash wysyła SIGHUP do grupy procesów oraz do całej sesji</p>
+<div id="cb3" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="o">[</span>crusom@crusomcarbon<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>ps<span class="w"> </span>-eo<span class="w"> </span>pid,ppid,sid,tty,time,cmd<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail
+<span class="m">1094871</span><span class="w">       </span><span class="m">2</span><span class="w">       </span><span class="m">0</span><span class="w"> </span>?<span class="w">        </span><span class="m">00</span>:00:00<span class="w"> </span><span class="o">[</span>kworker/0:1-events<span class="o">]</span>
+<span class="m">1094948</span><span class="w">       </span><span class="m">2</span><span class="w">       </span><span class="m">0</span><span class="w"> </span>?<span class="w">        </span><span class="m">00</span>:00:00<span class="w"> </span><span class="o">[</span>kworker/2:2<span class="o">]</span>
+<span class="m">1095031</span><span class="w"> </span><span class="m">1071000</span><span class="w"> </span><span class="m">1071000</span><span class="w"> </span>pts/0<span class="w">    </span><span class="m">00</span>:00:00<span class="w"> </span>xterm<span class="w"> </span>-ls<span class="w"> </span>-xrm<span class="w"> </span>XTerm*selectToClipboard:true<span class="w"> </span>-fa<span class="w"> </span>LiberationMono-Bold<span class="w"> </span>-fs<span class="w"> </span><span class="m">14</span><span class="w"> </span>-e<span class="w"> </span>bash<span class="w"> </span>-i
+<span class="m">1095033</span><span class="w"> </span><span class="m">1095031</span><span class="w"> </span><span class="m">1095033</span><span class="w"> </span>pts/3<span class="w">    </span><span class="m">00</span>:00:00<span class="w"> </span>bash<span class="w"> </span>-i
+<span class="m">1095264</span><span class="w"> </span><span class="m">1095033</span><span class="w"> </span><span class="m">1095033</span><span class="w"> </span>pts/3<span class="w">    </span><span class="m">00</span>:00:00<span class="w"> </span>sleep<span class="w"> </span><span class="m">1000</span>
+<span class="m">1095273</span><span class="w"> </span><span class="m">1071000</span><span class="w"> </span><span class="m">1071000</span><span class="w"> </span>pts/0<span class="w">    </span><span class="m">00</span>:00:00<span class="w"> </span>sudo<span class="w"> </span>strace<span class="w"> </span>-e<span class="w"> </span><span class="nv">trace</span><span class="o">=</span>signal<span class="w"> </span>-p<span class="w"> </span><span class="m">1095033</span>
+<span class="m">1095275</span><span class="w"> </span><span class="m">1095273</span><span class="w"> </span><span class="m">1095275</span><span class="w"> </span>pts/4<span class="w">    </span><span class="m">00</span>:00:00<span class="w"> </span>sudo<span class="w"> </span>strace<span class="w"> </span>-e<span class="w"> </span><span class="nv">trace</span><span class="o">=</span>signal<span class="w"> </span>-p<span class="w"> </span><span class="m">1095033</span>
+<span class="m">1095276</span><span class="w"> </span><span class="m">1095275</span><span class="w"> </span><span class="m">1095275</span><span class="w"> </span>pts/4<span class="w">    </span><span class="m">00</span>:00:00<span class="w"> </span>strace<span class="w"> </span>-e<span class="w"> </span><span class="nv">trace</span><span class="o">=</span>signal<span class="w"> </span>-p<span class="w"> </span><span class="m">1095033</span>
+<span class="m">1095286</span><span class="w"> </span><span class="m">1093657</span><span class="w"> </span><span class="m">1093657</span><span class="w"> </span>pts/5<span class="w">    </span><span class="m">00</span>:00:00<span class="w"> </span>ps<span class="w"> </span>-eo<span class="w"> </span>pid,ppid,sid,tty,time,cmd
+<span class="m">1095287</span><span class="w"> </span><span class="m">1093657</span><span class="w"> </span><span class="m">1093657</span><span class="w"> </span>pts/5<span class="w">    </span><span class="m">00</span>:00:00<span class="w"> </span>tail
+</pre></div>
+
+</div>
+<p>Wysyłany jest kill.</p>
+<div id="cb4" class="sourceCode">
+<div class="highlight"><pre><span></span>---<span class="w"> </span>SIGHUP<span class="w"> </span><span class="o">{</span><span class="nv">si_signo</span><span class="o">=</span>SIGHUP,<span class="w"> </span><span class="nv">si_code</span><span class="o">=</span>SI_KERNEL<span class="o">}</span><span class="w"> </span>---
+---<span class="w"> </span>SIGCONT<span class="w"> </span><span class="o">{</span><span class="nv">si_signo</span><span class="o">=</span>SIGCONT,<span class="w"> </span><span class="nv">si_code</span><span class="o">=</span>SI_KERNEL<span class="o">}</span><span class="w"> </span>---
+rt_sigreturn<span class="o">({</span><span class="nv">mask</span><span class="o">=[]})</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+rt_sigprocmask<span class="o">(</span>SIG_BLOCK,<span class="w"> </span>NULL,<span class="w"> </span><span class="o">[]</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigaction<span class="o">(</span>SIGINT,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x565ed280f0d0,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x74ca90c11340,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigaction<span class="o">(</span>SIGHUP,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x565ed280dbd0,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[</span>HUP<span class="w"> </span>INT<span class="w"> </span>ILL<span class="w"> </span>TRAP<span class="w"> </span>ABRT<span class="w"> </span>BUS<span class="w"> </span>FPE<span class="w"> </span>USR1<span class="w"> </span>SEGV<span class="w"> </span>USR2<span class="w"> </span>PIPE<span class="w"> </span>ALRM<span class="w"> </span>TERM<span class="w"> </span>XCPU<span class="w"> </span>XFSZ<span class="w"> </span>VTALRM<span class="w"> </span>SYS<span class="o">]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x74ca90c11340,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigaction<span class="o">(</span>SIGALRM,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x565ed280dbd0,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[</span>HUP<span class="w"> </span>INT<span class="w"> </span>ILL<span class="w"> </span>TRAP<span class="w"> </span>ABRT<span class="w"> </span>BUS<span class="w"> </span>FPE<span class="w"> </span>USR1<span class="w"> </span>SEGV<span class="w"> </span>USR2<span class="w"> </span>PIPE<span class="w"> </span>ALRM<span class="w"> </span>TERM<span class="w"> </span>XCPU<span class="w"> </span>XFSZ<span class="w"> </span>VTALRM<span class="w"> </span>SYS<span class="o">]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x74ca90c11340,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigaction<span class="o">(</span>SIGWINCH,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x565ed28062a0,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER<span class="p">|</span>SA_RESTART,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x74ca90c11350,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER<span class="p">|</span>SA_RESTART,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+kill<span class="o">(</span><span class="m">1095033</span>,<span class="w"> </span>SIGHUP<span class="o">)</span><span class="w">                   </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+---<span class="w"> </span>SIGHUP<span class="w"> </span><span class="o">{</span><span class="nv">si_signo</span><span class="o">=</span>SIGHUP,<span class="w"> </span><span class="nv">si_code</span><span class="o">=</span>SI_USER,<span class="w"> </span><span class="nv">si_pid</span><span class="o">=</span><span class="m">1095033</span>,<span class="w"> </span><span class="nv">si_uid</span><span class="o">=</span><span class="m">1000</span><span class="o">}</span><span class="w"> </span>---
+rt_sigreturn<span class="o">({</span><span class="nv">mask</span><span class="o">=[]})</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigprocmask<span class="o">(</span>SIG_BLOCK,<span class="w"> </span><span class="o">[</span>HUP<span class="w"> </span>INT<span class="w"> </span>QUIT<span class="w"> </span>ALRM<span class="w"> </span>TERM<span class="w"> </span>TSTP<span class="w"> </span>TTIN<span class="w"> </span>TTOU<span class="o">]</span>,<span class="w"> </span><span class="o">[]</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigaction<span class="o">(</span>SIGINT,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x74ca90c11340,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x565ed280f0d0,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigaction<span class="o">(</span>SIGTERM,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x74ca90c11340,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>SIG_IGN,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigaction<span class="o">(</span>SIGTERM,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>SIG_IGN,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x74ca90c11340,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigaction<span class="o">(</span>SIGHUP,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x74ca90c11340,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x565ed280dbd0,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[</span>HUP<span class="w"> </span>INT<span class="w"> </span>ILL<span class="w"> </span>TRAP<span class="w"> </span>ABRT<span class="w"> </span>BUS<span class="w"> </span>FPE<span class="w"> </span>USR1<span class="w"> </span>SEGV<span class="w"> </span>USR2<span class="w"> </span>PIPE<span class="w"> </span>ALRM<span class="w"> </span>TERM<span class="w"> </span>XCPU<span class="w"> </span>XFSZ<span class="w"> </span>VTALRM<span class="w"> </span>SYS<span class="o">]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigaction<span class="o">(</span>SIGQUIT,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x74ca90c11340,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>SIG_IGN,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigaction<span class="o">(</span>SIGQUIT,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>SIG_IGN,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x74ca90c11340,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigaction<span class="o">(</span>SIGALRM,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x74ca90c11340,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x565ed280dbd0,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[</span>HUP<span class="w"> </span>INT<span class="w"> </span>ILL<span class="w"> </span>TRAP<span class="w"> </span>ABRT<span class="w"> </span>BUS<span class="w"> </span>FPE<span class="w"> </span>USR1<span class="w"> </span>SEGV<span class="w"> </span>USR2<span class="w"> </span>PIPE<span class="w"> </span>ALRM<span class="w"> </span>TERM
+XCPU<span class="w"> </span>XFSZ<span class="w"> </span>VTALRM<span class="w"> </span>SYS<span class="o">]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigaction<span class="o">(</span>SIGTSTP,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x74ca90c11340,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>SIG_IGN,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigaction<span class="o">(</span>SIGTSTP,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>SIG_IGN,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x74ca90c11340,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigaction<span class="o">(</span>SIGTTOU,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x74ca90c11340,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>SIG_IGN,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigaction<span class="o">(</span>SIGTTOU,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>SIG_IGN,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x74ca90c11340,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigaction<span class="o">(</span>SIGTTIN,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x74ca90c11340,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>SIG_IGN,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigaction<span class="o">(</span>SIGTTIN,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>SIG_IGN,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x74ca90c11340,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigaction<span class="o">(</span>SIGTTIN,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>SIG_IGN,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x74ca90c11340,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigprocmask<span class="o">(</span>SIG_SETMASK,<span class="w"> </span><span class="o">[]</span>,<span class="w"> </span>NULL,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigaction<span class="o">(</span>SIGWINCH,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x74ca90c11350,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER<span class="p">|</span>SA_RESTART,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x565ed28062a0,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER<span class="p">|</span>SA_RESTART,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigaction<span class="o">(</span>SIGINT,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x565ed280f0d0,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x74ca90c11340,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigaction<span class="o">(</span>SIGHUP,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x565ed280dbd0,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[</span>HUP<span class="w"> </span>INT<span class="w"> </span>ILL<span class="w"> </span>TRAP<span class="w"> </span>ABRT<span class="w"> </span>BUS<span class="w"> </span>FPE<span class="w"> </span>USR1<span class="w"> </span>SEGV<span class="w"> </span>USR2<span class="w"> </span>PIPE<span class="w"> </span>ALRM<span class="w"> </span>TERM<span class="w"> </span>XCPU<span class="w"> </span>XFSZ<span class="w"> </span>VTALRM<span class="w"> </span>SYS<span class="o">]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x74ca90c11340,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigaction<span class="o">(</span>SIGALRM,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x565ed280dbd0,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[</span>HUP<span class="w"> </span>INT<span class="w"> </span>ILL<span class="w"> </span>TRAP<span class="w"> </span>ABRT<span class="w"> </span>BUS<span class="w"> </span>FPE<span class="w"> </span>USR1<span class="w"> </span>SEGV<span class="w"> </span>USR2<span class="w"> </span>PIPE<span class="w"> </span>ALRM<span class="w"> </span>TERM<span class="w"> </span>XCPU<span class="w"> </span>XFSZ<span class="w"> </span>VTALRM<span class="w"> </span>SYS<span class="o">]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x74ca90c11340,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigaction<span class="o">(</span>SIGWINCH,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x565ed28062a0,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER<span class="p">|</span>SA_RESTART,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x74ca90c11350,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER<span class="p">|</span>SA_RESTART,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+kill<span class="o">(</span>-1095264,<span class="w"> </span>SIGHUP<span class="o">)</span><span class="w">                  </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigprocmask<span class="o">(</span>SIG_BLOCK,<span class="w"> </span><span class="o">[</span>CHLD<span class="o">]</span>,<span class="w"> </span><span class="o">[]</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigprocmask<span class="o">(</span>SIG_SETMASK,<span class="w"> </span><span class="o">[]</span>,<span class="w"> </span>NULL,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+---<span class="w"> </span>SIGCHLD<span class="w"> </span><span class="o">{</span><span class="nv">si_signo</span><span class="o">=</span>SIGCHLD,<span class="w"> </span><span class="nv">si_code</span><span class="o">=</span>CLD_KILLED,<span class="w"> </span><span class="nv">si_pid</span><span class="o">=</span><span class="m">1095264</span>,<span class="w"> </span><span class="nv">si_uid</span><span class="o">=</span><span class="m">1000</span>,<span class="w"> </span><span class="nv">si_status</span><span class="o">=</span>SIGHUP,<span class="w"> </span><span class="nv">si_utime</span><span class="o">=</span><span class="m">0</span>,<span class="w"> </span><span class="nv">si_stime</span><span class="o">=</span><span class="m">0</span><span class="o">}</span><span class="w"> </span>---
+rt_sigreturn<span class="o">({</span><span class="nv">mask</span><span class="o">=[]})</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigprocmask<span class="o">(</span>SIG_SETMASK,<span class="w"> </span><span class="o">[]</span>,<span class="w"> </span>NULL,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+rt_sigaction<span class="o">(</span>SIGHUP,<span class="w"> </span><span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>SIG_DFL,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,
+<span class="o">{</span><span class="nv">sa_handler</span><span class="o">=</span>0x565ed280dbd0,<span class="w"> </span><span class="nv">sa_mask</span><span class="o">=[</span>HUP<span class="w"> </span>INT<span class="w"> </span>ILL<span class="w"> </span>TRAP<span class="w"> </span>ABRT<span class="w"> </span>BUS<span class="w"> </span>FPE<span class="w"> </span>USR1<span class="w"> </span>SEGV<span class="w"> </span>USR2<span class="w"> </span>PIPE<span class="w"> </span>ALRM<span class="w"> </span>TERM<span class="w"> </span>XCPU<span class="w"> </span>XFSZ<span class="w"> </span>VTALRM<span class="w"> </span>SYS<span class="o">]</span>,<span class="w"> </span><span class="nv">sa_flags</span><span class="o">=</span>SA_RESTORER,<span class="w"> </span><span class="nv">sa_restorer</span><span class="o">=</span>0x74ca90a2d1d0<span class="o">}</span>,<span class="w"> </span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+kill<span class="o">(</span><span class="m">1095033</span>,<span class="w"> </span>SIGHUP<span class="o">)</span><span class="w">                   </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+---<span class="w"> </span>SIGHUP<span class="w"> </span><span class="o">{</span><span class="nv">si_signo</span><span class="o">=</span>SIGHUP,<span class="w"> </span><span class="nv">si_code</span><span class="o">=</span>SI_USER,<span class="w"> </span><span class="nv">si_pid</span><span class="o">=</span><span class="m">1095033</span>,<span class="w"> </span><span class="nv">si_uid</span><span class="o">=</span><span class="m">1000</span><span class="o">}</span><span class="w"> </span>---
++++<span class="w"> </span>killed<span class="w"> </span>by<span class="w"> </span>SIGHUP<span class="w"> </span>+++
+</pre></div>
+
+</div>
+<p>Bash otrzymał sighup od kernela, ustawił handlery, po czym wysłał
+sighup do samego siebie.<br />
+Następie dalej ustawiał handlery na SIGIGN i wysłał SIGHUP dla grupy
+procesów do której należał sleep, czyli chyba do background job.<br />
+Dostał informacje, że dziecko zostało zabite, po czym ustawił SIGHUP na
+default action i wysłał SIGHUP do samego siebie, zabijając się w ten
+sposób.</p>
+<h2 id="zadanie-2">Zadanie 2</h2>
+<h3
+id="jak-zachowuje-się-sterownik-terminala-działającego-w-trybie-kanonicznym">Jak
+zachowuje się sterownik terminala działającego w trybie
+kanonicznym?</h3>
+<p>Terminal input przetwarza linie tekstu.<br />
+Linia kończy się znakiem nowej linii (‘’), EOF albo EOL.<br />
+EOF, EOL i NL to tak zwane znaki specjalne, które informują terminal że
+ma coś zrobić. Nie są one przekazywane jako input.</p>
+<div class="highlight"><pre><span></span>     EOF     Special character on input and is recognized if the ICANON flag
+             is set.  When received, all the bytes waiting to be read are
+             immediately passed to the process, without waiting for a newline,
+             and the EOF is discarded.  Thus, if there are no bytes waiting
+             (that is, the EOF occurred at the beginning of a line), a byte
+             count of zero is returned from the read(2), representing an end-
+             of-file indication.  If ICANON is set, the EOF character is dis-
+             carded when processed.&quot;
+</pre></div>
+
+<p>Niektóre znaki specjalne pozwalają edytować nasz tekst np. WERASE
+wymazuje ostatni wyraz, ERASE wymazuje ostatni znak, a KILL usuwa całą
+linię.</p>
+<p>Istnieją input modes i output modes, które ustala się poprzez flagi
+c_iflags i c_oflag.</p>
+<div class="highlight"><pre><span></span>   Input Modes
+     Values of the c_iflag field describe the basic terminal input control,
+     and are composed of following masks:
+
+           IGNBRK   /* ignore BREAK condition */
+           BRKINT   /* map BREAK to SIGINT */
+           IGNPAR   /* ignore (discard) parity errors */
+           PARMRK   /* mark parity and framing errors */
+           INPCK    /* enable checking of parity errors */
+           ISTRIP   /* strip 8th bit off chars */
+           INLCR    /* map NL into CR */
+           IGNCR    /* ignore CR */
+           ICRNL    /* map CR to NL (ala CRMOD) */
+           IXON     /* enable output flow control */
+           IXOFF    /* enable input flow control */
+           IXANY    /* any char will restart after stop */
+           IMAXBEL  /* ring bell on input queue full */
+</pre></div>
+
+<div class="highlight"><pre><span></span>   Output Modes
+     Values of the c_oflag field describe the basic terminal output control,
+     and are composed of the following masks:
+
+           OPOST   /* enable following output processing */
+           ONLCR   /* map NL to CR-NL (ala CRMOD) */
+           OCRNL   /* map CR to NL */
+           OXTABS  /* expand tabs to spaces */
+           ONOEOT  /* discard EOT&#39;s (^D) on output */
+           ONOCR   /* do not transmit CRs on column 0 */
+           ONLRET  /* on the terminal NL performs the CR function */
+</pre></div>
+
+<p>Oprócz tego są też local modes, które ustalają bardziej ogólne
+funkcje terminala.</p>
+<div class="highlight"><pre><span></span>   Local Modes
+     Values of the c_lflag field describe the control of various functions,
+     and are composed of the following masks.
+
+           ECHOKE      /* visual erase for line kill */
+           ECHOE       /* visually erase chars */
+           ECHO        /* enable echoing */
+           ECHONL      /* echo NL even if ECHO is off */
+           ECHOPRT     /* visual erase mode for hardcopy */
+           ECHOCTL     /* echo control chars as ^(Char) */
+           ISIG        /* enable signals INTR, QUIT, [D]SUSP */
+           ICANON      /* canonicalize input lines */
+           ALTWERASE   /* use alternative WERASE algorithm */
+           IEXTEN      /* enable DISCARD and LNEXT */
+           EXTPROC     /* external processing */
+           TOSTOP      /* stop background jobs from output */
+           FLUSHO      /* output being flushed (state) */
+           NOKERNINFO  /* no kernel output from VSTATUS */
+           PENDIN      /* re-echo input buffer at next read */
+           NOFLSH      /* don&#39;t flush output on signal */
+</pre></div>
+
+<h3
+id="posługując-się-rysunkiem-1-62-1-wytłumacz-w-jaki-sposób-przetwarza-on-znaki-w-tym-kody-sterujące-wchodzące-do-kolejki-wejściowej-i-kolejki-wyjściowej">Posługując
+się rysunkiem [1, 62-1] wytłumacz w jaki sposób przetwarza on znaki (w
+tym kody sterujące) wchodzące do kolejki wejściowej i kolejki
+wyjściowej</h3>
+<figure>
+<img src="/assets/queue.png" alt="18.1 aka 62-1" />
+<figcaption aria-hidden="true">18.1 aka 62-1</figcaption>
+</figure>
+<h3
+id="jak-konfigurację-terminala-powinien-zmienić-program-na-czas-wpisywania-hasła-przez-użytkownika">jak
+konfigurację terminala powinien zmienić program na czas wpisywania hasła
+przez użytkownika</h3>
+<p>wyłączć echo.</p>
+<p>Demko :333 w pierwszym terminalu wpisuje</p>
+<div id="cb9" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="o">[</span>crusom@crusomcarbon<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>tty
+/dev/pts/5
+<span class="o">[</span>crusom@crusomcarbon<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>su
+Password:
+</pre></div>
+
+</div>
+<p>w drugim sprawdzam ustawienia tego ptsa</p>
+<div id="cb10" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="o">[</span>crusom@crusomcarbon<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>stty<span class="w"> </span>-F<span class="w"> </span>/dev/pts/5<span class="w"> </span>-a
+speed<span class="w"> </span><span class="m">38400</span><span class="w"> </span>baud<span class="p">;</span><span class="w"> </span>rows<span class="w"> </span><span class="m">49</span><span class="p">;</span><span class="w"> </span>columns<span class="w"> </span><span class="m">85</span><span class="p">;</span><span class="w"> </span><span class="nv">line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">;</span>
+<span class="nv">intr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^C<span class="p">;</span><span class="w"> </span><span class="nv">quit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^<span class="se">\;</span><span class="w"> </span><span class="nv">erase</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^?<span class="p">;</span><span class="w"> </span><span class="nb">kill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^U<span class="p">;</span><span class="w"> </span><span class="nv">eof</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^D<span class="p">;</span><span class="w"> </span><span class="nv">eol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>&lt;undef&gt;<span class="p">;</span><span class="w"> </span><span class="nv">eol2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>&lt;undef&gt;<span class="p">;</span><span class="w"> </span><span class="nv">swtch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>&lt;undef&gt;<span class="p">;</span>
+<span class="nv">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^Q<span class="p">;</span><span class="w"> </span><span class="nv">stop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^S<span class="p">;</span><span class="w"> </span><span class="nv">susp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^Z<span class="p">;</span><span class="w"> </span><span class="nv">rprnt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^R<span class="p">;</span><span class="w"> </span><span class="nv">werase</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^W<span class="p">;</span><span class="w"> </span><span class="nv">lnext</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^V<span class="p">;</span><span class="w"> </span><span class="nv">discard</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^O<span class="p">;</span><span class="w"> </span><span class="nv">min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">;</span><span class="w"> </span><span class="nb">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">;</span>
+-parenb<span class="w"> </span>-parodd<span class="w"> </span>-cmspar<span class="w"> </span>cs8<span class="w"> </span>-hupcl<span class="w"> </span>-cstopb<span class="w"> </span>cread<span class="w"> </span>-clocal<span class="w"> </span>-crtscts
+-ignbrk<span class="w"> </span>-brkint<span class="w"> </span>-ignpar<span class="w"> </span>-parmrk<span class="w"> </span>-inpck<span class="w"> </span>-istrip<span class="w"> </span>-inlcr<span class="w"> </span>-igncr<span class="w"> </span>icrnl<span class="w"> </span>ixon<span class="w"> </span>-ixoff<span class="w"> </span>-iuclc<span class="w"> </span>-ixany<span class="w"> </span>-imaxbel
+-iutf8
+opost<span class="w"> </span>-olcuc<span class="w"> </span>-ocrnl<span class="w"> </span>onlcr<span class="w"> </span>-onocr<span class="w"> </span>-onlret<span class="w"> </span>-ofill<span class="w"> </span>-ofdel<span class="w"> </span>nl0<span class="w"> </span>cr0<span class="w"> </span>tab0<span class="w"> </span>bs0<span class="w"> </span>vt0<span class="w"> </span>ff0
+isig<span class="w"> </span>icanon<span class="w"> </span>iexten<span class="w"> </span>-echo<span class="w"> </span>echoe<span class="w"> </span>echok<span class="w"> </span>-echonl<span class="w"> </span>-noflsh<span class="w"> </span>-xcase<span class="w"> </span>-tostop<span class="w"> </span>-echoprt<span class="w"> </span>echoctl<span class="w"> </span>echoke<span class="w"> </span>-flusho
+-extproc
+</pre></div>
+
+</div>
+<p>jak widać echo jest wylaczone</p>
+<h3
+id="czemu-edytory-takie-jak-vi1-konfigurują-sterownik-terminala-do-pracy-w-trybie-niekanonicznym">Czemu
+edytory takie jak vi(1) konfigurują sterownik terminala do pracy w
+trybie niekanonicznym?</h3>
+<p>Bo definiują inne akcje dla np ctrl+c i inputu nie pobierają jedynie
+dla linii.</p>
+<h3 id="ciekawostka">ciekawostka</h3>
+<p>jesli uzyjemy stty -F /dev/pts/5 -a, gdy ten pts/5 nie wykonuje
+zadnego programu, to dostaniemy troche inny output.</p>
+<div id="cb11" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="o">[</span>crusom@crusomcarbon<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>stty<span class="w"> </span>-F<span class="w"> </span>/dev/pts/5<span class="w"> </span>-a
+speed<span class="w"> </span><span class="m">38400</span><span class="w"> </span>baud<span class="p">;</span><span class="w"> </span>rows<span class="w"> </span><span class="m">49</span><span class="p">;</span><span class="w"> </span>columns<span class="w"> </span><span class="m">85</span><span class="p">;</span><span class="w"> </span><span class="nv">line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">;</span>
+<span class="nv">intr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^C<span class="p">;</span><span class="w"> </span><span class="nv">quit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^<span class="se">\;</span><span class="w"> </span><span class="nv">erase</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^?<span class="p">;</span><span class="w"> </span><span class="nb">kill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^U<span class="p">;</span><span class="w"> </span><span class="nv">eof</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^D<span class="p">;</span><span class="w"> </span><span class="nv">eol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>&lt;undef&gt;<span class="p">;</span><span class="w"> </span><span class="nv">eol2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>&lt;undef&gt;<span class="p">;</span><span class="w"> </span><span class="nv">swtch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>&lt;undef&gt;<span class="p">;</span>
+<span class="nv">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^Q<span class="p">;</span><span class="w"> </span><span class="nv">stop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^S<span class="p">;</span><span class="w"> </span><span class="nv">susp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^Z<span class="p">;</span><span class="w"> </span><span class="nv">rprnt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^R<span class="p">;</span><span class="w"> </span><span class="nv">werase</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^W<span class="p">;</span><span class="w"> </span><span class="nv">lnext</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>&lt;undef&gt;<span class="p">;</span><span class="w"> </span><span class="nv">discard</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>&lt;undef&gt;<span class="p">;</span>
+<span class="nv">min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">;</span><span class="w"> </span><span class="nb">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">;</span>
+-parenb<span class="w"> </span>-parodd<span class="w"> </span>-cmspar<span class="w"> </span>cs8<span class="w"> </span>-hupcl<span class="w"> </span>-cstopb<span class="w"> </span>cread<span class="w"> </span>-clocal<span class="w"> </span>-crtscts
+-ignbrk<span class="w"> </span>-brkint<span class="w"> </span>-ignpar<span class="w"> </span>-parmrk<span class="w"> </span>-inpck<span class="w"> </span>-istrip<span class="w"> </span>-inlcr<span class="w"> </span>-igncr<span class="w"> </span>-icrnl<span class="w"> </span>ixon<span class="w"> </span>-ixoff<span class="w"> </span>-iuclc<span class="w"> </span>-ixany<span class="w"> </span>-imaxbel
+-iutf8
+opost<span class="w"> </span>-olcuc<span class="w"> </span>-ocrnl<span class="w"> </span>onlcr<span class="w"> </span>-onocr<span class="w"> </span>-onlret<span class="w"> </span>-ofill<span class="w"> </span>-ofdel<span class="w"> </span>nl0<span class="w"> </span>cr0<span class="w"> </span>tab0<span class="w"> </span>bs0<span class="w"> </span>vt0<span class="w"> </span>ff0
+isig<span class="w"> </span>-icanon<span class="w"> </span>iexten<span class="w"> </span>-echo<span class="w"> </span>echoe<span class="w"> </span>echok<span class="w"> </span>-echonl<span class="w"> </span>-noflsh<span class="w"> </span>-xcase<span class="w"> </span>-tostop<span class="w"> </span>-echoprt<span class="w"> </span>echoctl<span class="w"> </span>echoke<span class="w"> </span>-flusho
+-extproc
+</pre></div>
+
+</div>
+<div id="cb12" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="o">[</span>crusom@crusomcarbon<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>stty<span class="w"> </span>-a
+speed<span class="w"> </span><span class="m">38400</span><span class="w"> </span>baud<span class="p">;</span><span class="w"> </span>rows<span class="w"> </span><span class="m">49</span><span class="p">;</span><span class="w"> </span>columns<span class="w"> </span><span class="m">85</span><span class="p">;</span><span class="w"> </span><span class="nv">line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">;</span>
+<span class="nv">intr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^C<span class="p">;</span><span class="w"> </span><span class="nv">quit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^<span class="se">\;</span><span class="w"> </span><span class="nv">erase</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^?<span class="p">;</span><span class="w"> </span><span class="nb">kill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^U<span class="p">;</span><span class="w"> </span><span class="nv">eof</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^D<span class="p">;</span><span class="w"> </span><span class="nv">eol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>&lt;undef&gt;<span class="p">;</span><span class="w"> </span><span class="nv">eol2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>&lt;undef&gt;<span class="p">;</span>
+<span class="nv">swtch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>&lt;undef&gt;<span class="p">;</span><span class="w"> </span><span class="nv">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^Q<span class="p">;</span><span class="w"> </span><span class="nv">stop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^S<span class="p">;</span><span class="w"> </span><span class="nv">susp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^Z<span class="p">;</span><span class="w"> </span><span class="nv">rprnt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^R<span class="p">;</span><span class="w"> </span><span class="nv">werase</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^W<span class="p">;</span>
+<span class="nv">lnext</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^V<span class="p">;</span><span class="w"> </span><span class="nv">discard</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^O<span class="p">;</span><span class="w"> </span><span class="nv">min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">;</span><span class="w"> </span><span class="nb">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">;</span>
+-parenb<span class="w"> </span>-parodd<span class="w"> </span>-cmspar<span class="w"> </span>cs8<span class="w"> </span>-hupcl<span class="w"> </span>-cstopb<span class="w"> </span>cread<span class="w"> </span>-clocal<span class="w"> </span>-crtscts
+-ignbrk<span class="w"> </span>-brkint<span class="w"> </span>-ignpar<span class="w"> </span>-parmrk<span class="w"> </span>-inpck<span class="w"> </span>-istrip<span class="w"> </span>-inlcr<span class="w"> </span>-igncr<span class="w"> </span>icrnl<span class="w"> </span>ixon<span class="w"> </span>-ixoff<span class="w"> </span>-iuclc
+-ixany<span class="w"> </span>-imaxbel<span class="w"> </span>-iutf8
+opost<span class="w"> </span>-olcuc<span class="w"> </span>-ocrnl<span class="w"> </span>onlcr<span class="w"> </span>-onocr<span class="w"> </span>-onlret<span class="w"> </span>-ofill<span class="w"> </span>-ofdel<span class="w"> </span>nl0<span class="w"> </span>cr0<span class="w"> </span>tab0<span class="w"> </span>bs0<span class="w"> </span>vt0<span class="w"> </span>ff0
+isig<span class="w"> </span>icanon<span class="w"> </span>iexten<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>echoe<span class="w"> </span>echok<span class="w"> </span>-echonl<span class="w"> </span>-noflsh<span class="w"> </span>-xcase<span class="w"> </span>-tostop<span class="w"> </span>-echoprt<span class="w"> </span>echoctl
+echoke<span class="w"> </span>-flusho<span class="w"> </span>-extproc
+</pre></div>
+
+</div>
+<p>Odpowiedz znajdziemy na <a
+href="https://unix.stackexchange.com/questions/226448/why-do-the-terminal-attributes-look-different-from-outside-the-terminal"
+class="uri">https://unix.stackexchange.com/questions/226448/why-do-the-terminal-attributes-look-different-from-outside-the-terminal</a></p>
+<div class="highlight"><pre><span></span>Bash needs to put the terminal into character-at-a-time mode while it&#39;s waiting for you to type in a command line, so that you can edit the command line using emacs or vi-like editing characters. That&#39;s the mode you saw when you looked at the terminal&#39;s attributes from another terminal in your example.
+
+Just before it runs a program (in your example, stty), bash puts the terminal back into canonical mode, where you have just a few special editing characters available courtesy of the operating system, such as backspace and Control-W, and basically the program gets input only after you type Enter.
+
+When bash regains control, say after the program finishes or is suspended, it will put the terminal into character-at-a-time mode again.
+</pre></div>
+
+<h2 id="zadanie-3">Zadanie 3</h2>
+<div class="highlight"><pre><span></span>Wyświetl konfigurację terminala przy pomocy polecenia «stty -a». Wskaż znaki, które sterownik
+terminala: zamienia na sygnały związane z zarządzaniem zadaniami, służą do edycji wiersza. Program
+może zostać poinformowany o zmianie rozmiaru okna terminala. W tym celu musi zainstalować procedurę
+obsługi sygnału – którego? Jaką procedurą można wczytać nowy rozmiar okna?
+</pre></div>
+
+<h3
+id="wyświetl-konfigurację-terminala-przy-pomocy-polecenia-stty--a.-wskaż-znaki-które-sterownik-terminala-zamienia-na-sygnały-związane-z-zarządzaniem-zadaniami-służą-do-edycji-wiersza.-program">Wyświetl
+konfigurację terminala przy pomocy polecenia «stty -a». Wskaż znaki,
+które sterownik terminala: zamienia na sygnały związane z zarządzaniem
+zadaniami, służą do edycji wiersza. Program</h3>
+<div id="cb15" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="o">[</span>crusom@crusomcarbon<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>stty<span class="w"> </span>-a
+speed<span class="w"> </span><span class="m">38400</span><span class="w"> </span>baud<span class="p">;</span><span class="w"> </span>rows<span class="w"> </span><span class="m">49</span><span class="p">;</span><span class="w"> </span>columns<span class="w"> </span><span class="m">191</span><span class="p">;</span><span class="w"> </span><span class="nv">line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">;</span>
+<span class="nv">intr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^C<span class="p">;</span><span class="w"> </span><span class="nv">quit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^<span class="se">\;</span><span class="w"> </span><span class="nv">erase</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^?<span class="p">;</span><span class="w"> </span><span class="nb">kill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^U<span class="p">;</span><span class="w"> </span><span class="nv">eof</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^D<span class="p">;</span><span class="w"> </span><span class="nv">eol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>&lt;undef&gt;<span class="p">;</span><span class="w"> </span><span class="nv">eol2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>&lt;undef&gt;<span class="p">;</span><span class="w"> </span><span class="nv">swtch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>&lt;undef&gt;<span class="p">;</span><span class="w"> </span><span class="nv">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^Q<span class="p">;</span><span class="w"> </span><span class="nv">stop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^S<span class="p">;</span><span class="w"> </span><span class="nv">susp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^Z<span class="p">;</span><span class="w"> </span><span class="nv">rprnt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^R<span class="p">;</span><span class="w"> </span><span class="nv">werase</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^W<span class="p">;</span><span class="w"> </span><span class="nv">lnext</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^V<span class="p">;</span><span class="w"> </span><span class="nv">discard</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>^O<span class="p">;</span>
+<span class="nv">min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">;</span><span class="w"> </span><span class="nb">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">;</span>
+-parenb<span class="w"> </span>-parodd<span class="w"> </span>-cmspar<span class="w"> </span>cs8<span class="w"> </span>-hupcl<span class="w"> </span>-cstopb<span class="w"> </span>cread<span class="w"> </span>-clocal<span class="w"> </span>-crtscts
+-ignbrk<span class="w"> </span>-brkint<span class="w"> </span>-ignpar<span class="w"> </span>-parmrk<span class="w"> </span>-inpck<span class="w"> </span>-istrip<span class="w"> </span>-inlcr<span class="w"> </span>-igncr<span class="w"> </span>icrnl<span class="w"> </span>ixon<span class="w"> </span>-ixoff<span class="w"> </span>-iuclc<span class="w"> </span>-ixany<span class="w"> </span>-imaxbel<span class="w"> </span>-iutf8
+opost<span class="w"> </span>-olcuc<span class="w"> </span>-ocrnl<span class="w"> </span>onlcr<span class="w"> </span>-onocr<span class="w"> </span>-onlret<span class="w"> </span>-ofill<span class="w"> </span>-ofdel<span class="w"> </span>nl0<span class="w"> </span>cr0<span class="w"> </span>tab0<span class="w"> </span>bs0<span class="w"> </span>vt0<span class="w"> </span>ff0
+isig<span class="w"> </span>icanon<span class="w"> </span>iexten<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>echoe<span class="w"> </span>echok<span class="w"> </span>-echonl<span class="w"> </span>-noflsh<span class="w"> </span>-xcase<span class="w"> </span>-tostop<span class="w"> </span>-echoprt<span class="w"> </span>echoctl<span class="w"> </span>echoke<span class="w"> </span>-flusho<span class="w"> </span>-extproc
+</pre></div>
+
+</div>
+<p>zarządzanie zadaniami:</p>
+<ul>
+<li>intr (wysyła SIGINT do obecnego process group, dla którego terminal
+jest controlling)</li>
+<li>quit (jak wyżej, ale wysyła SIGQUIT),</li>
+<li>susp (jak wyżej, ale wysyła SIGTSTP),</li>
+</ul>
+<p>edycja wiersza:</p>
+<ul>
+<li>erase (usuwa znak),</li>
+<li>kill (usuwa linie),</li>
+<li>eof (sygnalizuje koniec pliku i przekazuje input do procesu),</li>
+<li>eol2 (jak wyzej ale inny znak),</li>
+<li>swtch (pojecia nie mam),</li>
+<li>start (wznawia output, jeśli został zawieszony przez stop),</li>
+<li>stop (zawiesa output),</li>
+<li>rprnt (Causes the current input edit line to be retyped),</li>
+<li>werase (usuwa slowo),</li>
+<li>lnext (następny znak będzie brany dosłownie, więc możemy użyć lnext,
+a potem wklepac jakis special character np.),</li>
+<li>discard (flushuje output)</li>
+</ul>
+<h3
+id="program-może-zostać-poinformowany-o-zmianie-rozmiaru-okna-terminala.-w-tym-celu-musi-zainstalować-procedurę-obsługi-sygnału-którego-jaką-procedurą-można-wczytać-nowy-rozmiar-okna">Program
+może zostać poinformowany o zmianie rozmiaru okna terminala. W tym celu
+musi zainstalować procedurę obsługi sygnału – którego? Jaką procedurą
+można wczytać nowy rozmiar okna?</h3>
+<p>Sygnał to SIGWINCH.<br />
+Wczytać rozmiar można przez ioctl z flagą TIOCGWINSZ<br />
+<a
+href="https://www.man7.org/linux/man-pages/man2/TIOCGWINSZ.2const.html"
+class="uri">https://www.man7.org/linux/man-pages/man2/TIOCGWINSZ.2const.html</a></p>
+<div id="cb16" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">sig_handler</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">sig</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">SIGWINCH</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">sig</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">winsize</span><span class="w"> </span><span class="n">winsz</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">ioctl</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TIOCGWINSZ</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">winsz</span><span class="p">);</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;SIGWINCH raised, window size: %d rows / %d columns</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="w">           </span><span class="n">winsz</span><span class="p">.</span><span class="n">ws_row</span><span class="p">,</span><span class="w"> </span><span class="n">winsz</span><span class="p">.</span><span class="n">ws_col</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="o">/</span><span class="p">}</span><span class="w"> </span><span class="c1">// sig_handle</span>
+</pre></div>
+
+</div>
+<h2 id="zadanie-4">Zadanie 4</h2>
+<div class="highlight"><pre><span></span>Zadanie 4. Urządzenie terminala zajmuje się interpretacją znaków i sekwencji sterujących2 przychodzących
+od sterownika terminala, oraz przetwarzaniem zdarzeń od użytkownika, które zostają zamienione na znaki
+lub sekwencje znaków, a następnie wysłane do sterownika terminala.  
+Posługując się poleceniem «echo -e ’sterujacy’; read» zaprezentuj działanie znaków sterujących oraz sekwencji «CSI».  
+Uruchom polecenie «cat» i sprawdź jak zachowuje się naciśnięcie klawiszy funkcyjnych i kursora.  
+Czemu w tym przypadku zachowanie programu «cat» jest inne niż powłoki poleceń?  
+</pre></div>
+
+<div class="highlight"><pre><span></span>Together, a particular triplet of UART driver, line discipline instance and TTY driver may be referred to as a TTY device, or sometimes just TTY.
+</pre></div>
+
+<h3
+id="posługując-się-poleceniem-echo--e-sterujacy-read-zaprezentuj-działanie-znaków-sterujących-oraz-sekwencji-csi.">Posługując
+się poleceniem «echo -e ’sterujacy’; read» zaprezentuj działanie znaków
+sterujących oraz sekwencji «CSI».</h3>
+<p><a href="https://notes.burke.libbey.me/ansi-escape-codes/"
+class="uri">https://notes.burke.libbey.me/ansi-escape-codes/</a> ANSI
+Escape Codes pozwalają nam przesuwać kursor, scrollowac okno, ustawiac
+tryb graficzny, ale tez ustawiac kolory tekstu, ich tło, ich tryb
+(italics, bold).</p>
+<p>Możemy użyć jakiegos ansi code generatora, jesli nie chce nam sie
+patrzec ciagle w docsy <a href="https://ansi.gabebanks.net/"
+class="uri">https://ansi.gabebanks.net/</a></p>
+<div id="cb19" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="o">[</span>crusom@crusomcarbon<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\x1b[32;49m love unix \x1b[0m&quot;</span><span class="p">;</span><span class="w"> </span><span class="nb">read</span>
+<span class="w"> </span>love<span class="w"> </span>unix
+
+<span class="o">[</span>crusom@crusomcarbon<span class="w"> </span>~<span class="o">]</span>$
+</pre></div>
+
+</div>
+<p>If you see 1b[32;34m, you can read it like this:</p>
+<p>1b[ # call a function 32;49 # function arguments (32, 49) m #
+function name</p>
+<p>SGR to set graphic mode.</p>
+<p>Potem używamy 1b[0m, który resetuje nam wczesniej ustawiony graphic
+mode na domyslny tryb.</p>
+<h3 id="deeemooo-d">DEEEMooo :D</h3>
+<p>odpalamy vima, podłączamy strace i ruszamy kursorem w prawo a potem w
+lewo</p>
+<div id="cb20" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="o">[</span>crusom@crusomcarbon<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>sudo<span class="w"> </span>strace<span class="w"> </span>-e<span class="w"> </span><span class="nv">trace</span><span class="o">=</span>write<span class="w"> </span>-p<span class="w"> </span><span class="m">1179165</span>
+strace:<span class="w"> </span>Process<span class="w"> </span><span class="m">1179165</span><span class="w"> </span>attached
+write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;\33[?25l\33[49;70H2\33[1;6H\33[?25h&quot;</span>,<span class="w"> </span><span class="m">27</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">27</span>
+write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;\33[?25l\33[49;70H1\33[1;5H\33[?25h&quot;</span>,<span class="w"> </span><span class="m">27</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">27</span>
+</pre></div>
+
+</div>
+<p>ESC[?25l - make cursor invisible ESC[?25h - make cursor visibla
+\33[1;6H - przesuwa nam kursor na 6tą kolumne \33[1;6H - przesuwa nam
+kursor spowrotem na 5tą kolumne \33[49;70H2 - przesuwa nam kursor na
+70tą kolumne i 49 wiersz i wstawia 2. (vim nam pokazuje pod jakim
+wierszem i kolumną jest kursor) \33[49;70H1 - jak wyżej, ale zmieniamy
+na 1</p>
+<h3
+id="uruchom-polecenie-cat-i-sprawdź-jak-zachowuje-się-naciśnięcie-klawiszy-funkcyjnych-i-kursora.-czemu-w-tym-przypadku-zachowanie-programu-cat-jest-inne-niż-powłoki-poleceń">uruchom
+polecenie «cat» i sprawdź jak zachowuje się naciśnięcie klawiszy
+funkcyjnych i kursora. Czemu w tym przypadku zachowanie programu «cat»
+jest inne niż powłoki poleceń?</h3>
+<p>Dostajemy raw characters.<br />
+Cat próbuje wypisać treść pliku, więc nie chcemy, żeby nam wypisywanie
+pliku ruszało kursor i psuło nasz bufor konsoli.<br />
+Natomiast cat elegancko obsługuje ansi escape codes.</p>
+<h2 id="zadanie-5">Zadanie 5</h2>
+<div class="highlight"><pre><span></span><span class="mf">1.</span><span class="w"> </span><span class="n">Wstrzymaj</span><span class="w"> </span><span class="n">zadanie</span><span class="w"> </span><span class="n">pierwszoplanowe</span><span class="w"> </span><span class="err">«</span><span class="n">sleep</span><span class="w"> </span><span class="mf">1000</span><span class="err">»</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="n">przy</span><span class="w"> </span><span class="n">pomocy</span><span class="w"> </span><span class="n">wbudowanego</span><span class="w"> </span><span class="n">polecenia</span><span class="w"> </span><span class="n">powłoki</span>
+<span class="err">«</span><span class="n">bg</span><span class="err">»</span><span class="w"> </span><span class="n">przenieś</span><span class="w"> </span><span class="kr">to</span><span class="w"> </span><span class="n">zadanie</span><span class="w"> </span><span class="n">do</span><span class="w"> </span><span class="n">wykonania</span><span class="w"> </span><span class="n">w</span><span class="w"> </span><span class="n">tle</span><span class="mf">.</span><span class="w"> </span><span class="n">Jaki</span><span class="w"> </span><span class="n">sygnał</span><span class="w"> </span><span class="n">został</span><span class="w"> </span><span class="n">użyty</span><span class="w"> </span><span class="n">do</span><span class="w"> </span><span class="n">wstrzymania</span><span class="w"> </span><span class="n">zadania</span><span class="err">?</span>
+<span class="mf">2.</span><span class="w"> </span><span class="n">Uruchom</span><span class="w"> </span><span class="err">«</span><span class="n">find</span><span class="w"> </span><span class="o">/</span><span class="err">»</span><span class="mf">.</span><span class="w"> </span><span class="n">W</span><span class="w"> </span><span class="n">trakcie</span><span class="w"> </span><span class="n">jego</span><span class="w"> </span><span class="n">działania</span><span class="w"> </span><span class="n">naciśnij</span><span class="w"> </span><span class="n">na</span><span class="w"> </span><span class="n">przemian</span><span class="w"> </span><span class="n">kilkukrotnie</span><span class="w"> </span><span class="n">kombinację</span><span class="w"> </span><span class="n">klawiszy</span>
+<span class="err">«</span><span class="n">CTRL</span><span class="o">+</span><span class="n">S</span><span class="err">»</span><span class="w"> </span><span class="ow">or</span><span class="n">az</span><span class="w"> </span><span class="err">«</span><span class="n">CTRL</span><span class="o">+</span><span class="n">Q</span><span class="err">»</span><span class="mf">.</span><span class="w"> </span><span class="n">Czemu</span><span class="w"> </span><span class="n">program</span><span class="w"> </span><span class="n">zatrzymuje</span><span class="w"> </span><span class="n">się</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="n">wznawia</span><span class="w"> </span><span class="n">swoją</span><span class="w"> </span><span class="n">pracę</span><span class="p">,</span><span class="w"> </span><span class="n">skoro</span><span class="w"> </span><span class="n">sterownik</span>
+<span class="n">terminala</span><span class="w"> </span><span class="n">nie</span><span class="w"> </span><span class="n">wysyłał</span><span class="w"> </span><span class="n">do</span><span class="w"> </span><span class="n">niego</span><span class="w"> </span><span class="n">żadnych</span><span class="w"> </span><span class="n">sygnałów</span><span class="err">?</span>
+<span class="mf">3.</span><span class="w"> </span><span class="n">Uruchom</span><span class="w"> </span><span class="n">w</span><span class="w"> </span><span class="n">powłoce</span><span class="w"> </span><span class="err">«</span><span class="n">bash</span><span class="err">»</span><span class="w"> </span><span class="n">polecenie</span><span class="w"> </span><span class="err">«</span><span class="n">cat</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="err">&amp;»</span><span class="mf">.</span><span class="w"> </span><span class="n">Czemu</span><span class="w"> </span><span class="n">zadanie</span><span class="w"> </span><span class="n">zostało</span><span class="w"> </span><span class="n">od</span><span class="w"> </span><span class="n">razu</span><span class="w"> </span><span class="n">wstrzymane</span><span class="err">?</span><span class="w"> </span><span class="n">Jaki</span>
+<span class="n">sygnał</span><span class="w"> </span><span class="n">otrzymało</span><span class="err">?</span><span class="w"> </span><span class="n">Zakończ</span><span class="w"> </span><span class="kr">to</span><span class="w"> </span><span class="n">zdanie</span><span class="w"> </span><span class="n">wbudowanym</span><span class="w"> </span><span class="n">poleceniem</span><span class="w"> </span><span class="n">powłoki</span><span class="w"> </span><span class="err">«</span><span class="n">kill</span><span class="err">»</span><span class="mf">.</span>
+<span class="mf">4.</span><span class="w"> </span><span class="n">Porównaj</span><span class="w"> </span><span class="n">działanie</span><span class="w"> </span><span class="n">polecenia</span><span class="w"> </span><span class="err">«</span><span class="n">cat</span><span class="w"> </span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">shells</span><span class="w"> </span><span class="err">&amp;»</span><span class="w"> </span><span class="n">przed</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="n">po</span><span class="w"> </span><span class="n">zmianie</span><span class="w"> </span><span class="n">konfiguracji</span><span class="w"> </span><span class="n">terminala</span><span class="w"> </span><span class="n">polece</span><span class="o">-</span>
+<span class="n">niem</span><span class="w"> </span><span class="err">«</span><span class="n">stty</span><span class="w"> </span><span class="kr">tostop</span><span class="err">»</span><span class="mf">.</span><span class="w"> </span><span class="n">Jaki</span><span class="w"> </span><span class="n">efekt</span><span class="w"> </span><span class="n">ma</span><span class="w"> </span><span class="n">włączenie</span><span class="w"> </span><span class="n">flagi</span><span class="w"> </span><span class="err">«</span><span class="kr">tostop</span><span class="err">»</span><span class="w"> </span><span class="n">na</span><span class="w"> </span><span class="n">zachowanie</span><span class="w"> </span><span class="n">sterownika</span><span class="w"> </span><span class="n">terminala</span><span class="err">?</span>
+<span class="mf">5.</span><span class="w"> </span><span class="n">Wykonaj</span><span class="w"> </span><span class="n">polecenie</span><span class="w"> </span><span class="err">«</span><span class="n">stty</span><span class="w"> </span><span class="o">-</span><span class="n">echoctl</span><span class="err">»</span><span class="mf">.</span><span class="w"> </span><span class="n">Wyjaśnij</span><span class="w"> </span><span class="n">co</span><span class="w"> </span><span class="n">zmieniło</span><span class="w"> </span><span class="n">się</span><span class="w"> </span><span class="n">w</span><span class="w"> </span><span class="n">konfiguracji</span><span class="w"> </span><span class="n">terminala</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="n">zaprezentuj</span>
+<span class="n">na</span><span class="w"> </span><span class="n">przykładzie</span><span class="w"> </span><span class="n">programu</span><span class="w"> </span><span class="err">«</span><span class="n">cat</span><span class="err">»</span><span class="w"> </span><span class="n">pokaż</span><span class="w"> </span><span class="n">jak</span><span class="w"> </span><span class="n">zmieniło</span><span class="w"> </span><span class="n">się</span><span class="w"> </span><span class="n">przetwarzanie</span><span class="w"> </span><span class="n">znaków</span><span class="w"> </span><span class="n">sterujących</span><span class="mf">.</span>
+</pre></div>
+
+<ol type="1">
+<li><p>— SIGTSTP {si_signo=SIGTSTP, si_code=SI_KERNEL} — — stopped by
+SIGTSTP — — SIGCONT {si_signo=SIGCONT, si_code=SI_USER, si_pid=1182534,
+si_uid=1000} —</p></li>
+<li><p>Bo to tty wstrzymuje output. ^S to special character, tak samo
+^Q</p></li>
+<li><p>— SIGTTIN {si_signo=SIGTTIN, si_code=SI_KERNEL} —</p></li>
+</ol>
+<div class="highlight"><pre><span></span>SIGTTIN      P1990      Stop    Terminal input for background process
+</pre></div>
+
+<p><a
+href="https://www.gnu.org/software/libc/manual/html_node/Job-Control-Signals.html"
+class="uri">https://www.gnu.org/software/libc/manual/html_node/Job-Control-Signals.html</a></p>
+<div class="highlight"><pre><span></span>A process cannot read from the user’s terminal while it is running as a background job. When any process in a background job tries to read from the terminal, all of the processes in the job are sent a SIGTTIN signal. The default action for this signal is to stop the process. For more information about how this interacts with the terminal driver, see Access to the Controlling Terminal.
+</pre></div>
+
+<div class="highlight"><pre><span></span>When a process in a background job tries to read from its controlling terminal, the process group is usually sent a SIGTTIN signal. This normally causes all of the processes in that group to stop (unless they handle the signal and don’t stop themselves). However, if the reading process is ignoring or blocking this signal, then read fails with an EIO error instead.
+
+Similarly, when a process in a background job tries to write to its controlling terminal, the default behavior is to send a SIGTTOU signal to the process group. However, the behavior is modified by the TOSTOP bit of the local modes flags (see Local Modes). If this bit is not set (which is the default), then writing to the controlling terminal is always permitted without sending a signal. Writing is also permitted if the SIGTTOU signal is being ignored or blocked by the writing process.
+</pre></div>
+
+<p>mozemy pozwolic procesowi w tle na output, jesli wylaczymy bit tostop
+w konfiguracji terminala.<br />
+Nie mozemy natomiast pozwolic procesowi w tle na input.</p>
+<ol start="4" type="1">
+<li><p>tostop powoduje wstrzymanie programu, gdy ten probuje cos pisac.
+Wysylany jest sygnal SIGTTOU</p></li>
+<li></li>
+</ol>
+<div class="highlight"><pre><span></span>       ECHOCTL
+              (not in POSIX) If ECHO is also set, terminal special
+              characters other than TAB, NL, START, and STOP are echoed
+              as ^X, where X is the character with ASCII code 0x40
+              greater than the special character.  For example,
+              character 0x08 (BS) is echoed as ^H.  [requires
+              _BSD_SOURCE or _SVID_SOURCE]
+</pre></div>
+
+<p>nie są echowane spacial characters</p>
+<h2 id="zadanie-6">Zadanie 6</h2>
+<div class="highlight"><pre><span></span>Zadanie 6. Procedury setjmp(3) i longjmp(3) z biblioteki standardowej języka C służą do wykonywania nielokalnych skoków.  
+Uproszczone odpowiedniki tych procedur znajdują się w pliku «libcsapp/Setjmp.s», a definicja «Jmpbuf» w pliku «include/csapp.h».  
+Wyjaśnij co robią te procedury, a następnie przeprowadź uczestników zajęć przez ich kod.  
+Dlaczego «Jmpbuf» nie przechowuje wszystkich rejestrów procesora?  
+Czemu «Longjmp» zapisuje na stos wartość przed wykonaniem instrukcji «ret»
+</pre></div>
+
+<div id="cb27" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="nf">_JB_RBX</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="nf">_JB_RBP</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="nf">_JB_R12</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="mi">2</span>
+<span class="nf">_JB_R13</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="mi">3</span>
+<span class="nf">_JB_R14</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="mi">4</span>
+<span class="nf">_JB_R15</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="mi">5</span>
+<span class="nf">_JB_RSP</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="mi">6</span>
+<span class="nf">_JB_RIP</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="mi">7</span>
+
+<span class="w">        </span><span class="na">.text</span>
+
+<span class="w">        </span><span class="na">.globl</span><span class="w"> </span><span class="no">Setjmp</span>
+<span class="w">        </span><span class="na">.type</span><span class="w"> </span><span class="no">Setjmp</span><span class="p">,</span><span class="na">@function</span>
+<span class="nl">Setjmp:</span>
+<span class="w">    </span><span class="nf">movq</span><span class="w">    </span><span class="p">(</span><span class="nv">%rsp</span><span class="p">),</span><span class="nv">%r11</span><span class="w"> </span><span class="c1">; rip was pushed on stack</span>
+<span class="w">    </span><span class="nf">movq</span><span class="w">    </span><span class="nv">%rbx</span><span class="p">,(</span><span class="no">_JB_RBX</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mi">8</span><span class="p">)(</span><span class="nv">%rdi</span><span class="p">)</span>
+<span class="w">    </span><span class="nf">movq</span><span class="w">    </span><span class="nv">%rbp</span><span class="p">,(</span><span class="no">_JB_RBP</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mi">8</span><span class="p">)(</span><span class="nv">%rdi</span><span class="p">)</span>
+<span class="w">    </span><span class="nf">movq</span><span class="w">    </span><span class="nv">%r12</span><span class="p">,(</span><span class="no">_JB_R12</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mi">8</span><span class="p">)(</span><span class="nv">%rdi</span><span class="p">)</span>
+<span class="w">    </span><span class="nf">movq</span><span class="w">    </span><span class="nv">%r13</span><span class="p">,(</span><span class="no">_JB_R13</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mi">8</span><span class="p">)(</span><span class="nv">%rdi</span><span class="p">)</span>
+<span class="w">    </span><span class="nf">movq</span><span class="w">    </span><span class="nv">%r14</span><span class="p">,(</span><span class="no">_JB_R14</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mi">8</span><span class="p">)(</span><span class="nv">%rdi</span><span class="p">)</span>
+<span class="w">    </span><span class="nf">movq</span><span class="w">    </span><span class="nv">%r15</span><span class="p">,(</span><span class="no">_JB_R15</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mi">8</span><span class="p">)(</span><span class="nv">%rdi</span><span class="p">)</span>
+<span class="w">    </span><span class="nf">movq</span><span class="w">    </span><span class="nv">%rsp</span><span class="p">,(</span><span class="no">_JB_RSP</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mi">8</span><span class="p">)(</span><span class="nv">%rdi</span><span class="p">)</span>
+<span class="w">    </span><span class="nf">movq</span><span class="w">    </span><span class="nv">%r11</span><span class="p">,(</span><span class="no">_JB_RIP</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mi">8</span><span class="p">)(</span><span class="nv">%rdi</span><span class="p">)</span>
+<span class="w">    </span><span class="nf">xorl</span><span class="w">    </span><span class="nv">%eax</span><span class="p">,</span><span class="nv">%eax</span><span class="w">   </span><span class="c1">; setjmp returns 0, when initially called</span>
+<span class="w">    </span><span class="nf">ret</span>
+<span class="w">        </span><span class="na">.size</span><span class="w"> </span><span class="no">Setjmp</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="w"> </span><span class="p">-</span><span class="w"> </span><span class="no">Setjmp</span>
+
+<span class="w">        </span><span class="na">.globl</span><span class="w"> </span><span class="no">Longjmp</span>
+<span class="w">        </span><span class="na">.type</span><span class="w"> </span><span class="no">Longjmp</span><span class="p">,</span><span class="na">@function</span>
+<span class="nl">Longjmp:</span>
+<span class="w">    </span><span class="nf">movq</span><span class="w">    </span><span class="p">(</span><span class="no">_JB_RBX</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mi">8</span><span class="p">)(</span><span class="nv">%rdi</span><span class="p">),</span><span class="nv">%rbx</span>
+<span class="w">    </span><span class="nf">movq</span><span class="w">    </span><span class="p">(</span><span class="no">_JB_RBP</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mi">8</span><span class="p">)(</span><span class="nv">%rdi</span><span class="p">),</span><span class="nv">%rbp</span>
+<span class="w">    </span><span class="nf">movq</span><span class="w">    </span><span class="p">(</span><span class="no">_JB_R12</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mi">8</span><span class="p">)(</span><span class="nv">%rdi</span><span class="p">),</span><span class="nv">%r12</span>
+<span class="w">    </span><span class="nf">movq</span><span class="w">    </span><span class="p">(</span><span class="no">_JB_R13</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mi">8</span><span class="p">)(</span><span class="nv">%rdi</span><span class="p">),</span><span class="nv">%r13</span>
+<span class="w">    </span><span class="nf">movq</span><span class="w">    </span><span class="p">(</span><span class="no">_JB_R14</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mi">8</span><span class="p">)(</span><span class="nv">%rdi</span><span class="p">),</span><span class="nv">%r14</span>
+<span class="w">    </span><span class="nf">movq</span><span class="w">    </span><span class="p">(</span><span class="no">_JB_R15</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mi">8</span><span class="p">)(</span><span class="nv">%rdi</span><span class="p">),</span><span class="nv">%r15</span>
+<span class="w">    </span><span class="nf">movq</span><span class="w">    </span><span class="p">(</span><span class="no">_JB_RSP</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mi">8</span><span class="p">)(</span><span class="nv">%rdi</span><span class="p">),</span><span class="nv">%rsp</span>
+<span class="w">    </span><span class="nf">movq</span><span class="w">    </span><span class="p">(</span><span class="no">_JB_RIP</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mi">8</span><span class="p">)(</span><span class="nv">%rdi</span><span class="p">),</span><span class="nv">%r11</span>
+<span class="w">    </span><span class="nf">movl</span><span class="w">    </span><span class="nv">%esi</span><span class="p">,</span><span class="nv">%eax</span><span class="w"> </span><span class="c1">; %esi is val argument</span>
+<span class="w">    </span><span class="nf">testl</span><span class="w">   </span><span class="nv">%eax</span><span class="p">,</span><span class="nv">%eax</span><span class="w"> </span><span class="c1">; &quot; If the programmer mistakenly passes the value 0 in val, the &quot;fake&quot; return will instead return 1.&quot;</span>
+<span class="w">    </span><span class="nf">jnz</span><span class="w"> </span><span class="mi">1</span><span class="no">f</span>
+<span class="w">    </span><span class="nf">incl</span><span class="w">    </span><span class="nv">%eax</span><span class="w"> </span><span class="c1">; if programmer is stupid and entered val as 0, increment it</span>
+<span class="err">1:</span><span class="w">  </span><span class="nf">movq</span><span class="w">    </span><span class="nv">%r11</span><span class="p">,(</span><span class="nv">%rsp</span><span class="p">)</span><span class="w"> </span><span class="c1">; push %rip on stack</span>
+<span class="w">    </span><span class="nf">ret</span><span class="w"> </span><span class="c1">; pop %rip from stack to %rip</span>
+<span class="w">        </span><span class="na">.size</span><span class="w"> </span><span class="no">Longjmp</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="w"> </span><span class="p">-</span><span class="w"> </span><span class="no">Longjmp</span>
+</pre></div>
+
+</div>
+<h3
+id="dlaczego-jmpbuf-nie-przechowuje-wszystkich-rejestrów-procesora">Dlaczego
+«Jmpbuf» nie przechowuje wszystkich rejestrów procesora?</h3>
+<p>Bo reszta rejestrow jest uzywana w System V AMD64 ABI i caller je
+zapisuje elegancko</p>
+<p><a href="https://refspecs.linuxbase.org/elf/x86_64-abi-0.99.pdf"
+class="uri">https://refspecs.linuxbase.org/elf/x86_64-abi-0.99.pdf</a></p>
+<div class="highlight"><pre><span></span>This subsection discusses usage of each register. Registers %rbp, %rbx and %r12 through
+%r15 “belong” to the calling function and the called function is required to preserve their
+values. In other words, a called function must preserve these registers’ values for its
+caller. Remaining registers “belong” to the called function
+</pre></div>
+
+<table>
+<thead>
+<tr class="header">
+<th>Argument Type</th>
+<th>Registers</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Integer/pointer arguments 1-6</td>
+<td>RDI, RSI, RDX, RCX, R8, R9</td>
+</tr>
+<tr class="even">
+<td>Floating point arguments 1-8</td>
+<td>XMM0 - XMM7</td>
+</tr>
+<tr class="odd">
+<td>Excess arguments</td>
+<td>Stack</td>
+</tr>
+<tr class="even">
+<td>Static chain pointer</td>
+<td>R10</td>
+</tr>
+</tbody>
+</table>
+<h2 id="zadanie-7">Zadanie 7</h2>
+<div class="highlight"><pre><span></span>Zadanie 7. Uzupełnij program «game» tj. prostą grę w szybkie obliczanie sumy dwóch liczb.  
+Zadaniem procedury «readnum» jest wczytać od użytkownika liczbę.  
+Jeśli w międzyczasie przyjdzie sygnał, to procedura ma natychmiast wrócić podając numer sygnału, który przerwał jej działanie.  
+W przeciwnym przypadku zwraca zero i przekazuje wczytaną liczbę przez pamięć pod wskaźnikiem «num_p».  
+Twoja implementacja procedury «readnum» musi wczytać cały wiersz w jednym kroku.  
+Należy wykorzystać procedury siglongjmp(3), sigsetjmp(3) i alarm(2).  
+Pamiętaj, żeby po wczytaniu ciągu znaków zakończyć go znakiem NUL i wyłączyć czasomierz!  
+Kiedy Twój program będzie zachowywać się poprawnie zamień procedury nielokalnych skoków na longjmp(3) i setjmp(3). Czemu program przestał działać? 
+UWAGA! We FreeBSD i macOS zamiast «longjmp» i «setjmp» należy użyć odpowiednio «_longjmp» i «_setjmp».
+</pre></div>
+
+<h2 id="zadanie-8">Zadanie 8</h2>
+<div class="highlight"><pre><span></span>Zadanie 8. Program «coro» wykonuje trzy współprogramy3 połączone ze sobą w potok bez użycia pipe(2).  
+Pierwszy z nich czyta ze standardowego wejścia znaki, kompresuje białe znaki i zlicza słowa.  
+Drugi usuwa wszystkie znaki niebędące literami. Trzeci zmienia wielkość liter i drukuje znaki na standardowe wyjście.  
+W wyniku wykonania procedury «coro_yield» współprogram przekazuje niezerową liczbę do następnego współprogramu, który otrzyma tę wartość w wyniku powrotu z «coro_yield».  
+Efektywnie procedura ta implementuje zmianę kontekstu.  
+Taką prymitywną formę wielozadaniowości kooperacyjnej (ang. cooperative multitasking) można zaprogramować za pomocą setjmp(3) i longjmp(3).  
+Zaprogramuj procedurę «coro_switch» tak, by wybierała następny współprogram do uruchomienia i przełączała na niego kontekst.  
+Jeśli współprogram przekazał wartość parametru «EOF», to należy go usunąć z listy aktywnych współprogramów.  
+Program używa listy dwukierunkowej «TAILQ» opisanej w queue(3).  
+Zmienna «runqueue» przechowuje listę aktywnych współprogramów, «running» bieżąco wykonywany współprogram, a «dispatcher» kontekst programu, 
+do którego należy wrócić, po zakończeniu wykonywania ostatniego aktywnego współprogramu.
+</pre></div>
+
+<h2 id="some-links">some links</h2>
+<p><a href="https://www.gaijin.at/en/infos/ascii-ansi-character-table"
+class="uri">https://www.gaijin.at/en/infos/ascii-ansi-character-table</a>
+<a
+href="https://nmsl.cs.nthu.edu.tw/wp-content/uploads/2011/09/images_courses_CS5432_2016_18-termio.pdf"
+class="uri">https://nmsl.cs.nthu.edu.tw/wp-content/uploads/2011/09/images_courses_CS5432_2016_18-termio.pdf</a>
+<a
+href="https://unix.stackexchange.com/questions/18166/what-are-session-leaders-in-ps"
+class="uri">https://unix.stackexchange.com/questions/18166/what-are-session-leaders-in-ps</a></p>
+  </body>
+</html>

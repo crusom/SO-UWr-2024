@@ -1,0 +1,7 @@
+Script started on 2024-10-30 14:29:31+01:00 [COMMAND="dash" TERM="st-256color" TTY="/dev/pts/1" COLUMNS="191" LINES="49"]
+$ echo 'a'
+a
+$ ^C
+$ 
+
+Script done on 2024-10-30 14:29:33+01:00 [COMMAND_EXIT_CODE="130"]

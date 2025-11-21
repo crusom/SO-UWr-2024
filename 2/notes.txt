@@ -1,0 +1,8 @@
+Zad 2
+UNIX execve:
+    Finally, the arguments
+    and environment strings are copied to the new stack, the signals are reset, and the
+    registers are initialized to all zeros. At this point, the new command can start run-
+    ning
+
+

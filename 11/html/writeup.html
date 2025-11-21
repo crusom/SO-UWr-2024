@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="date" content=''>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/../style.css"/>
+
+    <title>writeup</title>
+
+  </head>
+  <body>
+
+<ul>
+<li><a href="#zadanie-1" id="toc-zadanie-1">Zadanie 1</a>
+<ul>
+<li><a
+href="#które-z-punktów-montażowych-dają-dostęp-do-instancji-pseudo-systemów-plików"
+id="toc-które-z-punktów-montażowych-dają-dostęp-do-instancji-pseudo-systemów-plików">Które
+z punktów montażowych dają dostęp do instancji pseudo systemów
+plików?</a></li>
+<li><a
+href="#na-podstawie-mount8-wyjaśnij-znaczenie-następujących-atrybutów-punktów-montażowych-relatime-noexec-i-nodeva-następnie-podaj-scenariusz-w-którym-ich-zastosowanie-jest-pożądane"
+id="toc-na-podstawie-mount8-wyjaśnij-znaczenie-następujących-atrybutów-punktów-montażowych-relatime-noexec-i-nodeva-następnie-podaj-scenariusz-w-którym-ich-zastosowanie-jest-pożądane">Na
+podstawie mount(8) wyjaśnij znaczenie następujących atrybutów punktów
+montażowych: «relatime», «noexec» i «nodev»,a następnie podaj
+scenariusz, w którym ich zastosowanie jest pożądane</a></li>
+</ul></li>
+<li><a href="#zadanie-2" id="toc-zadanie-2">Zadanie 2</a>
+<ul>
+<li><a
+href="#rozmiaru-bloku-liczby-i-węzłów-i-bloków-przechowywanych-w-grupie-bloków-ang.-block-group-liczby-wpisów-tablicy-deskryptorów-grup-bloków-ang.-block-group-descriptor-table."
+id="toc-rozmiaru-bloku-liczby-i-węzłów-i-bloków-przechowywanych-w-grupie-bloków-ang.-block-group-liczby-wpisów-tablicy-deskryptorów-grup-bloków-ang.-block-group-descriptor-table.">rozmiaru
+bloku, liczby i-węzłów i bloków przechowywanych w grupie bloków (ang.
+block group), liczby wpisów tablicy deskryptorów grup bloków (ang. block
+group descriptor table).</a></li>
+<li><a
+href="#wymień-składowe-należące-do-grupy-bloków-oraz-podaj-ich-rozmiar-w-blokach.-które-grupy-bloków-przechowują-kopie-zapasową-superbloku-i-tablicy-deskryptorów-grup-bloków"
+id="toc-wymień-składowe-należące-do-grupy-bloków-oraz-podaj-ich-rozmiar-w-blokach.-które-grupy-bloków-przechowują-kopie-zapasową-superbloku-i-tablicy-deskryptorów-grup-bloków">Wymień
+składowe należące do grupy bloków oraz podaj ich rozmiar w blokach.
+Które grupy bloków przechowują kopie zapasową superbloku i tablicy
+deskryptorów grup bloków</a></li>
+<li><a
+href="#które-grupy-bloków-przechowują-kopie-zapasową-superbloku-i-tablicy-deskryptorów-grup-bloków"
+id="toc-które-grupy-bloków-przechowują-kopie-zapasową-superbloku-i-tablicy-deskryptorów-grup-bloków">Które
+grupy bloków przechowują kopie zapasową superbloku i tablicy
+deskryptorów grup bloków</a></li>
+</ul></li>
+<li><a href="#zadanie-3" id="toc-zadanie-3">Zadanie 3</a></li>
+<li><a href="#zadanie-4" id="toc-zadanie-4">Zadanie 4</a>
+<ul>
+<li><a
+href="#powtórz-polecenia-z-zadania-3-dla-funkcji-przenoszącej-plik-między-dwoma-różnymi-katalogami-w-obrębie-tego-samego-systemu-plików."
+id="toc-powtórz-polecenia-z-zadania-3-dla-funkcji-przenoszącej-plik-między-dwoma-różnymi-katalogami-w-obrębie-tego-samego-systemu-plików.">Powtórz
+polecenia z zadania 3 dla funkcji przenoszącej plik między dwoma różnymi
+katalogami w obrębie tego samego systemu plików.</a></li>
+</ul></li>
+<li><a href="#zadanie-5" id="toc-zadanie-5">Zadanie 5</a>
+<ul>
+<li><a
+href="#zauważ-że-usunięcie-pliku-nie-odbiera-procesom-możliwości-czytania-jego-zawartości-o-ile-go-otworzyły-przed-wywołaniem-unlink2.-kiedy-w-takim-razie-plik-zostanie-faktycznie-usunięty-z-dysku"
+id="toc-zauważ-że-usunięcie-pliku-nie-odbiera-procesom-możliwości-czytania-jego-zawartości-o-ile-go-otworzyły-przed-wywołaniem-unlink2.-kiedy-w-takim-razie-plik-zostanie-faktycznie-usunięty-z-dysku">Zauważ,
+że usunięcie pliku nie odbiera procesom możliwości czytania jego
+zawartości, o ile go otworzyły przed wywołaniem unlink(2). Kiedy w takim
+razie plik zostanie faktycznie usunięty z dysku?</a></li>
+</ul></li>
+<li><a href="#zadanie-6" id="toc-zadanie-6">Zadanie 6</a>
+<ul>
+<li><a
+href="#wyjaśnij-co-robi-system-plików-ext2-przy-tworzeniu-dowiązania-twardego-ang.-hard-link-i-symbolicznego-ang.-symbolic-link."
+id="toc-wyjaśnij-co-robi-system-plików-ext2-przy-tworzeniu-dowiązania-twardego-ang.-hard-link-i-symbolicznego-ang.-symbolic-link.">Wyjaśnij
+co robi system plików ext2 przy tworzeniu dowiązania twardego (ang. hard
+link) i symbolicznego (ang. symbolic link).</a></li>
+<li><a
+href="#gdzie-jest-przechowywana-zawartość-dowiązania-symbolicznego"
+id="toc-gdzie-jest-przechowywana-zawartość-dowiązania-symbolicznego">Gdzie
+jest przechowywana zawartość dowiązania symbolicznego?</a></li>
+<li><a
+href="#jak-za-pomocą-dowiązania-symbolicznego-stworzyć-w-systemie-plików-pętlę"
+id="toc-jak-za-pomocą-dowiązania-symbolicznego-stworzyć-w-systemie-plików-pętlę">Jak
+za pomocą dowiązania symbolicznego stworzyć w systemie plików
+pętlę?</a></li>
+<li><a
+href="#kiedy-jądro-systemu-operacyjnego-ją-wykryje-i-zwróci-błąd-eloop"
+id="toc-kiedy-jądro-systemu-operacyjnego-ją-wykryje-i-zwróci-błąd-eloop">Kiedy
+jądro systemu operacyjnego ją wykryje i zwróci błąd «ELOOP»?</a></li>
+<li><a
+href="#czemu-pętli-nie-da-się-zrobić-z-użyciem-dowiązania-twardego"
+id="toc-czemu-pętli-nie-da-się-zrobić-z-użyciem-dowiązania-twardego">Czemu
+pętli nie da się zrobić z użyciem dowiązania twardego?</a></li>
+</ul></li>
+<li><a href="#zadanie-7" id="toc-zadanie-7">Zadanie 7</a>
+<ul>
+<li><a
+href="#czemu-fragmentacja-systemu-plików-jest-szkodliwym-zjawiskiem-zreferuj-artykuł-the-new-ext4-filesystem-current-status-and-future-plans2."
+id="toc-czemu-fragmentacja-systemu-plików-jest-szkodliwym-zjawiskiem-zreferuj-artykuł-the-new-ext4-filesystem-current-status-and-future-plans2.">Czemu
+fragmentacja systemu plików jest szkodliwym zjawiskiem? Zreferuj artykuł
+The new ext4 filesystem: current status and future plans2.</a></li>
+<li><a
+href="#opisz-w-jaki-sposób-odroczony-przydział-bloków-ang.-delayed-allocation-3.2-zapobiega-powstawaniu-fragmentacji."
+id="toc-opisz-w-jaki-sposób-odroczony-przydział-bloków-ang.-delayed-allocation-3.2-zapobiega-powstawaniu-fragmentacji.">Opisz
+w jaki sposób odroczony przydział bloków (ang. delayed allocation)
+[§3.2] zapobiega powstawaniu fragmentacji.</a></li>
+<li><a
+href="#wytłumacz-jak-zakresy-ang.-extents-2.2-pomagają-w-ograniczaniu-rozmiaru-metadanych-przechowujących-adresy-bloków-należących-do-danego-pliku."
+id="toc-wytłumacz-jak-zakresy-ang.-extents-2.2-pomagają-w-ograniczaniu-rozmiaru-metadanych-przechowujących-adresy-bloków-należących-do-danego-pliku.">Wytłumacz
+jak zakresy (ang. extents) [§2.2] pomagają w ograniczaniu rozmiaru
+metadanych przechowujących adresy bloków należących do danego
+pliku.</a></li>
+<li><a
+href="#czy-po-defragmentacji-systemu-plików-ext4-liczba-wolnych-bloków-może-wzrosnąć-jak-mógłby-wyglądać-najprostszy-algorytm-defragmentacji-3.3"
+id="toc-czy-po-defragmentacji-systemu-plików-ext4-liczba-wolnych-bloków-może-wzrosnąć-jak-mógłby-wyglądać-najprostszy-algorytm-defragmentacji-3.3">Czy
+po defragmentacji systemu plików ext4 liczba wolnych bloków może
+wzrosnąć? Jak mógłby wyglądać najprostszy algorytm defragmentacji
+[§3.3]</a></li>
+</ul></li>
+<li><a href="#zadanie-8" id="toc-zadanie-8">Zadanie 8</a>
+<ul>
+<li><a
+href="#fragmentację-systemu-plików-freefrag-i-informacje-o-grupach-bloków-stats"
+id="toc-fragmentację-systemu-plików-freefrag-i-informacje-o-grupach-bloków-stats">•
+fragmentację systemu plików (freefrag) i informacje o grupach bloków
+(stats),</a></li>
+<li><a
+href="#zakresy-bloków-z-których-składa-się-wybrany-duży-plik-extents"
+id="toc-zakresy-bloków-z-których-składa-się-wybrany-duży-plik-extents">•
+zakresy bloków z których składa się wybrany duży plik
+(extents),</a></li>
+<li><a
+href="#że-dowiązanie-symboliczne-może-być-przechowywane-w-i-węźle-idump"
+id="toc-że-dowiązanie-symboliczne-może-być-przechowywane-w-i-węźle-idump">•
+że dowiązanie symboliczne może być przechowywane w i-węźle
+(idump),</a></li>
+<li><a href="#do-jakiego-pliku-należy-wybrany-blok-blocks-icheck-ncheck"
+id="toc-do-jakiego-pliku-należy-wybrany-blok-blocks-icheck-ncheck">• do
+jakiego pliku należy wybrany blok (blocks, icheck, ncheck),</a></li>
+<li><a href="#reprezentację-liniową-małego-katalogu-bdump."
+id="toc-reprezentację-liniową-małego-katalogu-bdump.">• reprezentację
+liniową małego katalogu (bdump).</a></li>
+</ul></li>
+<li><a href="#zadanie-9" id="toc-zadanie-9">Zadanie 9</a></li>
+</ul>
+<h2 id="zadanie-1">Zadanie 1</h2>
+<div class="highlight"><pre><span></span>Zadanie 1. Wyjaśnij czym są punkty montażowe, a następnie wyświetl listę zamontowanych systemów
+plików i wyjaśnij co znajduje się w poszczególnych kolumnach wydruku. 
+Które z punktów montażowych dają dostęp do instancji pseudo systemów plików?  
+Na podstawie mount(8) wyjaśnij znaczenie następujących atrybutów punktów montażowych: «relatime», «noexec» i «nodev»,  
+a następnie podaj scenariusz, w którym ich zastosowanie jest pożądane
+</pre></div>
+
+<p>Punkt montażowy (mount points) wskazuje na katalog pod którym
+zamontowany jest jakiś dysk, może to być telefon, może być pendrive,
+dysk zewnetrzny itd. Punkty montażowe możemy najprosciej wyświetlić
+czytajac <code>/proc/mounts</code>.</p>
+<div class="highlight"><pre><span></span>[crusom@crusomcarbon ~]$ cat /proc/mounts
+proc /proc proc rw,nosuid,nodev,noexec,relatime 0 0
+sys /sys sysfs rw,nosuid,nodev,noexec,relatime 0 0
+dev /dev devtmpfs rw,nosuid,relatime,size=8051452k,nr_inodes=2012863,mode=755,inode64 0 0
+run /run tmpfs rw,nosuid,nodev,relatime,mode=755,inode64 0 0
+efivarfs /sys/firmware/efi/efivars efivarfs rw,nosuid,nodev,noexec,relatime 0 0
+/dev/mapper/MyVolGroup-root / ext4 rw,relatime 0 0
+securityfs /sys/kernel/security securityfs rw,nosuid,nodev,noexec,relatime 0 0
+tmpfs /dev/shm tmpfs rw,nosuid,nodev,inode64 0 0
+devpts /dev/pts devpts rw,nosuid,noexec,relatime,gid=5,mode=620,ptmxmode=000 0 0
+cgroup2 /sys/fs/cgroup cgroup2 rw,nosuid,nodev,noexec,relatime,nsdelegate,memory_recursiveprot 0 0
+pstore /sys/fs/pstore pstore rw,nosuid,nodev,noexec,relatime 0 0
+bpf /sys/fs/bpf bpf rw,nosuid,nodev,noexec,relatime,mode=700 0 0
+systemd-1 /proc/sys/fs/binfmt_misc autofs rw,relatime,fd=39,pgrp=1,timeout=0,minproto=5,maxproto=5,direct,pipe_ino=6783 0 0
+hugetlbfs /dev/hugepages hugetlbfs rw,nosuid,nodev,relatime,pagesize=2M 0 0
+mqueue /dev/mqueue mqueue rw,nosuid,nodev,noexec,relatime 0 0
+debugfs /sys/kernel/debug debugfs rw,nosuid,nodev,noexec,relatime 0 0
+tracefs /sys/kernel/tracing tracefs rw,nosuid,nodev,noexec,relatime 0 0
+tmpfs /run/credentials/systemd-journald.service tmpfs ro,nosuid,nodev,noexec,relatime,nosymfollow,size=1024k,nr_inodes=1024,mode=700,inode64,noswap 0 0
+tmpfs /run/credentials/systemd-udev-load-credentials.service tmpfs ro,nosuid,nodev,noexec,relatime,nosymfollow,size=1024k,nr_inodes=1024,mode=700,inode64,noswap 0 0
+fusectl /sys/fs/fuse/connections fusectl rw,nosuid,nodev,noexec,relatime 0 0
+configfs /sys/kernel/config configfs rw,nosuid,nodev,noexec,relatime 0 0
+tmpfs /run/credentials/systemd-tmpfiles-setup-dev-early.service tmpfs ro,nosuid,nodev,noexec,relatime,nosymfollow,size=1024k,nr_inodes=1024,mode=700,inode64,noswap 0 0
+tmpfs /run/credentials/systemd-tmpfiles-setup-dev.service tmpfs ro,nosuid,nodev,noexec,relatime,nosymfollow,size=1024k,nr_inodes=1024,mode=700,inode64,noswap 0 0
+tmpfs /run/credentials/systemd-sysctl.service tmpfs ro,nosuid,nodev,noexec,relatime,nosymfollow,size=1024k,nr_inodes=1024,mode=700,inode64,noswap 0 0
+tmpfs /run/credentials/systemd-vconsole-setup.service tmpfs ro,nosuid,nodev,noexec,relatime,nosymfollow,size=1024k,nr_inodes=1024,mode=700,inode64,noswap 0 0
+tmpfs /tmp tmpfs rw,nosuid,nodev,nr_inodes=1048576,inode64 0 0
+/dev/nvme0n1p1 /boot vfat rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,utf8,errors=remount-ro 0 0
+tmpfs /run/credentials/systemd-tmpfiles-setup.service tmpfs ro,nosuid,nodev,noexec,relatime,nosymfollow,size=1024k,nr_inodes=1024,mode=700,inode64,noswap 0 0
+binfmt_misc /proc/sys/fs/binfmt_misc binfmt_misc rw,nosuid,nodev,noexec,relatime 0 0
+tmpfs /run/user/1000 tmpfs rw,nosuid,nodev,relatime,size=1613336k,nr_inodes=403334,mode=700,uid=1000,gid=1000,inode64 0 0
+gvfsd-fuse /run/user/1000/gvfs fuse.gvfsd-fuse rw,nosuid,nodev,relatime,user_id=1000,group_id=1000 0 0
+</pre></div>
+
+<p>format zdefiniowany jest w <code>man fstab</code></p>
+<ol type="1">
+<li>zamontowane urządzenie. W przypadku dysku
+/dev/mapper/MyVolGroup-root widzimy jego adres, w przypadku
+pseudosystemow plikow widzimy ich nazwe.</li>
+<li>punkt montazowy</li>
+<li>typ systemu likow</li>
+<li>opcje montazowe, podstawowe opcje to np. ro lub rw</li>
+<li>dummy value uzywane przez dump(8), domyslnie 0</li>
+<li>dummy value uzywane przez fsck(8), domyslnie 0</li>
+</ol>
+<h3
+id="które-z-punktów-montażowych-dają-dostęp-do-instancji-pseudo-systemów-plików">Które
+z punktów montażowych dają dostęp do instancji pseudo systemów
+plików?</h3>
+<p>proc (procfs) sys (sysfs) dev (devtmpfs) run (tmpfs) tmp (tmpfs)
+configfs</p>
+<p>w zasadzie chyba wszystko oprócz /dev/mapper/MyVolGroup-root i
+/dev/nvme0n1p1 to wirtualne (pseudo) systemy plików</p>
+<h3
+id="na-podstawie-mount8-wyjaśnij-znaczenie-następujących-atrybutów-punktów-montażowych-relatime-noexec-i-nodeva-następnie-podaj-scenariusz-w-którym-ich-zastosowanie-jest-pożądane">Na
+podstawie mount(8) wyjaśnij znaczenie następujących atrybutów punktów
+montażowych: «relatime», «noexec» i «nodev»,a następnie podaj
+scenariusz, w którym ich zastosowanie jest pożądane</h3>
+<p>relatime - modyfikuje pole “Access time”, tylko wtedy gdy poprzedni
+access time był wcześniej niż obecny modify or change. W efekcie widzimy
+maks jeden access time który się wydarzył po modyfikacji pliku.<br />
+noexec - nie zezwala na bezposrednie wykonanie binarek. Security thing.
+Jesli na pendrivie są tylko zdjecia, to nie ma po co zwiekszac wektoru
+ataki.<br />
+nodev - nie interpretuje urzadzen blokowych ani znakowych w fs. Nie
+chcemy zeby w naszym ogólnodostępnym fs można było tworzyć urządzenia
+znakowe albo mieć dostęp do hardware’u</p>
+<h2 id="zadanie-2">Zadanie 2</h2>
+<div class="highlight"><pre><span></span>Zadanie 2. Korzystając z pól superbloku (ang. superblock) podaj wzór na wyliczenie wartości: rozmiaru
+bloku, liczby i-węzłów i bloków przechowywanych w grupie bloków (ang. block group), liczby wpisów tablicy
+deskryptorów grup bloków (ang. block group descriptor table).  
+Wymień składowe należące do grupy bloków oraz podaj ich rozmiar w blokach. Które grupy bloków przechowują kopie zapasową superbloku i tablicy
+deskryptorów grup bloków
+</pre></div>
+
+<h3
+id="rozmiaru-bloku-liczby-i-węzłów-i-bloków-przechowywanych-w-grupie-bloków-ang.-block-group-liczby-wpisów-tablicy-deskryptorów-grup-bloków-ang.-block-group-descriptor-table.">rozmiaru
+bloku, liczby i-węzłów i bloków przechowywanych w grupie bloków (ang.
+block group), liczby wpisów tablicy deskryptorów grup bloków (ang. block
+group descriptor table).</h3>
+<p>rozmiar bloku =
+<code>(s_inodes_count * s_inode_size) / s_blocks_count</code><br />
+liczba i-nodeów = <code>s_inodes_per_group</code><br />
+liczba bloków = <code>s_blocks_per_group</code><br />
+liczba wpisów tablicy deskryptorów grup bloków =
+<code>s_blocks_count / s_blocks_per_group (tyle wpisów ile grup)</code></p>
+<h3
+id="wymień-składowe-należące-do-grupy-bloków-oraz-podaj-ich-rozmiar-w-blokach.-które-grupy-bloków-przechowują-kopie-zapasową-superbloku-i-tablicy-deskryptorów-grup-bloków">Wymień
+składowe należące do grupy bloków oraz podaj ich rozmiar w blokach.
+Które grupy bloków przechowują kopie zapasową superbloku i tablicy
+deskryptorów grup bloków</h3>
+<p>do grupy bloków należy inode table (128 bajtów), inode bitmap
+(s_inodes_per_group / 8), block bitmap (s_blocks_per_group / 8)</p>
+<h3
+id="które-grupy-bloków-przechowują-kopie-zapasową-superbloku-i-tablicy-deskryptorów-grup-bloków">Które
+grupy bloków przechowują kopie zapasową superbloku i tablicy
+deskryptorów grup bloków</h3>
+<p>The first version of ext2 (revision 0) stores a copy at the start of
+every block group, along with backups of the group descriptor block(s).
+Because this can consume a considerable amount of space for large
+filesystems, later revisions can optionally reduce the number of backup
+copies by only putting backups in specific groups (this is the sparse
+superblock feature). The groups chosen are 0, 1 and powers of 3, 5 and
+7.</p>
+<h2 id="zadanie-3">Zadanie 3</h2>
+<div class="highlight"><pre><span></span>Zadanie 3. Podstawowymi operacjami na systemie plików są: wyzeruj lub zapal bit w bitmapie i-węzłów
+albo bloków, wczytaj / zapisz i-węzeł albo blok pośredni (ang. indirect block) albo blok danych. Podaj listę
+kroków niezbędnych do realizacji funkcji dopisującej n bloków na koniec pliku. Zakładamy, że poszczególne
+kroki funkcji są zawsze wdrażane synchronicznie. Zadbaj o to by funkcje nie naruszyły spójności systemu
+plików w przypadku awarii zasilania. Dopuszczamy powstawanie wycieków pamięci
+</pre></div>
+
+<ol type="1">
+<li>szukamy n wolnych bloków w Block Bitmap naszej grupy, jak nie
+znajdziemy, to szukamy w Block Bitmapach innych grup.</li>
+<li>oznaczamy bloki w bitmapie jako uzywane</li>
+<li>idziemy do naszego inode’a w inode table (zakładam że wcześniej już
+znaleźliśmy odpowiedni inode uid przechodząc przez directory)</li>
+<li>musimy dopisac numery bloków które znalezlismy, w odpowiednim blocku
+z i_block. Mysle ze wystarczy znalezc ostatni blok przez i_size /
+rozmiar_bloku. Jeśli trzeba stworzyć indirect block, to znowu musimy sie
+przejsc po wolnych blokach i zaalokowac nowy blok.</li>
+<li>modyfikujemy metadane inode’a, na pewno i_size i pewnie tez i_atime
+i i_mtime</li>
+</ol>
+<p>Ponieważ w ext2 nie ma journalingu, to moze byc tak ze oznaczymy
+bloki jako uzyte, a nie zdazymy wcale ich uzyc. Wtedy bedzie musial
+sobie z tym poradzic fsck.</p>
+<h2 id="zadanie-4">Zadanie 4</h2>
+<div class="highlight"><pre><span></span>Zadanie 4. Przy pomocy wywołania systemowego rename(2) można przenieść atomowo plik do katalogu
+znajdującego się w obrębie tego samego systemu plików. Czemu «rename» zakończy się błędem «EXDEV» kiedy
+próbujemy przenieść plik do innego systemu plików? Powtórz polecenia z zadania 3 dla funkcji przenoszącej
+plik między dwoma różnymi katalogami w obrębie tego samego systemu plików. Zakładamy, że w katalogu
+docelowym jest wystarczająco dużo miejsca na dodanie wpisu. Pamiętaj, że wpis katalogu nie może przecinać
+granicy między blokami!
+</pre></div>
+
+<p>Jakbyśmy chcieli przenieść plik do innego fs, to niemoglibysmy tego
+zrobic atomowo.<br />
+Wymagaloby to stworzenia noewgo pliku od poczatku w nowym fs, a nie po
+prostu przepięcia inode’a do innego directory.</p>
+<h3
+id="powtórz-polecenia-z-zadania-3-dla-funkcji-przenoszącej-plik-między-dwoma-różnymi-katalogami-w-obrębie-tego-samego-systemu-plików.">Powtórz
+polecenia z zadania 3 dla funkcji przenoszącej plik między dwoma różnymi
+katalogami w obrębie tego samego systemu plików.</h3>
+<p>Katalog moze byc realizowany jako linked lista albo tablica
+indeksowana.<br />
+1. znajdujemy wolny albo alokujemy nowy directory entry. Jesli to jest
+linked lista, to ustawiamy odpowiedni rec_len w poprzednim wpisie<br />
+2. ustawiamy wszystkie pola w nowym dir entry, inode powinien byc na
+0<br />
+3. uzywamy xchg zeby przeniesc inode’y miedzy source dir entry do target
+dir entry, w ten sposob nowy dostanie odpowiedni inode, a stary dostanie
+0</p>
+<h2 id="zadanie-5">Zadanie 5</h2>
+<div class="highlight"><pre><span></span>Zadanie 5. Przy pomocy wywołania systemowego unlink(2) można usunąć plik niebędący katalogiem.
+Powtórz polecenia z zadania 3 dla funkcji usuwającej plik zwykły z katalogu. Kiedy możliwe jest odwrócenie
+operacji usunięcia pliku tj. odkasowania (ang. undelete)? 
+Zauważ, że usunięcie pliku nie odbiera procesom możliwości czytania jego zawartości, o ile go otworzyły przed wywołaniem unlink(2). Kiedy w takim razie plik zostanie faktycznie usunięty z dysku?
+</pre></div>
+
+<ol type="1">
+<li>zmniejsz i_links_count o 1</li>
+<li>ustaw inode number w dir entry na 0 (czy da sie kroki 1 i 2 zrobic
+atomowo?)</li>
+<li>jesli i_link_count wynosi teraz 0, to ustaw odpowiednie bity z block
+bitmap i inode bitmap na 0</li>
+</ol>
+<p>unlink usuwa wpis w katalogu, jesli po zmniejszeniu o 1 i_links_count
+wynosi on 0, to dopiero plik (czyli inode i datablocki) jest
+usuwany.<br />
+Jeśli po usunięciu wpisu w katalogu dalej jest on gdzies referowany, to
+nic nie stoi na przeszkodzie by utworzyć taki sam wpis jaki byl.</p>
+<h3
+id="zauważ-że-usunięcie-pliku-nie-odbiera-procesom-możliwości-czytania-jego-zawartości-o-ile-go-otworzyły-przed-wywołaniem-unlink2.-kiedy-w-takim-razie-plik-zostanie-faktycznie-usunięty-z-dysku">Zauważ,
+że usunięcie pliku nie odbiera procesom możliwości czytania jego
+zawartości, o ile go otworzyły przed wywołaniem unlink(2). Kiedy w takim
+razie plik zostanie faktycznie usunięty z dysku?</h3>
+<p>Unlink zwróci EBUSY jesli plik jest uzywany przez jakis proces.<br />
+Natomiast mozna usunac plik ktory jest otwarty ale nieuzywany w danym
+momencie przez proces (?)<br />
+W takim razie plik zostanie faktycznie usuniety, jak wszystkie
+deskryptory wskazujace na niego zostana zwolnione a unlink pozwoli sie
+wykonac i nie bedzie juz wiecej linkow na ten inode. Mozemy uzyc lsof
+zeby sprawdzic jakie procesy maja otwarty deskryptor do pliku</p>
+<h2 id="zadanie-6">Zadanie 6</h2>
+<div class="highlight"><pre><span></span>Zadanie 6. Wyjaśnij co robi system plików ext2 przy tworzeniu dowiązania twardego (ang. hard link) i symbolicznego (ang. symbolic link). 
+Gdzie jest przechowywana zawartość dowiązania symbolicznego? 
+Jak za pomocą dowiązania symbolicznego stworzyć w systemie plików pętlę? 
+Kiedy jądro systemu operacyjnego ją wykryje i zwróci błąd «ELOOP»? Czemu pętli nie da się zrobić z użyciem dowiązania twardego?
+</pre></div>
+
+<h3
+id="wyjaśnij-co-robi-system-plików-ext2-przy-tworzeniu-dowiązania-twardego-ang.-hard-link-i-symbolicznego-ang.-symbolic-link.">Wyjaśnij
+co robi system plików ext2 przy tworzeniu dowiązania twardego (ang. hard
+link) i symbolicznego (ang. symbolic link).</h3>
+<p>Dowiązanie twarde to po prostu wskazywanie na inode’a w jakims
+direntry.<br />
+Dowiązanie symboliczne to typ pliku(i_mode = EXT2_S_IFLNK), w którym
+znajduje się referencja do innego pliku w postaci absolutnej albo
+relatywnej sciezki.</p>
+<h3
+id="gdzie-jest-przechowywana-zawartość-dowiązania-symbolicznego">Gdzie
+jest przechowywana zawartość dowiązania symbolicznego?</h3>
+<p>dla symlinków krótszych niż 60 bajtów sciezka zapisywana jest w
+i_block, w przeciwnym wypadku w datablockach.</p>
+<h3
+id="jak-za-pomocą-dowiązania-symbolicznego-stworzyć-w-systemie-plików-pętlę">Jak
+za pomocą dowiązania symbolicznego stworzyć w systemie plików
+pętlę?</h3>
+<p>jeden symlink wskazuje na drugi, a drugi na pierwszy</p>
+<h3
+id="kiedy-jądro-systemu-operacyjnego-ją-wykryje-i-zwróci-błąd-eloop">Kiedy
+jądro systemu operacyjnego ją wykryje i zwróci błąd «ELOOP»?</h3>
+<p>Jądro followuje symlinki i jeśli wykryje za duzo symlinkow w jednym
+lookupie, obecnie jest to 40.</p>
+<div class="highlight"><pre><span></span>Linux imposes a limit of at most 40 (MAXSYMLINKS) symlinks in any one path lookup
+</pre></div>
+
+<h3
+id="czemu-pętli-nie-da-się-zrobić-z-użyciem-dowiązania-twardego">Czemu
+pętli nie da się zrobić z użyciem dowiązania twardego?</h3>
+<p>Bo nie da się hardlinkować do katalogów</p>
+<h2 id="zadanie-7">Zadanie 7</h2>
+<div class="highlight"><pre><span></span>Zadanie 7. Czemu fragmentacja systemu plików jest szkodliwym zjawiskiem? Zreferuj artykuł The new ext4 filesystem: current status and future plans2.  
+Opisz w jaki sposób odroczony przydział bloków (ang. delayed allocation) [§3.2] zapobiega powstawaniu fragmentacji.  
+Wytłumacz jak zakresy (ang. extents) [§2.2] pomagają w ograniczaniu rozmiaru metadanych przechowujących adresy bloków należących do danego pliku.  
+Czy po defragmentacji systemu plików ext4 liczba wolnych bloków może wzrosnąć? Jak mógłby wyglądać najprostszy algorytm defragmentacji [§3.3]
+</pre></div>
+
+<h3
+id="czemu-fragmentacja-systemu-plików-jest-szkodliwym-zjawiskiem-zreferuj-artykuł-the-new-ext4-filesystem-current-status-and-future-plans2.">Czemu
+fragmentacja systemu plików jest szkodliwym zjawiskiem? Zreferuj artykuł
+The new ext4 filesystem: current status and future plans2.</h3>
+<div class="highlight"><pre><span></span>High fragmentation rates cause greater disk access time affecting overall throughput, 
+and increased metadata overhead causing less efficient mapping.
+</pre></div>
+
+<p>Kiedys dawno dawno temu, czyli przed tym jak dyski ssdy staly sie
+smiesznie tanie (przed 2018/19) uzywano w wiekszosci dyskow hdd, ktore
+to dziala tak<br />
+ze kręcą się talerze, a glowica czyta dane sekwencyjnie.<br />
+Jeśli więc dane są ustawione po sobie, to można je przeczytać w jednym
+obrocie talerza.<br />
+Jeśli zaś są porozrzucane w różnych miejsach, to głowica musi przejść
+przez wiele obrotów talerza, zanim je wszystkie wczyta.</p>
+<h3
+id="opisz-w-jaki-sposób-odroczony-przydział-bloków-ang.-delayed-allocation-3.2-zapobiega-powstawaniu-fragmentacji.">Opisz
+w jaki sposób odroczony przydział bloków (ang. delayed allocation)
+[§3.2] zapobiega powstawaniu fragmentacji.</h3>
+<p>Idea jest taka, ze alokujemy bloki, jak wykonujemy flush na
+zbuforowanych przez write() danych (czyli jak wykonamy sync albo kernel
+zdecyduje sie na flush dirty buffers).<br />
+W ten sposób możemy wykonać tylko jeden request, co pozwala zmniejszyc
+fragmentacje i liczbe operacji procesora.</p>
+<h3
+id="wytłumacz-jak-zakresy-ang.-extents-2.2-pomagają-w-ograniczaniu-rozmiaru-metadanych-przechowujących-adresy-bloków-należących-do-danego-pliku.">Wytłumacz
+jak zakresy (ang. extents) [§2.2] pomagają w ograniczaniu rozmiaru
+metadanych przechowujących adresy bloków należących do danego
+pliku.</h3>
+<p><img src="./assets/figure2.png" /></p>
+<p>Extendy pozwalają nam odnieść się do jakiegos większego ciągu danych,
+co zmniejsza nam ilość metadanych (tak to kazdy blok w tym ciagu
+musialby miec swoj wpis) i zmniejsza fragmentacje.</p>
+<p><img src="./assets/figure1.png" /></p>
+<p>Struktura wyglada tak, mamy wiec maks 2^15 blokow w jednym
+ciagu.<br />
+W jednym inode’dzie mozemy zmiescic 4 extendy, jesli potrzebujemy ich
+wiecej uzywany jest constant depth extent tree.</p>
+<h3
+id="czy-po-defragmentacji-systemu-plików-ext4-liczba-wolnych-bloków-może-wzrosnąć-jak-mógłby-wyglądać-najprostszy-algorytm-defragmentacji-3.3">Czy
+po defragmentacji systemu plików ext4 liczba wolnych bloków może
+wzrosnąć? Jak mógłby wyglądać najprostszy algorytm defragmentacji
+[§3.3]</h3>
+<p>Wolnych bloków będzie tyle samo, ale dostaniemy więcej ciągłej wolnej
+pamięci, co pomoże w przyszłych alokacjach.</p>
+<p>algorytm e4defrag dziala tak, ze tworzy tymczasowy inode w ktorym
+alokuje extendy.<br />
+Później kopiuje bloki z oryginalnego inode’a do naszych extendów.<br />
+Na końcu migruje block pointery na te nowe.</p>
+<h2 id="zadanie-8">Zadanie 8</h2>
+<div class="highlight"><pre><span></span>Zadanie 8. Przy użyciu programu debugfs(8) dla wybranej instancji systemu plików ext4 (np. partycja
+przechowująca główny system plików Twojej instalacji systemu Linux) pokaż:
+• fragmentację systemu plików (freefrag) i informacje o grupach bloków (stats),
+• zakresy bloków z których składa się wybrany duży plik (extents),
+• że dowiązanie symboliczne może być przechowywane w i-węźle (idump),
+• do jakiego pliku należy wybrany blok (blocks, icheck, ncheck),
+• reprezentację liniową małego katalogu (bdump).
+</pre></div>
+
+<h3
+id="fragmentację-systemu-plików-freefrag-i-informacje-o-grupach-bloków-stats">•
+fragmentację systemu plików (freefrag) i informacje o grupach bloków
+(stats),</h3>
+<p>zwraca mi /dev/MyVolGroup/root: Block bitmap checksum does not match
+bitmap while reading block bitmap</p>
+<p>Musiałbym odmontować dysk a średnio pendrive’a pod ręką, żeby
+się chrootnąć gdzieś indziej więc meh</p>
+<h3 id="zakresy-bloków-z-których-składa-się-wybrany-duży-plik-extents">•
+zakresy bloków z których składa się wybrany duży plik (extents),</h3>
+<div class="highlight"><pre><span></span>debugfs:  extents /var/log/journal/df02ae7ac30c4102b7ed89eea57e002a/system.journal
+Level Entries       Logical              Physical Length Flags
+ 0/ 1   1/  1     0 -  8191  18384786               8192
+ 1/ 1   1/150     0 -     0  47526463 -  47526463      1
+ 1/ 1   2/150     1 -   875  28927631 -  28928505    875
+ 1/ 1   3/150   876 -  1337  28919938 -  28920399    462
+ 1/ 1   4/150  1338 -  1340  28920400 -  28920402      3 Uninit
+ 1/ 1   5/150  1341 -  1489  28920403 -  28920551    149
+ 1/ 1   6/150  1490 -  1490  28920552 -  28920552      1 Uninit
+ 1/ 1   7/150  1491 -  1491  28920553 -  28920553      1
+ ---------------------------- snip -------------------------------
+  1/ 1 135/150  5872 -  5872  83973872 -  83973872      1 Uninit
+ 1/ 1 136/150  5873 -  5899  83973873 -  83973899     27
+ 1/ 1 137/150  5900 -  5915  83973900 -  83973915     16 Uninit
+ 1/ 1 138/150  5916 -  5961  83973916 -  83973961     46
+ 1/ 1 139/150  5962 -  5977  83973962 -  83973977     16 Uninit
+ 1/ 1 140/150  5978 -  5983  83973978 -  83973983      6
+ 1/ 1 141/150  5984 -  5984  83973984 -  83973984      1 Uninit
+ 1/ 1 142/150  5985 -  6014  83973985 -  83974014     30
+ 1/ 1 143/150  6015 -  6017  83974015 -  83974017      3 Uninit
+ 1/ 1 144/150  6018 -  6068  83974018 -  83974068     51
+ 1/ 1 145/150  6069 -  6085  83974069 -  83974085     17 Uninit
+ 1/ 1 146/150  6086 -  6086  83974086 -  83974086      1
+ 1/ 1 147/150  6087 -  6104  83974087 -  83974104     18 Uninit
+ 1/ 1 148/150  6105 -  6143  83974105 -  83974143     39
+ 1/ 1 149/150  6144 -  6253 102815744 - 102815853    110
+ 1/ 1 150/150  6254 -  8191 102815854 - 102817791   1938 Uninit
+</pre></div>
+
+<h3
+id="że-dowiązanie-symboliczne-może-być-przechowywane-w-i-węźle-idump">•
+że dowiązanie symboliczne może być przechowywane w i-węźle (idump),</h3>
+<div class="highlight"><pre><span></span>debugfs:  idump /home/crusom/Desktop/studia/ii/so/cwiczenia/11/sym
+0000  ffa1 e803 0300 0000 1f87 6167 1f87 6167  ..........ag..ag
+0020  1f87 6167 0000 0000 e803 0100 0000 0000  ..ag............
+0040  0000 0000 0100 0000 6865 7900 0400 0000  ........hey.....
+0060  0000 0000 0000 0000 0000 0000 0000 0000  ................
+*
+0140  0000 0000 29be faf0 0000 0000 0000 0000  ....)...........
+0160  0000 0000 0000 0000 0000 0000 cc80 0000  ................
+0200  2000 1007 ac0e b81b ac0e b81b ac0e b81b   ...............
+0220  1f87 6167 ac0e b81b 0000 0000 0000 0000  ..ag............
+0240  0000 0000 0000 0000 0000 0000 0000 0000  ................
+</pre></div>
+
+<p>https://archive.kernel.org/oldwiki/ext4.wiki.kernel.org/index.php/Ext4_Disk_Layout.html</p>
+<p>W ext4 i_block znajduje sie pod 0x28 i ma 60 bajtow, wiec sie zgadza,
+chociaz nie wiem czemu zoffsetowana jest ta sciezka ??</p>
+<h3 id="do-jakiego-pliku-należy-wybrany-blok-blocks-icheck-ncheck">• do
+jakiego pliku należy wybrany blok (blocks, icheck, ncheck),</h3>
+<p>blocks</p>
+<div class="highlight"><pre><span></span>debugfs:  blocks /home/crusom/Desktop/studia/ii/so/cwiczenia/11/writeup.md
+84091750 84091751 84091752 84091753 84091754
+</pre></div>
+
+<p>icheck</p>
+<div class="highlight"><pre><span></span>debugfs:  icheck 84091750
+Block   Inode number
+84091750        13008216
+</pre></div>
+
+<p>co sie zgadza</p>
+<div class="highlight"><pre><span></span>debugfs:  stat /home/crusom/Desktop/studia/ii/so/cwiczenia/11/writeup.md
+Inode: 13008216
+</pre></div>
+
+<p>ncheck</p>
+<div class="highlight"><pre><span></span><span class="n">debugfs</span><span class="o">:</span><span class="w">  </span><span class="n">ncheck</span><span class="w"> </span><span class="mi">13008216</span>
+<span class="n">Inode</span><span class="w">   </span><span class="n">Pathname</span>
+<span class="mi">13008216</span><span class="w">        </span><span class="sr">/home/crusom/Desktop/studia/ii/so/cwiczenia/11/</span><span class="n">writeup</span><span class="o">.</span><span class="na">md</span>
+</pre></div>
+
+<h3 id="reprezentację-liniową-małego-katalogu-bdump.">• reprezentację
+liniową małego katalogu (bdump).</h3>
+<div class="highlight"><pre><span></span>stat /home/crusom/Desktop/studia/ii/so/cwiczenia/11/smol
+----
+Device: 254,2   Inode: 13008216
+</pre></div>
+
+<div class="highlight"><pre><span></span>debugfs:  bdump 13008216
+0000  4015 9186 9186 1e80 808b 801b 3c3e 92a9  @...........&lt;&gt;..
+0020  5b1f 8f8f 8c90 1b9b 8c93 9695 1a93 8692  [...............
+0040  808e 1e54 9839 9b53 9508 8889 8c89 1b83  ...T.9.S........
+0060  8787 8089 1f7c 3d4b 234a 4608 b98b b58c  .....|=K#JF.....
+0100  ad1e 9691 9396 941e 9694 8f93 921a 9485  ................
+0120  9282 931e 799a 65a8 7499 088d 8787 8c87  ....y.e.t.......
+0140  1b86 8689 8888 1f7c 7d79 7680 7f08 8687  .......|}yv.....
+0160  8787 841b 8206 649e 58a0 6399 088c 8687  ......d.X.c.....
+0200  8d88 1b87 8989 8486 8c84 8e7f 1f90 788d  ..............x.
+0220  21fb 104c 8a49 4d1a 8afb 3a84 fb0c 7025  !..L.IM...:...p%
+0240  088a 888b 8889 1a85 8e89 8f8e 908d 8e8f  ................
+----------------
+7660  8889 1f84 847e 7e86 8508 8788 888b 871b  .....~~.........
+7700  8306 8b5d 9d68 961e 8a8d 8a8c 898d 088c  ...].h..........
+7720  8988 8d88 1b83 8d82 8d81 8d08 9190 8b91  ................
+7740  1bac 8ca5 9097 9708 ca06 7a93 ad88 ab1b  ..........z.....
+7760  8c87 8c84 8d80 0887 8c83 811a fc8c fb36  ...............6
+</pre></div>
+
+<h2 id="zadanie-9">Zadanie 9</h2>
+<div class="highlight"><pre><span></span>Zadanie 9 (bonus). Na podstawie §3 artykułu A Directory Index for Ext23 opisz strukturę danych HTree
+i operację wyszukiwania wpisu katalogu o zadanej nazwie. Następnie wyświetl reprezentację HTree dużego
+katalogu, np. /var/lib/dpkg/info, używając polecenia htree programu debugfs(8)
+</pre></div>
+
+<p>Korzeniem drzewa jest pierwszy blok pliku katalogu.<br />
+Liścmi są dir bloki # TODO</p>
+  </body>
+</html>

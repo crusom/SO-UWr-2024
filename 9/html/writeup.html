@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="date" content=''>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/../style.css"/>
+
+    <title>writeup</title>
+
+  </head>
+  <body>
+
+<ul>
+<li><a href="#zadanie-1" id="toc-zadanie-1">Zadanie 1</a></li>
+<li><a href="#zadanie-2" id="toc-zadanie-2">Zadanie 2</a>
+<ul>
+<li><a
+href="#jak-tcp-radzi-sobie-z-zagubieniem-segmentu-lub-faktem-że-segmenty-mogą-przyjść-do-odbiorcy-w-innej-kolejności-niż-zostały-wysłane"
+id="toc-jak-tcp-radzi-sobie-z-zagubieniem-segmentu-lub-faktem-że-segmenty-mogą-przyjść-do-odbiorcy-w-innej-kolejności-niż-zostały-wysłane">Jak
+TCP radzi sobie z zagubieniem segmentu lub faktem, że segmenty mogą
+przyjść do odbiorcy w innej kolejności niż zostały wysłane?</a></li>
+<li><a href="#skąd-protokół-tcp-wie-kiedy-połączenie-zostało-zerwane"
+id="toc-skąd-protokół-tcp-wie-kiedy-połączenie-zostało-zerwane">Skąd
+protokół TCP wie kiedy połączenie zostało zerwane</a></li>
+<li><a
+href="#jaki-problem-rozwiązuje-sterowanie-przepływem-ang.-flow-control-implementowane-przez-tcp"
+id="toc-jaki-problem-rozwiązuje-sterowanie-przepływem-ang.-flow-control-implementowane-przez-tcp">Jaki
+problem rozwiązuje sterowanie przepływem (ang. flow control)
+implementowane przez TCP?</a></li>
+</ul></li>
+<li><a href="#zadanie-3" id="toc-zadanie-3">Zadanie 3</a>
+<ul>
+<li><a
+href="#w-którym-momencie-następuje-związanie-gniazda-z-adresem-lokalnym-i-zdalnym"
+id="toc-w-którym-momencie-następuje-związanie-gniazda-z-adresem-lokalnym-i-zdalnym">W
+którym momencie następuje związanie gniazda z adresem lokalnym i
+zdalnym?</a></li>
+<li><a
+href="#która-ze-stron-komunikacji-używa-portów-ulotnych-ang.-ephemeral"
+id="toc-która-ze-stron-komunikacji-używa-portów-ulotnych-ang.-ephemeral">która
+ze stron komunikacji używa portów ulotnych (ang. ephemeral)?</a></li>
+<li><a
+href="#co-specyfikuje-drugi-argument-wywołania-systemowego-listen2"
+id="toc-co-specyfikuje-drugi-argument-wywołania-systemowego-listen2">co
+specyfikuje drugi argument wywołania systemowego listen(2)?</a></li>
+<li><a
+href="#z-jakim-numerem-portu-jest-związane-gniazdo-przekazywane-do-i-zwracane-z-accept2"
+id="toc-z-jakim-numerem-portu-jest-związane-gniazdo-przekazywane-do-i-zwracane-z-accept2">z
+jakim numerem portu jest związane gniazdo przekazywane do i zwracane z
+accept(2)?</a></li>
+<li><a href="#skąd-serwer-wie-że-klient-zakończył-połączenie"
+id="toc-skąd-serwer-wie-że-klient-zakończył-połączenie">Skąd serwer wie,
+że klient zakończył połączenie?</a></li>
+</ul></li>
+<li><a href="#zadanie-4" id="toc-zadanie-4">Zadanie 4</a>
+<ul>
+<li><a
+href="#czemu-w-przeciwieństwie-do-tcp-serwer-może-rozpocząć-pracę-zaraz-po-wykonaniu-funkcji-bind2"
+id="toc-czemu-w-przeciwieństwie-do-tcp-serwer-może-rozpocząć-pracę-zaraz-po-wykonaniu-funkcji-bind2">Czemu,
+w przeciwieństwie do TCP, serwer może rozpocząć pracę zaraz po wykonaniu
+funkcji bind(2)?</a></li>
+<li><a
+href="#z-jakiej-przyczyny-interfejs-read2-i-write2-po-stronie-serwera-może-być-niewystarczający"
+id="toc-z-jakiej-przyczyny-interfejs-read2-i-write2-po-stronie-serwera-może-być-niewystarczający">Z
+jakiej przyczyny interfejs read(2) i write(2) po stronie serwera może
+być niewystarczający?</a></li>
+<li><a
+href="#przedstaw-semantykę-operacji-recvfrom2-i-sendto2.-kiedy-po-stronie-klienta-następuje-związanie-gniazda-udp-z-adresem-lokalnym"
+id="toc-przedstaw-semantykę-operacji-recvfrom2-i-sendto2.-kiedy-po-stronie-klienta-następuje-związanie-gniazda-udp-z-adresem-lokalnym">Przedstaw
+semantykę operacji recvfrom(2) i sendto(2). Kiedy po stronie klienta
+następuje związanie gniazda UDP z adresem lokalnym?</a></li>
+<li><a
+href="#na-podstawie-7-8.11-zreferuj-efekt-jaki-przynosi-wykonanie-connect2-na-gnieździe-klienta."
+id="toc-na-podstawie-7-8.11-zreferuj-efekt-jaki-przynosi-wykonanie-connect2-na-gnieździe-klienta.">Na
+podstawie [ 7, 8.11] zreferuj efekt jaki przynosi wykonanie connect(2)
+na gnieździe klienta.</a></li>
+<li><a
+href="#jakie-ograniczenia-poprzednio-wymienionych-funkcji-zostały-poprawione-przez-wywołania-recvmsg2-i-sendmsg2"
+id="toc-jakie-ograniczenia-poprzednio-wymienionych-funkcji-zostały-poprawione-przez-wywołania-recvmsg2-i-sendmsg2">Jakie
+ograniczenia poprzednio wymienionych funkcji zostały poprawione przez
+wywołania recvmsg(2) i sendmsg(2)?</a></li>
+<li><a href="#zadanie-5" id="toc-zadanie-5">Zadanie 5</a></li>
+<li><a
+href="#kiedy-read2-i-write2-na-gniazdach-strumieniowych-zwracają-short-counts"
+id="toc-kiedy-read2-i-write2-na-gniazdach-strumieniowych-zwracają-short-counts">Kiedy
+read(2) i write(2) na gniazdach strumieniowych zwracają short
+counts?</a></li>
+<li><a
+href="#skąd-wiemy-że-odebrany-datagram-udp-nie-został-obcięty-przez-jądro-w-trakcie-kopiowania-do-przestrzeni-użytkownika"
+id="toc-skąd-wiemy-że-odebrany-datagram-udp-nie-został-obcięty-przez-jądro-w-trakcie-kopiowania-do-przestrzeni-użytkownika">Skąd
+wiemy, że odebrany datagram UDP nie został obcięty przez jądro w trakcie
+kopiowania do przestrzeni użytkownika?</a></li>
+<li><a
+href="#z-jakich-przyczyn-należy-być-przygotowanym-na-to-że-operacje-na-gniazdach-zwrócą-eintr"
+id="toc-z-jakich-przyczyn-należy-być-przygotowanym-na-to-że-operacje-na-gniazdach-zwrócą-eintr">Z
+jakich przyczyn należy być przygotowanym na to, że operacje na gniazdach
+zwrócą «EINTR»?</a></li>
+<li><a
+href="#co-się-stanie-jeśli-klient-spróbuje-zapisać-do-gniazda-powiązanego-z-połączeniem-które-serwer-zdążył-już-zamknąć"
+id="toc-co-się-stanie-jeśli-klient-spróbuje-zapisać-do-gniazda-powiązanego-z-połączeniem-które-serwer-zdążył-już-zamknąć">Co
+się stanie, jeśli klient spróbuje zapisać do gniazda powiązanego z
+połączeniem, które serwer zdążył już zamknąć?</a></li>
+<li><a
+href="#dlaczego-w-kodzie-funkcji-open_listenfd-użyto-wywołania-setsockopt2-z-opcją-so_reuseaddr-3-61.10-co-by-się-stało-gdyby-programista-o-tym-zapomniał"
+id="toc-dlaczego-w-kodzie-funkcji-open_listenfd-użyto-wywołania-setsockopt2-z-opcją-so_reuseaddr-3-61.10-co-by-się-stało-gdyby-programista-o-tym-zapomniał">Dlaczego
+w kodzie funkcji «open_listenfd» użyto wywołania setsockopt(2) z opcją
+«SO_REUSEADDR» [ 3, 61.10]? Co by się stało gdyby programista o tym
+zapomniał?</a></li>
+</ul></li>
+<li><a href="#zadanie-6" id="toc-zadanie-6">Zadanie 6</a></li>
+<li><a href="#zadanie-7" id="toc-zadanie-7">Zadanie 7</a></li>
+<li><a href="#zadanie-9" id="toc-zadanie-9">Zadanie 9</a></li>
+</ul>
+<h2 id="zadanie-1">Zadanie 1</h2>
+<div class="highlight"><pre><span></span>Zadanie 1. Na podstawie [ 6, 1.5] wyjaśnij zadania pełnione przez protokoły warstwy: łącza, sieciowej
+i transportowej. Zainstaluj i uruchom program wireshark1. Przechwyć kilka pakietów protokołów UDP i TCP,
+a następnie wytłumacz do czego służy kapsułkowanie (ang. encapsulation) i wyświetl (tj. kliknij dwukrotnie
+na pakiet) nagłówki ramki, datagramu i segmentu. Zidentyfikuj adres źródłowy i docelowy pakietu. Czemu
+protokoły warstwy łącza i sieciowej nie są używane do komunikacji między procesami użytkownika?
+</pre></div>
+
+<p>warstwa łącza - przesyła pakiet do kolejnego węzła<br />
+warstwa sieciowa - zawiera adresy IP nadawcy i odbiorcy, zajmuje sie
+routingiem<br />
+warstwa transportowa - określa protokół dostarczenia pakietu, na
+przykład TCP gwarantuje te SYN/ACK itd., a UDP nie</p>
+<h2 id="zadanie-2">Zadanie 2</h2>
+<div class="highlight"><pre><span></span>Zadanie 2. Na podstawie [7, 2.3 i 2.4] omów różnice między protokołami warstwy transportowej: datagra-
+mowym udp(7) i połączeniowym tcp(7). Czym różni się komunikacja półdupleksowa od dupleksowej?
+Jak TCP radzi sobie z zagubieniem segmentu lub faktem, że segmenty mogą przyjść do odbiorcy w innej
+kolejności niż zostały wysłane? Skąd protokół TCP wie kiedy połączenie zostało zerwane? Jaki problem
+rozwiązuje sterowanie przepływem (ang. flow control) implementowane przez TCP?
+</pre></div>
+
+<p>UDP jest connection-less, tcp nie tcp jest byte-stream, udp datagram
+has length tcp ma flow control, mówi ile bajtów może przyjąć w danym
+czasie (advertised window), udp nie</p>
+<p>full-duplex oba urzadzenia moga nadawac i odbierac jednoczesnie (np.
+rozmowa telefoniczna) half-duplex albo jedna osoba nadaje i druga
+odbiera albo na odwrot</p>
+<h3
+id="jak-tcp-radzi-sobie-z-zagubieniem-segmentu-lub-faktem-że-segmenty-mogą-przyjść-do-odbiorcy-w-innej-kolejności-niż-zostały-wysłane">Jak
+TCP radzi sobie z zagubieniem segmentu lub faktem, że segmenty mogą
+przyjść do odbiorcy w innej kolejności niż zostały wysłane?</h3>
+<p>No raz ze mamy te ACK/SYN itd., wiec mozna poprosic o retransmisje
+dwa ze segmenty maja swoje numery</p>
+<h3 id="skąd-protokół-tcp-wie-kiedy-połączenie-zostało-zerwane">Skąd
+protokół TCP wie kiedy połączenie zostało zerwane</h3>
+<p>albo moze sie zakonczyc przez FIN albo timeout zwykly</p>
+<h3
+id="jaki-problem-rozwiązuje-sterowanie-przepływem-ang.-flow-control-implementowane-przez-tcp">Jaki
+problem rozwiązuje sterowanie przepływem (ang. flow control)
+implementowane przez TCP?</h3>
+<p>At any time, the window is the amount of room currently available in
+the receive buffer, guaranteeing that the sender cannot overflow the
+receive buffe</p>
+<h2 id="zadanie-3">Zadanie 3</h2>
+<div class="highlight"><pre><span></span>Zadanie 3. Omów diagram [7, 4.1] komunikacji klient-serwer używającej protokołu tcp(7) przy pomocy
+interfejsu gniazd strumieniowych. W którym momencie następuje związanie gniazda z adresem lokalnym
+i zdalnym? Która ze stron komunikacji używa portów ulotnych (ang. ephemeral)? Co specyfikuje drugi
+argument wywołania systemowego listen(2)? Z jakim numerem portu jest związane gniazdo przekazywane
+do i zwracane z accept(2)? Skąd serwer wie, że klient zakończył połączenie?
+</pre></div>
+
+<div class="highlight"><pre><span></span>Clients, on the other hand, normally use ephemeral ports, that is, short-lived ports.
+These port numbers are normally assigned automatically by the transport protocol to
+the client. Clients normally do not care about the value of the ephemeral port; the
+client just needs to be certain that the ephemeral port is unique on the client host. The
+transport protocol code guarantees this uniquenes
+</pre></div>
+
+<p><img src="./assets/4_1.png" /></p>
+<h3
+id="w-którym-momencie-następuje-związanie-gniazda-z-adresem-lokalnym-i-zdalnym">W
+którym momencie następuje związanie gniazda z adresem lokalnym i
+zdalnym?</h3>
+<p>przy connect</p>
+<h3
+id="która-ze-stron-komunikacji-używa-portów-ulotnych-ang.-ephemeral">która
+ze stron komunikacji używa portów ulotnych (ang. ephemeral)?</h3>
+<p>klient</p>
+<h3 id="co-specyfikuje-drugi-argument-wywołania-systemowego-listen2">co
+specyfikuje drugi argument wywołania systemowego listen(2)?</h3>
+<div class="highlight"><pre><span></span>The  backlog argument defines the maximum length to which the queue of pending connections for sockfd may grow.  If a connection request arrives when the queue is full, the client may
+       receive an error with an indication of ECONNREFUSED or, if the underlying protocol supports retransmission, the request may be ignored so that a later  reattempt  at  connection  suc‐
+       ceeds
+</pre></div>
+
+<p>maskymalna liczba polaczen z jednego socketa</p>
+<h3
+id="z-jakim-numerem-portu-jest-związane-gniazdo-przekazywane-do-i-zwracane-z-accept2">z
+jakim numerem portu jest związane gniazdo przekazywane do i zwracane z
+accept(2)?</h3>
+<p>Jak serwer uzywa accept to przekazuje swoj deskryptor na ktorym
+nasluchuje, a dostaje deskryptor połączenia gdzie ma informacje o
+kliencie</p>
+<h3 id="skąd-serwer-wie-że-klient-zakończył-połączenie">Skąd serwer wie,
+że klient zakończył połączenie?</h3>
+<p>klient robi close() i wysylany jest EOF</p>
+<h2 id="zadanie-4">Zadanie 4</h2>
+<div class="highlight"><pre><span></span>Zadanie 4. Omów diagram [ 7, 8.1] komunikacji klient-serwer używającej protokołu udp(7) przy pomocy
+interfejsu gniazd datagramowych.  
+Czemu, w przeciwieństwie do TCP, serwer może rozpocząć pracę zaraz po wykonaniu funkcji bind(2)?  
+Z jakiej przyczyny interfejs read(2) i write(2) po stronie serwera może być niewystarczający?  
+Przedstaw semantykę operacji recvfrom(2) i sendto(2). Kiedy po stronie klienta następuje związanie gniazda UDP z adresem lokalnym?  
+Na podstawie [ 7, 8.11] zreferuj efekt jaki przynosi wykonanie connect(2) na gnieździe klienta.  
+Jakie ograniczenia poprzednio wymienionych funkcji zostały poprawione przez wywołania recvmsg(2) i sendmsg(2)?
+</pre></div>
+
+<p><img src="./assets/8_1.png" /></p>
+<h3
+id="czemu-w-przeciwieństwie-do-tcp-serwer-może-rozpocząć-pracę-zaraz-po-wykonaniu-funkcji-bind2">Czemu,
+w przeciwieństwie do TCP, serwer może rozpocząć pracę zaraz po wykonaniu
+funkcji bind(2)?</h3>
+<p>Bo UDP nie nawiązuje połączenia. Po prostu jak dostanie request to go
+przetwarza i daje odpowiedz.</p>
+<h3
+id="z-jakiej-przyczyny-interfejs-read2-i-write2-po-stronie-serwera-może-być-niewystarczający">Z
+jakiej przyczyny interfejs read(2) i write(2) po stronie serwera może
+być niewystarczający?</h3>
+<p>No w przypadku TCP najpierw nawiazujemy polaczenie i dostajemy
+socket. W przypadku UDP tak nie robimy, więc korzystamy z recvfrom zeby
+wypełnić socket z informacjami na temat nadawcy datagramu.</p>
+<p>Read i write jest niewystarczający, bo w odróżnieniu od TCP nie
+nawiazujemy polaczenia przez accept(), wiec nie mamy odpowiedniego
+socketa, z ktorego mozemy korzystac.</p>
+<h3
+id="przedstaw-semantykę-operacji-recvfrom2-i-sendto2.-kiedy-po-stronie-klienta-następuje-związanie-gniazda-udp-z-adresem-lokalnym">Przedstaw
+semantykę operacji recvfrom(2) i sendto(2). Kiedy po stronie klienta
+następuje związanie gniazda UDP z adresem lokalnym?</h3>
+<div class="highlight"><pre><span></span>ssize_t recvfrom(int socket, void *restrict buffer, size_t length,
+   int flags, struct sockaddr *restrict address,
+   socklen_t *restrict address_len);
+</pre></div>
+
+<div class="highlight"><pre><span></span>ssize_t sendto(int socket, const void *message, size_t length,
+   int flags, const struct sockaddr *dest_addr,
+   socklen_t dest_len);
+</pre></div>
+
+<p>Związanie następuje przy sendto (?)</p>
+<h3
+id="na-podstawie-7-8.11-zreferuj-efekt-jaki-przynosi-wykonanie-connect2-na-gnieździe-klienta.">Na
+podstawie [ 7, 8.11] zreferuj efekt jaki przynosi wykonanie connect(2)
+na gnieździe klienta.</h3>
+<p>Dla UDP, jeśli zrobimy connect to będziemy akceptować datagramy od
+tylko jednego adresu IP<br />
+korzystamy wtedy albo z read/write albo przy recvfrom/sendto w sockaddr
+dalemy NULL, poniewaz adres zostal zapisany w socketcie.</p>
+<h3
+id="jakie-ograniczenia-poprzednio-wymienionych-funkcji-zostały-poprawione-przez-wywołania-recvmsg2-i-sendmsg2">Jakie
+ograniczenia poprzednio wymienionych funkcji zostały poprawione przez
+wywołania recvmsg(2) i sendmsg(2)?</h3>
+<p>Struktura generalnie wygląda tak:</p>
+<div id="cb9" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">msghdr</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">msg_name</span><span class="p">;</span><span class="w"> </span><span class="cm">/* protocol address */</span>
+<span class="w">    </span><span class="kt">socklen_t</span><span class="w"> </span><span class="n">msg_namelen</span><span class="p">;</span><span class="w"> </span><span class="cm">/* size of protocol address */</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">iovec</span><span class="w"> </span><span class="o">*</span><span class="n">msg_iov</span><span class="p">;</span><span class="w"> </span><span class="cm">/* scatter/gather array */</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">msg_iovlen</span><span class="p">;</span><span class="w"> </span><span class="cm">/* # elements in msg_iov */</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">msg_control</span><span class="p">;</span><span class="w"> </span><span class="cm">/* ancillary data (cmsghdr struct) */</span>
+<span class="w">    </span><span class="kt">socklen_t</span><span class="w"> </span><span class="n">msg_controllen</span><span class="p">;</span><span class="w"> </span><span class="cm">/* length of ancillary data */</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">msg_flags</span><span class="p">;</span><span class="w"> </span><span class="cm">/* flags returned by recvmsg() */</span>
+<span class="p">};</span>
+</pre></div>
+
+</div>
+<p>Możemy zauważyć scatter/gather array, czyli tak jak przy readv. Np.
+duży blok danych może być zapisany w kilku mniejszych.</p>
+<p><img src="./assets/14_11.png" /> mozemy ustawic rozne control
+informatoin np.</p>
+<div id="cb10" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="w">    </span><span class="n">MSG_WAITALL</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="mh">0x100</span><span class="p">,</span><span class="w"> </span><span class="cm">/* Wait for a full request.  */</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="w">    </span><span class="n">MSG_DONTWAIT</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mh">0x40</span><span class="p">,</span><span class="w"> </span><span class="cm">/* Nonblocking IO.  */</span>
+</pre></div>
+
+</div>
+<p><img src="./assets/14_7.png" /> Więcej flag</p>
+<h3 id="zadanie-5">Zadanie 5</h3>
+<div class="highlight"><pre><span></span>Zadanie 5. Przyjrzyjmy się warunkom brzegowym, które występują w trakcie używania interfejsu gniazd BSD.
+Kiedy read(2) i write(2) na gniazdach strumieniowych zwracają short counts?  
+Skąd wiemy, że odebrany datagram UDP nie został obcięty przez jądro w trakcie kopiowania do przestrzeni użytkownika?  
+Z jakich przyczyn należy być przygotowanym na to, że operacje na gniazdach zwrócą «EINTR»?  
+Co się stanie, jeśli klient spróbuje zapisać do gniazda powiązanego z połączeniem, które serwer zdążył już zamknąć?  
+Dlaczego w kodzie funkcji «open_listenfd» użyto wywołania setsockopt(2) z opcją «SO_REUSEADDR» [ 3, 61.10]?
+Co by się stało gdyby programista o tym zapomniał?
+</pre></div>
+
+<h3
+id="kiedy-read2-i-write2-na-gniazdach-strumieniowych-zwracają-short-counts">Kiedy
+read(2) i write(2) na gniazdach strumieniowych zwracają short
+counts?</h3>
+<p>Jeśli robimy write(), a w socket send buffer nie ma miejsca, to
+proces czeka az bedzie miejsce.<br />
+Jeśli natomiast socket jest nonblocking a nie ma miejsca, to zwróci
+shortcount (tyle bajtów ile sie udalo skopiowac do bufora).</p>
+<p>“Read operations on a blocking socket will always return a short
+count if some data is available,”</p>
+<p>EINTR</p>
+<h3
+id="skąd-wiemy-że-odebrany-datagram-udp-nie-został-obcięty-przez-jądro-w-trakcie-kopiowania-do-przestrzeni-użytkownika">Skąd
+wiemy, że odebrany datagram UDP nie został obcięty przez jądro w trakcie
+kopiowania do przestrzeni użytkownika?</h3>
+<p>Znamy długość datagramu</p>
+<h3
+id="z-jakich-przyczyn-należy-być-przygotowanym-na-to-że-operacje-na-gniazdach-zwrócą-eintr">Z
+jakich przyczyn należy być przygotowanym na to, że operacje na gniazdach
+zwrócą «EINTR»?</h3>
+<div class="highlight"><pre><span></span> read(2),  readv(2), write(2), writev(2), and ioctl(2) calls on &quot;slow&quot; devices.  
+ A &quot;slow&quot; device is one where the I/O call may block for an indefinite time, for example, a terminal, pipe, or socket.  
+ If an I/O call on a slow device has already transferred some data by the time it is interrupted by a signal handler, 
+ then the call will return  a  success  status (normally, the number of bytes transferred).  
+ Note that a (local) disk is not a slow device according to this definition; I/O operations on disk devices are not interrupted by signals.
+</pre></div>
+
+<div class="highlight"><pre><span></span>Socket  interfaces:  accept(2),  connect(2), recv(2), recvfrom(2), recvmmsg(2), recvmsg(2), send(2), sendto(2), and sendmsg(2), unless a timeout has been set on the socket (see below).
+</pre></div>
+
+<h3
+id="co-się-stanie-jeśli-klient-spróbuje-zapisać-do-gniazda-powiązanego-z-połączeniem-które-serwer-zdążył-już-zamknąć">Co
+się stanie, jeśli klient spróbuje zapisać do gniazda powiązanego z
+połączeniem, które serwer zdążył już zamknąć?</h3>
+<p>dostaniemy EPIPE.</p>
+<h3
+id="dlaczego-w-kodzie-funkcji-open_listenfd-użyto-wywołania-setsockopt2-z-opcją-so_reuseaddr-3-61.10-co-by-się-stało-gdyby-programista-o-tym-zapomniał">Dlaczego
+w kodzie funkcji «open_listenfd» użyto wywołania setsockopt(2) z opcją
+«SO_REUSEADDR» [ 3, 61.10]? Co by się stało gdyby programista o tym
+zapomniał?</h3>
+<div class="highlight"><pre><span></span>A previous invocation of the server that was connected to a client performed
+an active close, either by calling close(), or by crashing (e.g., it was killed by a signal).
+This leaves a TCP endpoint that remains in the TIME_WAIT state until the
+2MSL timeout expires
+</pre></div>
+
+<p>Z tego co rozumiem, to po zakończeniu połączenia nasz socket jest w
+stanie TIME_WAIT przez pewien czas, co ma obsługiwać jakieś edge
+case’y.<br />
+Uniemożliwia to jednak szybki restart serwera.</p>
+<h2 id="zadanie-6">Zadanie 6</h2>
+<div class="highlight"><pre><span></span>Zadanie 6. Zmodyfikuj program «hostinfo.c» w taki sposób, aby wyświetlał adresy IPv4 oraz IPv6
+dla danej nazwy serwera. Dodatkowo należy przekształcić nazwę usługi przekazanej jako opcjonalny trzeci
+parametr programu na numer portu. Poniżej przykład:
+# hostinfo www.google.com https
+216.58.215.68:443
+[2a00:1450:401b:803::2004]:443
+Co należałoby zrobić, żeby program rozpoznawał usługę o nazwie «tftp»
+</pre></div>
+
+<h2 id="zadanie-7">Zadanie 7</h2>
+<div id="cb16" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="c1"># najpierw serwer</span>
+tcp<span class="w">        </span><span class="m">0</span><span class="w">      </span><span class="m">0</span><span class="w"> </span><span class="m">127</span>.0.0.1:48252<span class="w">         </span><span class="m">127</span>.0.0.1:7777<span class="w">          </span>TIME_WAIT<span class="w">   </span>-
+
+<span class="c1"># pierwszy klient</span>
+tcp<span class="w">        </span><span class="m">0</span><span class="w">      </span><span class="m">0</span><span class="w"> </span><span class="m">127</span>.0.0.1:7777<span class="w">          </span><span class="m">127</span>.0.0.1:40550<span class="w">         </span>ESTABLISHED<span class="w"> </span><span class="m">268598</span>/./echoserver
+tcp<span class="w">        </span><span class="m">0</span><span class="w">      </span><span class="m">0</span><span class="w"> </span><span class="m">127</span>.0.0.1:40550<span class="w">         </span><span class="m">127</span>.0.0.1:7777<span class="w">          </span>ESTABLISHED<span class="w"> </span><span class="m">268688</span>/./echoclient
+
+<span class="c1"># drugi klient</span>
+tcp<span class="w">        </span><span class="m">3</span><span class="w">      </span><span class="m">0</span><span class="w"> </span><span class="m">127</span>.0.0.1:7777<span class="w">          </span><span class="m">127</span>.0.0.1:40148<span class="w">         </span>ESTABLISHED<span class="w"> </span>-
+tcp<span class="w">        </span><span class="m">0</span><span class="w">      </span><span class="m">0</span><span class="w"> </span><span class="m">127</span>.0.0.1:7777<span class="w">          </span><span class="m">127</span>.0.0.1:40550<span class="w">         </span>ESTABLISHED<span class="w"> </span><span class="m">268598</span>/./echoserver
+tcp<span class="w">        </span><span class="m">0</span><span class="w">      </span><span class="m">0</span><span class="w"> </span><span class="m">127</span>.0.0.1:40550<span class="w">         </span><span class="m">127</span>.0.0.1:7777<span class="w">          </span>ESTABLISHED<span class="w"> </span><span class="m">268688</span>/./echoclient
+tcp<span class="w">        </span><span class="m">0</span><span class="w">      </span><span class="m">0</span><span class="w"> </span><span class="m">127</span>.0.0.1:40148<span class="w">         </span><span class="m">127</span>.0.0.1:7777<span class="w">          </span>ESTABLISHED<span class="w"> </span><span class="m">268863</span>/./echoclient
+<span class="c1"># w drugim procesie klienta nie dostajemy pinga</span>
+</pre></div>
+
+</div>
+<p>1-3 połączenie 4-7 hello world 8-10 zamkniecie klienta</p>
+<h2 id="zadanie-9">Zadanie 9</h2>
+<p>sam client</p>
+<div class="highlight"><pre><span></span>[crusom@crusomcarbon so21_lista_9]$ ./echoserver 7777
+Connected to localhost:48198
+Rio_readlineb error: Connection reset by peer
+</pre></div>
+
+<p>sam serwer</p>
+<div class="highlight"><pre><span></span>tcp        1      0 127.0.0.1:39374         127.0.0.1:7777          CLOSE_WAIT  289810/echoclient
+tcp        0      0 127.0.0.1:7777          127.0.0.1:39374         FIN_WAIT2   -
+</pre></div>
+
+<p>mimo ze serwer zostal zamkniety to pozostaje w stanie FIN_WAIT2</p>
+  </body>
+</html>

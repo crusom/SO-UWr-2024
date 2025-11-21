@@ -1,0 +1,1259 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="date" content=''>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/../style.css"/>
+
+    <title>writeup</title>
+
+  </head>
+  <body>
+
+<ul>
+<li><a href="#zadanie-1" id="toc-zadanie-1">zadanie 1</a>
+<ul>
+<li><a
+href="#kto-jest-rodzicem-procesu-init-wskaż-które-z-wyświetlonych-zadań-są-wątkami-jądra."
+id="toc-kto-jest-rodzicem-procesu-init-wskaż-które-z-wyświetlonych-zadań-są-wątkami-jądra.">Kto
+jest rodzicem procesu init? Wskaż, które z wyświetlonych zadań są
+wątkami jądra.</a></li>
+<li><a
+href="#jakie-jest-znaczenie-poszczególnych-znaków-w-kolumnie-stat"
+id="toc-jakie-jest-znaczenie-poszczególnych-znaków-w-kolumnie-stat">Jakie
+jest znaczenie poszczególnych znaków w kolumnie STAT?</a></li>
+<li><a
+href="#wyświetl-drzewiastą-reprezentację-hierarchii-procesów-poleceniem-pstree-które-z-zadań-są-wątkami"
+id="toc-wyświetl-drzewiastą-reprezentację-hierarchii-procesów-poleceniem-pstree-które-z-zadań-są-wątkami">Wyświetl
+drzewiastą reprezentację hierarchii procesów poleceniem pstree – które z
+zadań są wątkami?</a></li>
+</ul></li>
+<li><a href="#zadanie-2" id="toc-zadanie-2">zadanie 2</a>
+<ul>
+<li><a
+href="#jak-jądro-systemu-reaguje-na-sytuację-kiedy-proces-staje-się-sierotą"
+id="toc-jak-jądro-systemu-reaguje-na-sytuację-kiedy-proces-staje-się-sierotą">Jak
+jądro systemu reaguje na sytuację kiedy proces staje się
+sierotą?</a></li>
+<li><a href="#w-jaki-sposób-pogrzebać-proces-który-wszedł-w-stan-zombie"
+id="toc-w-jaki-sposób-pogrzebać-proces-który-wszedł-w-stan-zombie">W
+jaki sposób pogrzebać proces, który wszedł w stan zombie?</a></li>
+<li><a href="#czemu-proces-nie-może-sam-siebie-pogrzebać"
+id="toc-czemu-proces-nie-może-sam-siebie-pogrzebać">Czemu proces nie
+może sam siebie pogrzebać?</a></li>
+<li><a
+href="#zauważ-że-proces-może-przy-pomocy-waitpid2-czekać-na-zmianę-stanu-wyłącznie-swoich-dzieci.-co-złego-mogłoby-się-stać-gdyby-znieść-to-ograniczenie-rozważ-scenariusze-a-dziecko-może-czekać-na-zmianę-stanu-swojego-rodzica-b-wiele-procesów-oczekuje-na-zmianę-stanu-jednego-procesu."
+id="toc-zauważ-że-proces-może-przy-pomocy-waitpid2-czekać-na-zmianę-stanu-wyłącznie-swoich-dzieci.-co-złego-mogłoby-się-stać-gdyby-znieść-to-ograniczenie-rozważ-scenariusze-a-dziecko-może-czekać-na-zmianę-stanu-swojego-rodzica-b-wiele-procesów-oczekuje-na-zmianę-stanu-jednego-procesu.">Zauważ,
+że proces może, przy pomocy waitpid(2), czekać na zmianę stanu wyłącznie
+swoich dzieci. Co złego mogłoby się stać, gdyby znieść to ograniczenie?
+Rozważ scenariusze (a) dziecko może czekać na zmianę stanu swojego
+rodzica (b) wiele procesów oczekuje na zmianę stanu jednego
+procesu.</a></li>
+</ul></li>
+<li><a href="#zadanie-3" id="toc-zadanie-3">zadanie 3</a>
+<ul>
+<li><a href="#do-czego-służy-system-plików-proc5-w-systemie-linux"
+id="toc-do-czego-służy-system-plików-proc5-w-systemie-linux">Do czego
+służy system plików proc(5) w systemie Linux?</a></li>
+<li><a
+href="#dla-wybranego-przez-siebie-procesu-o-identyfikatorze-pid-wydrukuj-zawartość-katalogu-procpid."
+id="toc-dla-wybranego-przez-siebie-procesu-o-identyfikatorze-pid-wydrukuj-zawartość-katalogu-procpid.">Dla
+wybranego przez siebie procesu o identyfikatorze pid wydrukuj zawartość
+katalogu «/proc/pid».</a></li>
+<li><a
+href="#wyświetl-plik-zawierający-argumenty-programu-oraz-zmienne-środowiskowe."
+id="toc-wyświetl-plik-zawierający-argumenty-programu-oraz-zmienne-środowiskowe.">Wyświetl
+plik zawierający argumenty programu oraz zmienne środowiskowe.</a></li>
+<li><a
+href="#podaj-znaczenie-następujących-pól-pliku-status-uid-gid-groups-vmpeak-vmsize-vmrss-threads-voluntary_ctxt_switches-nonvoluntary_ctxt_switches."
+id="toc-podaj-znaczenie-następujących-pól-pliku-status-uid-gid-groups-vmpeak-vmsize-vmrss-threads-voluntary_ctxt_switches-nonvoluntary_ctxt_switches.">Podaj
+znaczenie następujących pól pliku «status»: Uid, Gid, Groups, VmPeak,
+VmSize, VmRSS, Threads, voluntary_ctxt_switches,
+nonvoluntary_ctxt_switches.</a></li>
+</ul></li>
+<li><a href="#zadanie-4" id="toc-zadanie-4">Zadanie 4</a>
+<ul>
+<li><a href="#stos" id="toc-stos">stos</a></li>
+<li><a href="#sterta" id="toc-sterta">sterta</a></li>
+<li><a href="#segmenty" id="toc-segmenty">segmenty</a></li>
+<li><a href="#pamięć-anonimowa-pliki-odwzorowane-w-pamięci"
+id="toc-pamięć-anonimowa-pliki-odwzorowane-w-pamięci">pamięć anonimowa,
+pliki odwzorowane w pamięci</a></li>
+</ul></li>
+<li><a href="#zadanie-5" id="toc-zadanie-5">zadanie 5</a>
+<ul>
+<li><a href="#wyjaśnij-znaczenie-poszczególnych-kolumn-wykazu"
+id="toc-wyjaśnij-znaczenie-poszczególnych-kolumn-wykazu">Wyjaśnij
+znaczenie poszczególnych kolumn wykazu</a></li>
+<li><a
+href="#po-czym-zidentyfikuj-pliki-zwykłe-katalogi-urządzenia-gniazda-sieciowe-lub-domeny-uniksowej-i-potoki."
+id="toc-po-czym-zidentyfikuj-pliki-zwykłe-katalogi-urządzenia-gniazda-sieciowe-lub-domeny-uniksowej-i-potoki.">…
+po czym zidentyfikuj pliki zwykłe, katalogi, urządzenia, gniazda
+(sieciowe lub domeny uniksowej) i potoki.</a></li>
+<li><a
+href="#przekieruj-wyjście-z-programu-lsof-przed-i-po-otwarciu-wybranej-strony-odpowiednio-do-plików-before-i-after.-czy-poleceniem-diff--u-before-after-jesteś-w-stanie-zidentyfikować-nowo-utworzone-połączenia-sieciowe"
+id="toc-przekieruj-wyjście-z-programu-lsof-przed-i-po-otwarciu-wybranej-strony-odpowiednio-do-plików-before-i-after.-czy-poleceniem-diff--u-before-after-jesteś-w-stanie-zidentyfikować-nowo-utworzone-połączenia-sieciowe">Przekieruj
+wyjście z programu «lsof», przed i po otwarciu wybranej strony,
+odpowiednio do plików «before» i «after». Czy poleceniem «diff -u before
+after» jesteś w stanie zidentyfikować nowo utworzone połączenia
+sieciowe?</a></li>
+</ul></li>
+<li><a href="#zadanie-6" id="toc-zadanie-6">zadanie 6</a>
+<ul>
+<li><a
+href="#wbudowanym-poleceniem-powłoki-time-zmierz-czas-wykonania-długo-działającego-procesu-np.-polecenia-find-usr.-czemu-suma-czasów-user-i-sys-a-nie-jest-równa-real-b-może-być-większa-od-real"
+id="toc-wbudowanym-poleceniem-powłoki-time-zmierz-czas-wykonania-długo-działającego-procesu-np.-polecenia-find-usr.-czemu-suma-czasów-user-i-sys-a-nie-jest-równa-real-b-może-być-większa-od-real">Wbudowanym
+poleceniem powłoki «time» zmierz czas wykonania długo działającego
+procesu, np. polecenia «find /usr». Czemu suma czasów user i sys (a) nie
+jest równa real (b) może być większa od real?</a></li>
+<li><a
+href="#poleceniem-ulimit-nałóż-ograniczenie-na-czas-wykonania-procesów-potomnych-powłoki-tak-by-limit-się-wyczerpał.-uruchom-ponownie-wybrany-program-który-sygnał-wysłano-do-procesu"
+id="toc-poleceniem-ulimit-nałóż-ograniczenie-na-czas-wykonania-procesów-potomnych-powłoki-tak-by-limit-się-wyczerpał.-uruchom-ponownie-wybrany-program-który-sygnał-wysłano-do-procesu">Poleceniem
+«ulimit» nałóż ograniczenie na czas wykonania procesów potomnych powłoki
+tak, by limit się wyczerpał. Uruchom ponownie wybrany program – który
+sygnał wysłano do procesu?</a></li>
+</ul></li>
+<li><a href="#zadanie-7" id="toc-zadanie-7">zadanie 7</a>
+<ul>
+<li><a
+href="#napisz-program-który-będzie-prezentował-że-pliki-procesu-są-kopiowane-przez-referencję-w-trakcie-wywołania-fork2.-w-procesie-głównym-otwórz-plik-do-odczytu-open2.-czy-zamknięcie-pliku-close2-w-procesie-głównym-zamyka-plik-także-w-dziecku"
+id="toc-napisz-program-który-będzie-prezentował-że-pliki-procesu-są-kopiowane-przez-referencję-w-trakcie-wywołania-fork2.-w-procesie-głównym-otwórz-plik-do-odczytu-open2.-czy-zamknięcie-pliku-close2-w-procesie-głównym-zamyka-plik-także-w-dziecku">Napisz
+program, który będzie prezentował, że pliki procesu są kopiowane przez
+referencję w trakcie wywołania fork(2). W procesie głównym otwórz plik
+do odczytu open(2). Czy zamknięcie pliku close(2) w procesie głównym
+zamyka plik także w dziecku?</a></li>
+<li><a
+href="#czy-odczyt-z-pliku-read2-zmienia-pozycję-kursora-lseek2-w-drugim-procesie-wyjaśnij-zachowanie-swojego-programu"
+id="toc-czy-odczyt-z-pliku-read2-zmienia-pozycję-kursora-lseek2-w-drugim-procesie-wyjaśnij-zachowanie-swojego-programu">Czy
+odczyt z pliku read(2) zmienia pozycję kursora lseek(2) w drugim
+procesie? Wyjaśnij zachowanie swojego programu!</a></li>
+</ul></li>
+<li><a href="#zadanie-8" id="toc-zadanie-8">Zadanie 8</a></li>
+<li><a href="#footnotes" id="toc-footnotes">Footnotes</a></li>
+</ul>
+<h2 id="zadanie-1">zadanie 1</h2>
+<div class="highlight"><pre><span></span>Zadanie 1. W systemach uniksowych wszystkie procesy są związane relacją rodzic-dziecko.  
+Uruchom polecenie «ps -eo user,pid,ppid,pgid,tid,pri,stat,wchan,cmd».  
+Na wydruku zidentyfikuj identyfikator procesu, identyfikator grupy procesów, identyfikator rodzica oraz właściciela procesu.  
+Kto jest rodzicem procesu init? Wskaż, które z wyświetlonych zadań są wątkami jądra.  
+Jakie jest znaczenie poszczególnych znaków w kolumnie STAT?  
+Wyświetl drzewiastą reprezentację hierarchii procesów poleceniem pstree – które z zadań są wątkami?
+</pre></div>
+
+<h3
+id="kto-jest-rodzicem-procesu-init-wskaż-które-z-wyświetlonych-zadań-są-wątkami-jądra.">Kto
+jest rodzicem procesu init? Wskaż, które z wyświetlonych zadań są
+wątkami jądra.</h3>
+<div id="cb2" class="sourceCode">
+<div class="highlight"><pre><span></span>crusom@crusomcarbon<span class="w"> </span><span class="m">1</span><span class="o">]</span>$<span class="w"> </span>ps<span class="w"> </span>-eo<span class="w"> </span>user,pid,ppid,pgid,tid,pri,stat,wchan,cmd<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>init<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n1
+root<span class="w">           </span><span class="m">1</span><span class="w">       </span><span class="m">0</span><span class="w">       </span><span class="m">1</span><span class="w">       </span><span class="m">1</span><span class="w">  </span><span class="m">19</span><span class="w"> </span>Ss<span class="w">   </span>-<span class="w">      </span>/sbin/init
+</pre></div>
+
+</div>
+<p>PID 0 jest procesem który uruchamia kernel. Rodzicem procesu init
+jest proces o id 0, czyli Scheduler.</p>
+<div class="highlight"><pre><span></span>Process ID Description:
+0 The Scheduler
+1 The init process
+2 kflushd
+3 kupdate
+4 kpiod
+5 kswapd
+6 mdrecoveryd
+</pre></div>
+
+<p>Tak naprawde jest to duze uproszczenie i jest to bardziej
+skomplikowane, a <a href="https://blog.dave.tf/post/linux-pid0/">ten
+artykuł robi fajny dive in</a>.</p>
+<div class="highlight"><pre><span></span>PID 0 runs early kernel initialization, then becomes the bootstrap CPU core’s idle task, and plays a minor supporting role in scheduling and power management.
+</pre></div>
+
+<p>Aby znaleźć wątki należące do jądra, należy wyszukać te wątki,
+których grupa ma id 0 (czyli <code>root</code>).</p>
+<div id="cb5" class="sourceCode">
+<div class="highlight"><pre><span></span>ps<span class="w"> </span>-eo<span class="w"> </span>user,pid,ppid,pgid,tid,pri,stat,wchan,cmd<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;$4 == 0&#39;</span>
+</pre></div>
+
+</div>
+<h3
+id="jakie-jest-znaczenie-poszczególnych-znaków-w-kolumnie-stat">Jakie
+jest znaczenie poszczególnych znaków w kolumnie STAT?</h3>
+<p>Stat informuje nas o stanie procesu, poniżej jest tabela z man page’a
+ps:</p>
+<div class="highlight"><pre><span></span>D    uninterruptible sleep (usually IO)
+I    Idle kernel thread
+R    running or runnable (on run queue)
+S    interruptible sleep (waiting for an event to complete)
+T    stopped by job control signal
+t    stopped by debugger during the tracing
+W    paging (not valid since the 2.6.xx kernel)
+X    dead (should never be seen)
+Z    defunct (&quot;zombie&quot;) process, terminated but not reaped by its parent
+</pre></div>
+
+<h3
+id="wyświetl-drzewiastą-reprezentację-hierarchii-procesów-poleceniem-pstree-które-z-zadań-są-wątkami">Wyświetl
+drzewiastą reprezentację hierarchii procesów poleceniem pstree – które z
+zadań są wątkami?</h3>
+<p>pstree oznacza wątki w nawiasach klamrowych.<br />
+Możemy porównać output (częściowy) uruchamiając samo pstree i
+uruchamiając pstree z flagą -T, która nie ukazuje wątków, a jedynie
+procesy.<br />
+Diff nam ukaże coś takiego (to tylko część outputu, dla przykładu)</p>
+<div class="highlight"><pre><span></span><span class="mi">3</span><span class="p">,</span><span class="mi">21</span><span class="n">c3</span><span class="p">,</span><span class="mi">14</span>
+<span class="o">&lt;</span><span class="w">         </span><span class="o">|-</span><span class="n">bash</span><span class="o">---</span><span class="n">firefox</span><span class="o">-+-</span><span class="n">Isolated</span><span class="w"> </span><span class="n">Servic</span><span class="o">--</span><span class="mi">-30</span><span class="o">*</span><span class="p">[{</span><span class="n">Isolated</span><span class="w"> </span><span class="n">Servic</span><span class="p">}]</span>
+<span class="o">&lt;</span><span class="w">         </span><span class="o">|</span><span class="w">                </span><span class="o">|</span><span class="mi">-2</span><span class="o">*</span><span class="p">[</span><span class="n">Isolated</span><span class="w"> </span><span class="n">Web</span><span class="w"> </span><span class="n">Co</span><span class="o">--</span><span class="mi">-35</span><span class="o">*</span><span class="p">[{</span><span class="n">Isolated</span><span class="w"> </span><span class="n">Web</span><span class="w"> </span><span class="n">Co</span><span class="p">}]]</span>
+<span class="o">&lt;</span><span class="w">         </span><span class="o">|</span><span class="w">                </span><span class="o">|</span><span class="mi">-12</span><span class="o">*</span><span class="p">[</span><span class="n">Isolated</span><span class="w"> </span><span class="n">Web</span><span class="w"> </span><span class="n">Co</span><span class="o">--</span><span class="mi">-27</span><span class="o">*</span><span class="p">[{</span><span class="n">Isolated</span><span class="w"> </span><span class="n">Web</span><span class="w"> </span><span class="n">Co</span><span class="p">}]]</span>
+<span class="o">&lt;</span><span class="w">         </span><span class="o">|</span><span class="w">                </span><span class="o">|</span><span class="mi">-9</span><span class="o">*</span><span class="p">[</span><span class="n">Isolated</span><span class="w"> </span><span class="n">Web</span><span class="w"> </span><span class="n">Co</span><span class="o">--</span><span class="mi">-26</span><span class="o">*</span><span class="p">[{</span><span class="n">Isolated</span><span class="w"> </span><span class="n">Web</span><span class="w"> </span><span class="n">Co</span><span class="p">}]]</span>
+<span class="o">&lt;</span><span class="w">         </span><span class="o">|</span><span class="w">                </span><span class="o">|</span><span class="mi">-3</span><span class="o">*</span><span class="p">[</span><span class="n">Isolated</span><span class="w"> </span><span class="n">Web</span><span class="w"> </span><span class="n">Co</span><span class="o">--</span><span class="mi">-30</span><span class="o">*</span><span class="p">[{</span><span class="n">Isolated</span><span class="w"> </span><span class="n">Web</span><span class="w"> </span><span class="n">Co</span><span class="p">}]]</span>
+<span class="o">&lt;</span><span class="w">         </span><span class="o">|</span><span class="w">                </span><span class="o">|-</span><span class="n">Isolated</span><span class="w"> </span><span class="n">Web</span><span class="w"> </span><span class="n">Co</span><span class="o">--</span><span class="mi">-38</span><span class="o">*</span><span class="p">[{</span><span class="n">Isolated</span><span class="w"> </span><span class="n">Web</span><span class="w"> </span><span class="n">Co</span><span class="p">}]</span>
+<span class="o">&lt;</span><span class="w">         </span><span class="o">|</span><span class="w">                </span><span class="o">|</span><span class="mi">-2</span><span class="o">*</span><span class="p">[</span><span class="n">Isolated</span><span class="w"> </span><span class="n">Web</span><span class="w"> </span><span class="n">Co</span><span class="o">--</span><span class="mi">-28</span><span class="o">*</span><span class="p">[{</span><span class="n">Isolated</span><span class="w"> </span><span class="n">Web</span><span class="w"> </span><span class="n">Co</span><span class="p">}]]</span>
+<span class="o">&lt;</span><span class="w">         </span><span class="o">|</span><span class="w">                </span><span class="o">|-</span><span class="n">MainThread</span><span class="o">--</span><span class="mi">-3</span><span class="o">*</span><span class="p">[{</span><span class="n">MainThread</span><span class="p">}]</span>
+<span class="o">&lt;</span><span class="w">         </span><span class="o">|</span><span class="w">                </span><span class="o">|-</span><span class="n">Privileged</span><span class="w"> </span><span class="n">Cont</span><span class="o">--</span><span class="mi">-28</span><span class="o">*</span><span class="p">[{</span><span class="n">Privileged</span><span class="w"> </span><span class="n">Cont</span><span class="p">}]</span>
+<span class="o">&lt;</span><span class="w">         </span><span class="o">|</span><span class="w">                </span><span class="o">|-</span><span class="n">RDD</span><span class="w"> </span><span class="n">Process</span><span class="o">--</span><span class="mi">-7</span><span class="o">*</span><span class="p">[{</span><span class="n">RDD</span><span class="w"> </span><span class="n">Process</span><span class="p">}]</span>
+<span class="o">&lt;</span><span class="w">         </span><span class="o">|</span><span class="w">                </span><span class="o">|-</span><span class="n">Socket</span><span class="w"> </span><span class="n">Process</span><span class="o">--</span><span class="mi">-5</span><span class="o">*</span><span class="p">[{</span><span class="n">Socket</span><span class="w"> </span><span class="n">Process</span><span class="p">}]</span>
+<span class="o">&lt;</span><span class="w">         </span><span class="o">|</span><span class="w">                </span><span class="o">|-</span><span class="n">Utility</span><span class="w"> </span><span class="n">Process</span><span class="o">--</span><span class="mi">-7</span><span class="o">*</span><span class="p">[{</span><span class="n">Utility</span><span class="w"> </span><span class="n">Process</span><span class="p">}]</span>
+<span class="o">&lt;</span><span class="w">         </span><span class="o">|</span><span class="w">                </span><span class="o">|-</span><span class="n">Web</span><span class="w"> </span><span class="n">Content</span><span class="o">--</span><span class="mi">-19</span><span class="o">*</span><span class="p">[{</span><span class="n">Web</span><span class="w"> </span><span class="n">Content</span><span class="p">}]</span>
+<span class="o">&lt;</span><span class="w">         </span><span class="o">|</span><span class="w">                </span><span class="o">|</span><span class="mi">-2</span><span class="o">*</span><span class="p">[</span><span class="n">Web</span><span class="w"> </span><span class="n">Content</span><span class="o">--</span><span class="mi">-18</span><span class="o">*</span><span class="p">[{</span><span class="n">Web</span><span class="w"> </span><span class="n">Content</span><span class="p">}]]</span>
+<span class="o">&lt;</span><span class="w">         </span><span class="o">|</span><span class="w">                </span><span class="o">|-</span><span class="n">WebExtensions</span><span class="o">--</span><span class="mi">-29</span><span class="o">*</span><span class="p">[{</span><span class="n">WebExtensions</span><span class="p">}]</span>
+<span class="o">&lt;</span><span class="w">         </span><span class="o">|</span><span class="w">                </span><span class="o">|-</span><span class="n">file</span><span class="o">:</span><span class="c1">// Content---27*[{file:// Content}]</span>
+<span class="o">&lt;</span><span class="w">         </span><span class="o">|</span><span class="w">                </span><span class="err">`</span><span class="mi">-154</span><span class="o">*</span><span class="p">[{</span><span class="n">firefox</span><span class="p">}]</span>
+<span class="o">&lt;</span><span class="w">         </span><span class="o">|-</span><span class="n">colord</span><span class="o">--</span><span class="mi">-3</span><span class="o">*</span><span class="p">[{</span><span class="n">colord</span><span class="p">}]</span>
+<span class="o">&lt;</span><span class="w">         </span><span class="o">|-</span><span class="n">containerd</span><span class="o">--</span><span class="mi">-12</span><span class="o">*</span><span class="p">[{</span><span class="n">containerd</span><span class="p">}]</span>
+<span class="o">---</span>
+<span class="o">&gt;</span><span class="w">         </span><span class="o">|-</span><span class="n">bash</span><span class="o">---</span><span class="n">firefox</span><span class="o">-+-</span><span class="n">Isolated</span><span class="w"> </span><span class="n">Servic</span>
+<span class="o">&gt;</span><span class="w">         </span><span class="o">|</span><span class="w">                </span><span class="o">|</span><span class="mi">-29</span><span class="o">*</span><span class="p">[</span><span class="n">Isolated</span><span class="w"> </span><span class="n">Web</span><span class="w"> </span><span class="n">Co</span><span class="p">]</span>
+<span class="o">&gt;</span><span class="w">         </span><span class="o">|</span><span class="w">                </span><span class="o">|-</span><span class="n">MainThread</span>
+<span class="o">&gt;</span><span class="w">         </span><span class="o">|</span><span class="w">                </span><span class="o">|-</span><span class="n">Privileged</span><span class="w"> </span><span class="n">Cont</span>
+<span class="o">&gt;</span><span class="w">         </span><span class="o">|</span><span class="w">                </span><span class="o">|-</span><span class="n">RDD</span><span class="w"> </span><span class="n">Process</span>
+<span class="o">&gt;</span><span class="w">         </span><span class="o">|</span><span class="w">                </span><span class="o">|-</span><span class="n">Socket</span><span class="w"> </span><span class="n">Process</span>
+<span class="o">&gt;</span><span class="w">         </span><span class="o">|</span><span class="w">                </span><span class="o">|-</span><span class="n">Utility</span><span class="w"> </span><span class="n">Process</span>
+<span class="o">&gt;</span><span class="w">         </span><span class="o">|</span><span class="w">                </span><span class="o">|</span><span class="mi">-3</span><span class="o">*</span><span class="p">[</span><span class="n">Web</span><span class="w"> </span><span class="n">Content</span><span class="p">]</span>
+<span class="o">&gt;</span><span class="w">         </span><span class="o">|</span><span class="w">                </span><span class="o">|-</span><span class="n">WebExtensions</span>
+<span class="o">&gt;</span><span class="w">         </span><span class="o">|</span><span class="w">                </span><span class="err">`</span><span class="o">-</span><span class="n">file</span><span class="o">:</span><span class="c1">// Content</span>
+<span class="o">&gt;</span><span class="w">         </span><span class="o">|-</span><span class="n">colord</span>
+<span class="o">&gt;</span><span class="w">         </span><span class="o">|-</span><span class="n">containerd</span>
+</pre></div>
+
+<h2 id="zadanie-2">zadanie 2</h2>
+<div class="highlight"><pre><span></span>Zadanie 2. Jak jądro systemu reaguje na sytuację kiedy proces staje się sierotą?  
+W jaki sposób pogrzebać proces, który wszedł w stan zombie?  
+Czemu proces nie może sam siebie pogrzebać?  
+Zauważ, że proces może, przy pomocy waitpid(2), czekać na zmianę stanu wyłącznie swoich dzieci.  
+Co złego mogłoby się stać, gdyby znieść to ograniczenie?  
+Rozważ scenariusze (a) dziecko może czekać na zmianę stanu swojego rodzica (b) wiele procesów oczekuje na zmianę stanu jednego procesu.
+
+Wskazówka: Proces wykonujący w jądrze implementację wywołania systemowego _exit(2) nie może zwolnić stosu jądra, na którym się wykonuje. Kto zatem musi to zrobić?
+</pre></div>
+
+<h3
+id="jak-jądro-systemu-reaguje-na-sytuację-kiedy-proces-staje-się-sierotą">Jak
+jądro systemu reaguje na sytuację kiedy proces staje się sierotą?</h3>
+<p>Proces osierocony dostaje ppid 1, czyli proces init.</p>
+<p>demo:</p>
+<div id="cb9" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="c1">// some imports, look at 2.c</span>
+<span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kt">pid_t</span><span class="w"> </span><span class="n">pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fork</span><span class="p">();</span>
+<span class="w">  </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">pid</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="mi">-1</span><span class="p">:</span>
+<span class="w">      </span><span class="n">perror</span><span class="p">(</span><span class="s">&quot;fork&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span>
+<span class="w">      </span><span class="n">puts</span><span class="p">(</span><span class="s">&quot;Child: living my best life :)&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Child: my parent is %u</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getppid</span><span class="p">());</span>
+<span class="w">      </span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Child: my parent died, now my ppid is %u</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getppid</span><span class="p">());</span>
+<span class="w">      </span><span class="n">puts</span><span class="p">(</span><span class="s">&quot;Child exiting.&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="n">exit</span><span class="p">(</span><span class="n">EXIT_SUCCESS</span><span class="p">);</span>
+<span class="w">  </span><span class="k">default</span><span class="o">:</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Child is PID %jd</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">intmax_t</span><span class="p">)</span><span class="w"> </span><span class="n">pid</span><span class="p">);</span>
+<span class="w">      </span><span class="n">puts</span><span class="p">(</span><span class="s">&quot;Parent: exiting.&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="n">exit</span><span class="p">(</span><span class="n">EXIT_SUCCESS</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w"> </span><span class="p">}</span>
+</pre></div>
+
+</div>
+<div id="cb10" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="o">[</span>crusom@crusomcarbon<span class="w"> </span><span class="m">1</span><span class="o">]</span>$<span class="w"> </span>./a.out
+Child<span class="w"> </span>is<span class="w"> </span>PID<span class="w"> </span><span class="m">319823</span>
+Parent:<span class="w"> </span>exiting.
+Child:<span class="w"> </span>living<span class="w"> </span>my<span class="w"> </span>best<span class="w"> </span>life<span class="w"> </span>:<span class="o">)</span>
+Child:<span class="w"> </span>my<span class="w"> </span>parent<span class="w"> </span>is<span class="w"> </span><span class="m">319822</span>
+<span class="o">[</span>crusom@crusomcarbon<span class="w"> </span><span class="m">1</span><span class="o">]</span>$<span class="w"> </span>Child:<span class="w"> </span>my<span class="w"> </span>parent<span class="w"> </span>died,<span class="w"> </span>now<span class="w"> </span>my<span class="w"> </span>ppid<span class="w"> </span>is<span class="w"> </span><span class="m">1</span>
+Child<span class="w"> </span>exiting.
+</pre></div>
+
+</div>
+<h3 id="w-jaki-sposób-pogrzebać-proces-który-wszedł-w-stan-zombie">W
+jaki sposób pogrzebać proces, który wszedł w stan zombie?</h3>
+<p>Rodzic czeka (<em>wait(2)</em>) na dziecko zombie, więc jeśli tego
+nie zrobi (z powodu jakiegoś buga najpewniej), to musimy zabić
+rodzica.<br />
+Rodzicem dziecka stanie sie wtedy ppid 1, czyli init, który po nim
+posrząta.</p>
+<h3 id="czemu-proces-nie-może-sam-siebie-pogrzebać">Czemu proces nie
+może sam siebie pogrzebać?</h3>
+<p>Ponieważ już nie żyje, nie wykonuje żadnego kodu, jego nieposrzątane
+struktury po prostu sobie wiszą.</p>
+<h3
+id="zauważ-że-proces-może-przy-pomocy-waitpid2-czekać-na-zmianę-stanu-wyłącznie-swoich-dzieci.-co-złego-mogłoby-się-stać-gdyby-znieść-to-ograniczenie-rozważ-scenariusze-a-dziecko-może-czekać-na-zmianę-stanu-swojego-rodzica-b-wiele-procesów-oczekuje-na-zmianę-stanu-jednego-procesu.">Zauważ,
+że proces może, przy pomocy waitpid(2), czekać na zmianę stanu wyłącznie
+swoich dzieci. Co złego mogłoby się stać, gdyby znieść to ograniczenie?
+Rozważ scenariusze (a) dziecko może czekać na zmianę stanu swojego
+rodzica (b) wiele procesów oczekuje na zmianę stanu jednego
+procesu.</h3>
+<ol type="a">
+<li>Jeśli dziecko mogłoby czekać na zmianę stanu rodzica, a rodzic
+czekałby na zmianę stanu dziecka, to mielibyśmy deadlock.</li>
+<li>Przede wszystkim byłby to problem bezpieczeństwa, bo jeden proces
+mógłby wpływać na drugi.<br />
+Wyobraźmy sobie, że wykonanie programu rodzica zależy od tego, jaki
+status zwróci dziecko.<br />
+Jeśli jakiś inny proces zajmie się pogrzebaniem dziecka, zamiast jego
+ojca, to psuje to wykonanie programu rodzica.<br />
+Rodzic najpewniej czekałby wtedy wiecznie.</li>
+</ol>
+<h2 id="zadanie-3">zadanie 3</h2>
+<div class="highlight"><pre><span></span>Zadanie 3. Do czego służy system plików proc(5) w systemie Linux?  
+Dla wybranego przez siebie procesu o identyfikatorze pid wydrukuj zawartość katalogu «/proc/pid».  
+Wyświetl plik zawierający argumenty programu oraz zmienne środowiskowe.  
+Podaj znaczenie następujących pól pliku «status»: Uid, Gid, Groups, VmPeak, VmSize, VmRSS, Threads, voluntary_ctxt_switches, nonvoluntary_ctxt_switches.
+UWAGA! Prowadzący ćwiczenia nie zadowoli się cytowaniem podręcznika systemowego – trzeba wykazać się dociekliwością
+</pre></div>
+
+<h3 id="do-czego-służy-system-plików-proc5-w-systemie-linux">Do czego
+służy system plików proc(5) w systemie Linux?</h3>
+<p>Patrząc na długość dokumentu <a
+href="https://docs.kernel.org/filesystems/proc.html">the /proc
+filesystem</a> możemy zauważyć, że służy on do wielu rzeczy.</p>
+<ul>
+<li>/proc/interrupts wskazuje jakie przerwania są aktualnie w
+użyciu</li>
+<li>/proc/cpuinfo daje szczegółowe informacje o naszym cpu</li>
+<li>/proc/meminfo daje informacje o dystrybucji i zuzyciu pamięci</li>
+<li>/proc/net/dev daje informacje o odebranych i przeslanych
+pakietach</li>
+</ul>
+<p>Jednak najważniejszymi katalogami dla nas, są te numeryczne.<br />
+Numery te odpowiadają PID procesu, a w środku możemy znaleźć szczegółowe
+informacje o tym procesie.</p>
+<h3
+id="dla-wybranego-przez-siebie-procesu-o-identyfikatorze-pid-wydrukuj-zawartość-katalogu-procpid.">Dla
+wybranego przez siebie procesu o identyfikatorze pid wydrukuj zawartość
+katalogu «/proc/pid».</h3>
+<div id="cb12" class="sourceCode">
+<div class="highlight"><pre><span></span>ls<span class="w"> </span>-la<span class="w"> </span>/proc/1/
+</pre></div>
+
+</div>
+<h3
+id="wyświetl-plik-zawierający-argumenty-programu-oraz-zmienne-środowiskowe.">Wyświetl
+plik zawierający argumenty programu oraz zmienne środowiskowe.</h3>
+<div id="cb13" class="sourceCode">
+<div class="highlight"><pre><span></span>cat<span class="w"> </span>/proc/<span class="nv">$$</span>/cmdline
+</pre></div>
+
+</div>
+<div id="cb14" class="sourceCode">
+<div class="highlight"><pre><span></span>cat<span class="w"> </span>/proc/<span class="nv">$$</span>/environ
+</pre></div>
+
+</div>
+<h3
+id="podaj-znaczenie-następujących-pól-pliku-status-uid-gid-groups-vmpeak-vmsize-vmrss-threads-voluntary_ctxt_switches-nonvoluntary_ctxt_switches.">Podaj
+znaczenie następujących pól pliku «status»: Uid, Gid, Groups, VmPeak,
+VmSize, VmRSS, Threads, voluntary_ctxt_switches,
+nonvoluntary_ctxt_switches.</h3>
+<div class="highlight"><pre><span></span>UWAGA! Prowadzący ćwiczenia nie zadowoli się cytowaniem podręcznika systemowego – trzeba wykazać się dociekliwością
+</pre></div>
+
+<p>No dobrze, jak nie man page, to <a
+href="https://docs.kernel.org/filesystems/proc.html">docsy
+kernela</a>.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Uid</td>
+<td>Real, effective, saved set, and file system UIDs</td>
+</tr>
+<tr class="even">
+<td>Gid</td>
+<td>Real, effective, saved set, and file system GIDs</td>
+</tr>
+<tr class="odd">
+<td>Groups</td>
+<td>supplementary group list</td>
+</tr>
+<tr class="even">
+<td>VmPeak</td>
+<td>peak virtual memory size</td>
+</tr>
+<tr class="odd">
+<td>VmSize</td>
+<td>total program size</td>
+</tr>
+<tr class="even">
+<td>VmRSS</td>
+<td>size of memory portions. It contains the three following parts
+(VmRSS = RssAnon + RssFile + RssShmem)</td>
+</tr>
+<tr class="odd">
+<td>Threads</td>
+<td>number of threads</td>
+</tr>
+<tr class="even">
+<td>voluntary_ctxt_switches</td>
+<td>number of voluntary context switches</td>
+</tr>
+<tr class="odd">
+<td>nonvoluntary_ctxt_switches</td>
+<td>number of non voluntary context switches</td>
+</tr>
+</tbody>
+</table>
+<p>A tak tłumacząc z kernelowego na chłopski:</p>
+<ul>
+<li>Uid - realny i efektywny id uzytkownika to zwykle ta sama wartość.
+Różnica jest wtedy gdy, wykonujemy program który ma ustawiony suid bit,
+wtedy real user id to nasz id, a effective id to id wlasciciela procesu.
+Gdy chcemy wykonać jakąś nieprzywilejowaną operację, to ustawiamy
+effective id na real id. Ponieważ straciliśmy nasze uprzywilejowane id w
+euid i ruid, to przydaje sie to Saved user ID, dzięki któremu znów
+wracamy do trybu uprzywilejowanego. <a href="#fn1" id="fnref1"
+class="footnote-ref" role="doc-noteref"><sup>1</sup></a></li>
+<li>Gid - podobnie jak z Uid. Czasami musimy należeć do jakiejś grupy,
+by wykonać jakieś operacje</li>
+<li>Groups - grupy do jakich należy proces, czy raczej wlasciciel
+procesu. To może być np. vboxusers, audio, sudo. <a
+href="https://unix.stackexchange.com/questions/469897/where-are-supplemental-groups-coming-from-in-proc-pid-status-are-they-always-i">Groupy
+są dziedziczone przez dzieci</a></li>
+<li>VmPeak - maksymalne zużycie pamięci jakie miało miejsce od startu
+procesu. Dla przykładu u mnie ff zjadł raz aż
+<code>VmPeak: 26404192 kB</code> pamięci wirtualnej</li>
+<li>VmSize - suma całej zmapowanej pamięci. Nie jest to pamięć fizyczna,
+tylko wirtualna.</li>
+<li>VmRSS - suma całej pamięci fizycznej używanej przez proces. Nie
+zawiera pamięci swap, on jest w VmSwap</li>
+<li>Threads - ilość wątków jakie utworzył proces</li>
+<li>voluntary_ctxt_switches - ilość context switches, które były
+dobrowolne, na przykład gdy proces czekał na operacje io, więc nastąpiło
+przełączenie kontekstu na inny proces</li>
+<li>nonvoluntary_ctxt_switches - ilość context switches, które nie były
+dobrowolne, czyli zostały wymuszone przez scheduler (zwykle, bo skończył
+się kwant czasu)</li>
+</ul>
+<h2 id="zadanie-4">Zadanie 4</h2>
+<div class="highlight"><pre><span></span>Zadanie 4. Znajdź pid procesu X-serwera, a następnie używając polecenia «pmap» wyświetl zawartość jego przestrzeni adresowej.  
+Zidentyfikuj w niej poszczególne zasoby pamięciowe – tj. stos, stertę, segmenty programu, pamięć anonimową, pliki odwzorowane w pamięć.  
+Należy wyjaśnić znaczenie kolumn wydruku!
+</pre></div>
+
+<div id="cb17" class="sourceCode">
+<div class="highlight"><pre><span></span>sudo<span class="w"> </span>pmap<span class="w"> </span><span class="k">$(</span>pgrep<span class="w"> </span>Xorg<span class="k">)</span>
+</pre></div>
+
+</div>
+<p>(właścicielem procesu jest root, więc trzeba użyć sudo)</p>
+<h3 id="stos">stos</h3>
+<div class="highlight"><pre><span></span>00007ffe38e11000    132K rw---   [ stack ]
+</pre></div>
+
+<p>stos jest klasycznie gdzieś daleko i jest do czytania i pisania, ale
+oczywiście nie do wykonania<a href="#fn2" id="fnref2"
+class="footnote-ref" role="doc-noteref"><sup>2</sup></a></p>
+<h3 id="sterta">sterta</h3>
+<p>Sterta często jest oznaczona w mapowaniu przez [heap]`, w tym
+przypadku jednak nie takiego wpisu.<br />
+Sterta to w zasadzie po prostu anonimowe<a href="#fn3" id="fnref3"
+class="footnote-ref" role="doc-noteref"><sup>3</sup></a> mapowanie,
+które ma flagi rw.</p>
+<p>W moim przypadku jest to najpewniej</p>
+<div id="cb19" class="sourceCode">
+<div class="highlight"><pre><span></span>000055a7434f0000<span class="w">    </span>248K<span class="w"> </span>rw---<span class="w">   </span><span class="o">[</span><span class="w"> </span>anon<span class="w"> </span><span class="o">]</span>
+000055a767dc1000<span class="w">  </span>22576K<span class="w"> </span>rw---<span class="w">   </span><span class="o">[</span><span class="w"> </span>anon<span class="w"> </span><span class="o">]</span>
+</pre></div>
+
+</div>
+<h3 id="segmenty">segmenty</h3>
+<p>Segmenty możemy z wywnioskować po nadanych im uprawnieniach</p>
+<div id="cb20" class="sourceCode">
+<div class="highlight"><pre><span></span>000055a74329a000<span class="w">    </span>132K<span class="w"> </span>r----<span class="w"> </span>Xorg
+000055a7432bb000<span class="w">   </span>1764K<span class="w"> </span>r-x--<span class="w"> </span>Xorg
+000055a743474000<span class="w">    </span>456K<span class="w"> </span>r----<span class="w"> </span>Xorg
+000055a7434e6000<span class="w">     </span>16K<span class="w"> </span>r----<span class="w"> </span>Xorg
+000055a7434ea000<span class="w">     </span>24K<span class="w"> </span>rw---<span class="w"> </span>Xorg
+</pre></div>
+
+</div>
+<p>r-x wskazują na .text segment r—- kod tylko do odczytu czyli pewnie
+.rodata rw— to pewnie .data albo .bss</p>
+<h3 id="pamięć-anonimowa-pliki-odwzorowane-w-pamięci">pamięć anonimowa,
+pliki odwzorowane w pamięci</h3>
+<p>Możemy użyć lsof, żeby sprawdzić jakie pliki są podmapowane przez
+proces</p>
+<div id="cb21" class="sourceCode">
+<div class="highlight"><pre><span></span>sudo<span class="w"> </span>lsof<span class="w"> </span>-p<span class="w"> </span><span class="k">$(</span>pgrep<span class="w"> </span>Xorg<span class="k">)</span>
+</pre></div>
+
+</div>
+<div id="cb22" class="sourceCode">
+<div class="highlight"><pre><span></span>---<span class="w"> </span>snip<span class="w"> </span>---
+Xorg<span class="w">    </span><span class="m">810</span><span class="w"> </span>root<span class="w"> </span>mem<span class="w">       </span>REG<span class="w">              </span><span class="m">254</span>,2<span class="w">    </span><span class="m">391280</span><span class="w">    </span><span class="m">3954085</span><span class="w"> </span>/usr/lib/libgobject-2.0.so.0.8200.1
+Xorg<span class="w">    </span><span class="m">810</span><span class="w"> </span>root<span class="w"> </span>mem<span class="w">       </span>REG<span class="w">              </span><span class="m">254</span>,2<span class="w">     </span><span class="m">47064</span><span class="w">    </span><span class="m">3979249</span><span class="w"> </span>/usr/lib/libgudev-1.0.so.0.3.0
+Xorg<span class="w">    </span><span class="m">810</span><span class="w"> </span>root<span class="w"> </span>mem<span class="w">       </span>REG<span class="w">              </span><span class="m">254</span>,2<span class="w">     </span><span class="m">79952</span><span class="w">    </span><span class="m">3962191</span><span class="w"> </span>/usr/lib/libevdev.so.2.3.0
+Xorg<span class="w">    </span><span class="m">810</span><span class="w"> </span>root<span class="w"> </span>mem<span class="w">       </span>REG<span class="w">              </span><span class="m">254</span>,2<span class="w">    </span><span class="m">351000</span><span class="w">    </span><span class="m">3962425</span><span class="w"> </span>/usr/lib/libinput.so.10.13.0
+Xorg<span class="w">    </span><span class="m">810</span><span class="w"> </span>root<span class="w"> </span>mem<span class="w">       </span>REG<span class="w">              </span><span class="m">254</span>,2<span class="w">     </span><span class="m">84128</span><span class="w">    </span><span class="m">4086692</span><span class="w"> </span>/usr/lib/xorg/modules/input/libinput_drv.so
+Xorg<span class="w">    </span><span class="m">810</span><span class="w"> </span>root<span class="w"> </span>mem<span class="w">       </span>REG<span class="w">              </span><span class="m">254</span>,2<span class="w">     </span><span class="m">84024</span><span class="w">    </span><span class="m">4086290</span><span class="w"> </span>/usr/lib/dri/libdril_dri.so
+Xorg<span class="w">    </span><span class="m">810</span><span class="w"> </span>root<span class="w"> </span>mem<span class="w">       </span>REG<span class="w">              </span><span class="m">254</span>,2<span class="w">    </span><span class="m">331288</span><span class="w">    </span><span class="m">3962552</span><span class="w"> </span>/usr/lib/libEGL_mesa.so.0.0.0
+Xorg<span class="w">    </span><span class="m">810</span><span class="w"> </span>root<span class="w"> </span>mem<span class="w">       </span>REG<span class="w">              </span><span class="m">254</span>,2<span class="w">   </span><span class="m">1310728</span><span class="w">   </span><span class="m">13107319</span><span class="w"> </span>/root/.cache/mesa_shader_cache_db/index
+Xorg<span class="w">    </span><span class="m">810</span><span class="w"> </span>root<span class="w"> </span>mem<span class="w">       </span>REG<span class="w">              </span><span class="m">254</span>,2<span class="w">   </span><span class="m">1099376</span><span class="w">    </span><span class="m">3977593</span><span class="w"> </span>/usr/lib/libepoxy.so.0.0.0
+Xorg<span class="w">    </span><span class="m">810</span><span class="w"> </span>root<span class="w"> </span>mem<span class="w">       </span>REG<span class="w">              </span><span class="m">254</span>,2<span class="w">  </span><span class="m">30737240</span><span class="w">    </span><span class="m">3949557</span><span class="w"> </span>/usr/lib/libicudata.so.75.1
+Xorg<span class="w">    </span><span class="m">810</span><span class="w"> </span>root<span class="w"> </span>mem<span class="w">       </span>REG<span class="w">              </span><span class="m">254</span>,2<span class="w">     </span><span class="m">55320</span><span class="w">    </span><span class="m">3962414</span><span class="w"> </span>/usr/lib/libwacom.so.9.0.0
+Xorg<span class="w">    </span><span class="m">810</span><span class="w"> </span>root<span class="w"> </span>mem<span class="w">       </span>REG<span class="w">              </span><span class="m">254</span>,2<span class="w">     </span><span class="m">56040</span><span class="w">    </span><span class="m">3962481</span><span class="w"> </span>/usr/lib/libwayland-client.so.0.23.1
+Xorg<span class="w">    </span><span class="m">810</span><span class="w"> </span>root<span class="w"> </span>mem<span class="w">       </span>REG<span class="w">              </span><span class="m">254</span>,2<span class="w">   </span><span class="m">2062384</span><span class="w">    </span><span class="m">3949577</span><span class="w"> </span>/usr/lib/libicuuc.so.75.1
+Xorg<span class="w">    </span><span class="m">810</span><span class="w"> </span>root<span class="w"> </span>mem<span class="w">       </span>REG<span class="w">              </span><span class="m">254</span>,2<span class="w">  </span><span class="m">22040176</span><span class="w">    </span><span class="m">3936357</span><span class="w"> </span>/usr/lib/libstdc++.so.6.0.33
+---<span class="w"> </span>snip<span class="w"> </span>---
+</pre></div>
+
+</div>
+<p>Z grubsza są to biblioteki.</p>
+<h2 id="zadanie-5">zadanie 5</h2>
+<div class="highlight"><pre><span></span><span class="nv">Zadanie</span><span class="w"> </span><span class="mi">5</span>.<span class="w"> </span><span class="nv">U</span>ż<span class="nv">ywaj</span>ą<span class="nv">c</span><span class="w"> </span><span class="nv">programu</span><span class="w"> </span>«<span class="nv">lsof</span>»<span class="w"> </span><span class="nv">wy</span>ś<span class="nv">wietl</span><span class="w"> </span><span class="nv">zasoby</span><span class="w"> </span><span class="nv">plikopodobne</span><span class="w"> </span><span class="nv">podpi</span>ę<span class="nv">te</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="nv">procesu</span><span class="w"> </span><span class="nv">przegl</span>ą<span class="nv">darki</span>
+«<span class="nv">firefox</span>».<span class="w">  </span>
+<span class="nv">Wyja</span>ś<span class="nv">nij</span><span class="w"> </span><span class="nv">znaczenie</span><span class="w"> </span><span class="nv">poszczeg</span>ó<span class="nv">lnych</span><span class="w"> </span><span class="nv">kolumn</span><span class="w"> </span><span class="nv">wykazu</span>,<span class="w"> </span><span class="nv">po</span><span class="w"> </span><span class="nv">czym</span><span class="w"> </span><span class="nv">zidentyfikuj</span><span class="w"> </span><span class="nv">pliki</span><span class="w"> </span><span class="nv">zwyk</span>ł<span class="nv">e</span>,<span class="w"> </span><span class="nv">katalogi</span>,<span class="w"> </span><span class="nv">urz</span>ą<span class="nv">dzenia</span>,<span class="w"> </span><span class="nv">gniazda</span><span class="w"> </span><span class="ss">(</span><span class="nv">sieciowe</span><span class="w"> </span><span class="nv">lub</span><span class="w"> </span><span class="nv">domeny</span><span class="w"> </span><span class="nv">uniksowej</span><span class="ss">)</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="nv">potoki</span>.<span class="w">  </span>
+<span class="nv">Przekieruj</span><span class="w"> </span><span class="nv">wyj</span>ś<span class="nv">cie</span><span class="w"> </span><span class="nv">z</span><span class="w"> </span><span class="nv">programu</span><span class="w"> </span>«<span class="nv">lsof</span>»,<span class="w"> </span><span class="nv">przed</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="nv">po</span><span class="w"> </span><span class="nv">otwarciu</span><span class="w"> </span><span class="nv">wybranej</span><span class="w"> </span><span class="nv">strony</span>,<span class="w"> </span><span class="nv">odpowiednio</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="nv">plik</span>ó<span class="nv">w</span><span class="w"> </span>«<span class="nv">before</span>»<span class="w"> </span><span class="nv">i</span><span class="w"> </span>«<span class="nv">after</span>».<span class="w">  </span>
+<span class="nv">Czy</span><span class="w"> </span><span class="nv">poleceniem</span><span class="w"> </span>«<span class="nv">diff</span><span class="w"> </span><span class="o">-</span><span class="nv">u</span><span class="w"> </span><span class="nv">before</span><span class="w"> </span><span class="nv">after</span>»<span class="w"> </span><span class="nv">jeste</span>ś<span class="w"> </span><span class="nv">w</span><span class="w"> </span><span class="nv">stanie</span><span class="w"> </span><span class="nv">zidentyfikowa</span>ć<span class="w"> </span><span class="nv">nowo</span><span class="w"> </span><span class="nv">utworzone</span><span class="w"> </span><span class="nv">po</span>łą<span class="nv">czenia</span><span class="w"> </span><span class="nv">sieciowe</span>?
+</pre></div>
+
+<h3 id="wyjaśnij-znaczenie-poszczególnych-kolumn-wykazu">Wyjaśnij
+znaczenie poszczególnych kolumn wykazu</h3>
+<ul>
+<li><p>COMMAND - pierwsze 9 znaków nazwy programu procesu</p></li>
+<li><p>PID - numer id procesu</p></li>
+<li><p>USER - numer/nazwa usera, do którego proces należy</p></li>
+<li><p>FD:</p></li>
+</ul>
+<div class="highlight"><pre><span></span><span class="nx">FD</span><span class="w">         </span><span class="k">is</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">File</span><span class="w"> </span><span class="nx">Descriptor</span><span class="w"> </span><span class="nx">number</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">file</span><span class="w"> </span><span class="k">or</span><span class="p">:</span>
+
+<span class="w">           </span><span class="nx">cwd</span><span class="w">  </span><span class="nx">current</span><span class="w"> </span><span class="nx">working</span><span class="w"> </span><span class="nx">directory</span><span class="p">;</span>
+<span class="w">           </span><span class="nx">Lnn</span><span class="w">  </span><span class="kn">library</span><span class="w"> </span><span class="nx">references</span><span class="w"> </span><span class="p">(</span><span class="nx">AIX</span><span class="p">);</span>
+<span class="w">           </span><span class="nx">ctty</span><span class="w"> </span><span class="nx">character</span><span class="w"> </span><span class="nx">tty</span><span class="p">;</span>
+<span class="w">           </span><span class="nx">DEL</span><span class="w">  </span><span class="nx">deleted</span><span class="w"> </span><span class="nx">file</span><span class="p">;</span>
+<span class="w">           </span><span class="nx">err</span><span class="w">  </span><span class="nx">FD</span><span class="w"> </span><span class="nx">information</span><span class="w"> </span><span class="nx">error</span><span class="w"> </span><span class="p">(</span><span class="nx">see</span><span class="w"> </span><span class="nx">NAME</span><span class="w"> </span><span class="nx">column</span><span class="p">);</span>
+<span class="w">           </span><span class="nx">fp</span><span class="p">.</span><span class="w">  </span><span class="nx">Fileport</span><span class="w"> </span><span class="p">(</span><span class="nx">Darwin</span><span class="p">);</span>
+<span class="w">           </span><span class="nx">jld</span><span class="w">  </span><span class="nx">jail</span><span class="w"> </span><span class="nx">directory</span><span class="w"> </span><span class="p">(</span><span class="nx">FreeBSD</span><span class="p">);</span>
+<span class="w">           </span><span class="nx">ltx</span><span class="w">  </span><span class="nx">shared</span><span class="w"> </span><span class="kn">library</span><span class="w"> </span><span class="nx">text</span><span class="w"> </span><span class="p">(</span><span class="nx">code</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">data</span><span class="p">);</span>
+<span class="w">           </span><span class="nx">Mxx</span><span class="w">  </span><span class="nx">hex</span><span class="w"> </span><span class="nx">memory</span><span class="o">-</span><span class="nx">mapped</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="nx">number</span><span class="w"> </span><span class="nx">xx</span><span class="p">.</span>
+<span class="w">           </span><span class="nx">m86</span><span class="w">  </span><span class="nx">DOS</span><span class="w"> </span><span class="nx">Merge</span><span class="w"> </span><span class="nx">mapped</span><span class="w"> </span><span class="nx">file</span><span class="p">;</span>
+<span class="w">           </span><span class="nx">mem</span><span class="w">  </span><span class="nx">memory</span><span class="o">-</span><span class="nx">mapped</span><span class="w"> </span><span class="nx">file</span><span class="p">;</span>
+<span class="w">           </span><span class="nx">mmap</span><span class="w"> </span><span class="nx">memory</span><span class="o">-</span><span class="nx">mapped</span><span class="w"> </span><span class="nx">device</span><span class="p">;</span>
+<span class="w">           </span><span class="nx">NOFD</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">Linux</span><span class="w"> </span><span class="o">/</span><span class="nx">proc</span><span class="o">/</span><span class="p">&lt;</span><span class="nx">PID</span><span class="p">&gt;</span><span class="o">/</span><span class="nx">fd</span><span class="w"> </span><span class="nx">directory</span><span class="w"> </span><span class="nx">that</span><span class="w"> </span><span class="nx">can</span><span class="err">&#39;</span><span class="nx">t</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="nx">opened</span><span class="w"> </span><span class="o">--</span>
+<span class="w">                </span><span class="nx">the</span><span class="w"> </span><span class="nx">directory</span><span class="w"> </span><span class="nx">path</span><span class="w"> </span><span class="nx">appears</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">NAME</span><span class="w"> </span><span class="nx">column</span><span class="p">,</span><span class="w"> </span><span class="nx">followed</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">an</span><span class="w"> </span><span class="nx">error</span>
+<span class="w">                </span><span class="nx">message</span><span class="p">;</span>
+<span class="w">           </span><span class="nx">pd</span><span class="w">   </span><span class="nx">parent</span><span class="w"> </span><span class="nx">directory</span><span class="p">;</span>
+<span class="w">           </span><span class="nx">Rnn</span><span class="w">  </span><span class="nx">unknown</span><span class="w"> </span><span class="nx">pregion</span><span class="w"> </span><span class="nx">number</span><span class="w"> </span><span class="p">(</span><span class="nx">HP</span><span class="o">-</span><span class="nx">UX</span><span class="p">);</span>
+<span class="w">           </span><span class="nx">rtd</span><span class="w">  </span><span class="nx">root</span><span class="w"> </span><span class="nx">directory</span><span class="p">;</span>
+<span class="w">           </span><span class="nx">twd</span><span class="w">  </span><span class="nx">per</span><span class="w"> </span><span class="nx">task</span><span class="w"> </span><span class="nx">current</span><span class="w"> </span><span class="nx">working</span><span class="w"> </span><span class="nx">directory</span><span class="p">;</span>
+<span class="w">           </span><span class="nx">txt</span><span class="w">  </span><span class="nx">program</span><span class="w"> </span><span class="nx">text</span><span class="w"> </span><span class="p">(</span><span class="nx">code</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">data</span><span class="p">);</span>
+<span class="w">           </span><span class="nx">v86</span><span class="w">  </span><span class="nx">VP</span><span class="o">/</span><span class="nx">ix</span><span class="w"> </span><span class="nx">mapped</span><span class="w"> </span><span class="nx">file</span><span class="p">;</span>
+</pre></div>
+
+<p>po FD jest litera, która oznacza tryb, w którym plik jest
+otwarty:</p>
+<ul>
+<li>r - tylko do odczytu</li>
+<li>w - tylko do pisania</li>
+<li>u - do odczytu i pisania</li>
+<li>jesli tryb jest nieznany, a dalej nie ma znaku blokady</li>
+<li>“-” jestli tryb jest nieznany, a dalej jest znak blokady</li>
+</ul>
+<p>Na pliki mogą być nałożone blokady, na przykład exclusive lock albo
+shared lock.</p>
+<ul>
+<li>Exclusive lock nie pozwala żadnemu innemu procesowi pisać ani czytać
+do pliku, dopóki doputy lock nie zostanie zniesiony.<br />
+</li>
+<li>Shared lock pozwala innym przeczytac plik i dopiero gdy wszyscy
+skończą czytać, to proces kontynuuje pisanie do pliku.</li>
+</ul>
+<p>Lockiem może być objęty cały plik, ale również i jego część.<br />
+Poniżej informacja z man page’a.</p>
+<div class="highlight"><pre><span></span>N for a Solaris NFS lock of unknown type;
+r for read lock on part of the file;
+R for a read lock on the entire file;
+w for a write lock on part of the file;
+W for a write lock on the entire file;
+u for a read and write lock of any length;
+U for a lock of unknown type;
+x for an SCO OpenServer Xenix lock on part of the file;
+X for an SCO OpenServer Xenix lock on the entire file;
+space if there is no lock.
+</pre></div>
+
+<ul>
+<li>TYPE - rodzaj węzła powiązanego z plikiem. Może to być inode, w
+kontekście systemu plików, ale też sockety, linki symboliczne, katalogi,
+wirtualne systemy plików i wiele innych.</li>
+</ul>
+<p>Lista typów jest dość długa, warto sprawdzić lsof(8).</p>
+<ul>
+<li>DEVICE - numer urządzenia. To może być urządzenie blokowe, znakowe,
+normalne</li>
+</ul>
+<div class="highlight"><pre><span></span>Te major number identifies
+the device driver and sometimes encodes which peripheral board to
+communicate with; the minor number identifies the specific subdevice. Recall
+from Figure 4.13 that a disk drive often contains several file systems. Each file
+system on the same disk drive would usually have the same major number, but
+a different minor number.
+</pre></div>
+
+<p><a href="#fn4" id="fnref4" class="footnote-ref"
+role="doc-noteref"><sup>4</sup></a></p>
+<p>Urządzenia blokowe i znakowe to po prostu pliki, które są abstrakcją
+dla urządzeń.<br />
+Dane pisane do takiego pliku, lecą potem do odpowiedniego
+sterownika.<br />
+Urządzenie blokowe jest seekable, działa jak normalny plik, a urządzenie
+znakowe na to nie pozwala.<a href="#fn5" id="fnref5"
+class="footnote-ref" role="doc-noteref"><sup>5</sup></a></p>
+<ul>
+<li>SIZE/OFF - rozmiar lub offset pliku.</li>
+</ul>
+<p>Jeśli typ to liczba decymalna to jest to rozmiar, jeśli rozpoczyna
+się od “0t” albo “0x”, to jest to offset.</p>
+<ul>
+<li>NODE - numer węzła, według danego typu.</li>
+<li>NAME - ścieżka do pliku.</li>
+</ul>
+<p>NAME może mieć bardzo wiele typów, więc też warto sprawdzić man
+page.</p>
+<h3
+id="po-czym-zidentyfikuj-pliki-zwykłe-katalogi-urządzenia-gniazda-sieciowe-lub-domeny-uniksowej-i-potoki.">…
+po czym zidentyfikuj pliki zwykłe, katalogi, urządzenia, gniazda
+(sieciowe lub domeny uniksowej) i potoki.</h3>
+<p>Pliki zwykłe mają typ REG, przykładowe rekordy (jest ich bardzo
+dużo):</p>
+<div id="cb27" class="sourceCode">
+<div class="highlight"><pre><span></span>firefox<span class="w"> </span><span class="m">1500</span><span class="w"> </span>crusom<span class="w"> </span>DEL<span class="w">       </span>REG<span class="w">                </span><span class="m">0</span>,1<span class="w">              </span><span class="m">28668</span><span class="w"> </span>/memfd:mozilla-ipc
+firefox<span class="w"> </span><span class="m">1500</span><span class="w"> </span>crusom<span class="w"> </span>mem<span class="w">       </span>REG<span class="w">              </span><span class="m">254</span>,2<span class="w">  </span><span class="m">43577564</span><span class="w">  </span><span class="m">4215382</span><span class="w"> </span>/usr/lib/firefox/browser/omni.ja
+firefox<span class="w"> </span><span class="m">1500</span><span class="w"> </span>crusom<span class="w"> </span>DEL<span class="w">       </span>REG<span class="w">                </span><span class="m">0</span>,1<span class="w">               </span><span class="m">1155</span><span class="w"> </span>/memfd:mozilla-ipc
+firefox<span class="w"> </span><span class="m">1500</span><span class="w"> </span>crusom<span class="w"> </span>mem<span class="w">       </span>REG<span class="w">              </span><span class="m">254</span>,2<span class="w">    </span><span class="m">180152</span><span class="w">  </span><span class="m">4077543</span><span class="w"> </span>/usr/share/mime/mime.cache
+firefox<span class="w"> </span><span class="m">1500</span><span class="w"> </span>crusom<span class="w"> </span>mem<span class="w">       </span>REG<span class="w">              </span><span class="m">254</span>,2<span class="w">  </span><span class="m">34409198</span><span class="w">  </span><span class="m">4229829</span><span class="w"> </span>/usr/lib/firefox/omni.ja
+firefox<span class="w"> </span><span class="m">1500</span><span class="w"> </span>crusom<span class="w"> </span>mem<span class="w">       </span>REG<span class="w">              </span><span class="m">254</span>,2<span class="w">     </span><span class="m">14312</span><span class="w">  </span><span class="m">3964011</span><span class="w"> </span>/usr/lib/libxcb-present.so.0.0.0
+firefox<span class="w"> </span><span class="m">1500</span><span class="w"> </span>crusom<span class="w"> </span>mem<span class="w">       </span>REG<span class="w">              </span><span class="m">254</span>,2<span class="w">     </span><span class="m">61664</span><span class="w">  </span><span class="m">4587976</span><span class="w"> </span>/var/cache/fontconfig/491f45a0a771fef1c10b9b647a97fb82-le64.cache-9
+</pre></div>
+
+</div>
+<p>Katalogi mają typ DIR, rekordy:</p>
+<div id="cb28" class="sourceCode">
+<div class="highlight"><pre><span></span>firefox<span class="w"> </span><span class="m">1500</span><span class="w"> </span>crusom<span class="w"> </span>cwd<span class="w">       </span>DIR<span class="w">              </span><span class="m">254</span>,2<span class="w">     </span><span class="m">53248</span><span class="w"> </span><span class="m">10747906</span><span class="w"> </span>/home/crusom
+firefox<span class="w"> </span><span class="m">1500</span><span class="w"> </span>crusom<span class="w"> </span>rtd<span class="w">       </span>DIR<span class="w">              </span><span class="m">254</span>,2<span class="w">      </span><span class="m">4096</span><span class="w">        </span><span class="m">2</span><span class="w"> </span>/
+</pre></div>
+
+</div>
+<ul>
+<li>cwd oznacza oczywiście obecny katalog, w którym proces się
+znajduje.</li>
+<li>rtd to root directory, standardowo jest to /, może być pewnie jednak
+inaczej, jeśli używamy chroota</li>
+</ul>
+<p>Urządzenia (blokowe lub znakowe) mają typ “BLK” lub “CHR”</p>
+<p>Mój proces firefoxa nie korzysta z urządzeń blokowych, korzysta
+natomiast ze znakowych:</p>
+<div id="cb29" class="sourceCode">
+<div class="highlight"><pre><span></span>firefox<span class="w"> </span><span class="m">1500</span><span class="w"> </span>crusom<span class="w">   </span>1w<span class="w">      </span>CHR<span class="w">                </span><span class="m">1</span>,3<span class="w">       </span>0t0<span class="w">        </span><span class="m">4</span><span class="w"> </span>/dev/null
+---<span class="w"> </span>snip<span class="w"> </span>---
+firefox<span class="w"> </span><span class="m">1500</span><span class="w"> </span>crusom<span class="w">  </span>15u<span class="w">      </span>CHR<span class="w">            </span><span class="m">226</span>,128<span class="w">       </span>0t0<span class="w">      </span><span class="m">406</span><span class="w"> </span>/dev/dri/renderD128
+---<span class="w"> </span>snip<span class="w"> </span>---
+firefox<span class="w"> </span><span class="m">1500</span><span class="w"> </span>crusom<span class="w">  </span>36u<span class="w">      </span>CHR<span class="w">              </span><span class="m">226</span>,1<span class="w">       </span>0t0<span class="w">      </span><span class="m">407</span><span class="w"> </span>/dev/dri/card1
+</pre></div>
+
+</div>
+<ul>
+<li>/dev/null to oczywiście urządzenie blokowe, do którego można wrzucać
+co chcemy i trafi do w nicość, i z którego można czytać zera.</li>
+<li>/dev/dri
+<code>Each GPU detected by DRM is referred to as a DRM device, and a device file /dev/dri/cardX (where X is a sequential number) is created to interface with it.</code><a
+href="#fn6" id="fnref6" class="footnote-ref"
+role="doc-noteref"><sup>6</sup></a></li>
+</ul>
+<p>Gniazda w komunikacji sieciowej najczęściej są to typy IPv4 i
+IPv6:</p>
+<div id="cb30" class="sourceCode">
+<div class="highlight"><pre><span></span>firefox<span class="w"> </span><span class="m">1500</span><span class="w"> </span>crusom<span class="w"> </span>208u<span class="w">     </span>unix<span class="w"> </span>0x00000000587bc5df<span class="w">       </span>0t0<span class="w">    </span><span class="m">15376</span><span class="w"> </span><span class="nv">type</span><span class="o">=</span>STREAM<span class="w"> </span><span class="o">(</span>CONNECTED<span class="o">)</span>
+firefox<span class="w"> </span><span class="m">1500</span><span class="w"> </span>crusom<span class="w"> </span>209u<span class="w">     </span>IPv4<span class="w">             </span><span class="m">508810</span><span class="w">       </span>0t0<span class="w">      </span>TCP<span class="w"> </span>crusomcarbon:53358-&gt;82.221.107.34.bc.googleusercontent.com:http<span class="w"> </span><span class="o">(</span>ESTABLISHED<span class="o">)</span>
+firefox<span class="w"> </span><span class="m">1500</span><span class="w"> </span>crusom<span class="w"> </span>210u<span class="w">     </span>unix<span class="w"> </span>0x0000000007b5c15c<span class="w">       </span>0t0<span class="w">     </span><span class="m">9815</span><span class="w"> </span><span class="nv">type</span><span class="o">=</span>STREAM<span class="w"> </span><span class="o">(</span>CONNECTED<span class="o">)</span>
+firefox<span class="w"> </span><span class="m">1500</span><span class="w"> </span>crusom<span class="w"> </span>211u<span class="w">     </span>unix<span class="w"> </span>0x00000000aa128069<span class="w">       </span>0t0<span class="w">    </span><span class="m">52172</span><span class="w"> </span><span class="nv">type</span><span class="o">=</span>STREAM<span class="w"> </span><span class="o">(</span>CONNECTED<span class="o">)</span>
+firefox<span class="w"> </span><span class="m">1500</span><span class="w"> </span>crusom<span class="w"> </span>212u<span class="w">     </span>unix<span class="w"> </span>0x000000003af7214a<span class="w">       </span>0t0<span class="w">    </span><span class="m">64791</span><span class="w"> </span><span class="nv">type</span><span class="o">=</span>SEQPACKET<span class="w"> </span><span class="o">(</span>CONNECTED<span class="o">)</span>
+firefox<span class="w"> </span><span class="m">1500</span><span class="w"> </span>crusom<span class="w"> </span>213u<span class="w">     </span>IPv6<span class="w">             </span><span class="m">514368</span><span class="w">       </span>0t0<span class="w">      </span>TCP<span class="w"> </span>crusomcarbon:55984-&gt;<span class="o">[</span><span class="m">2001</span>:67c:4e8:f004::9<span class="o">]</span>:https<span class="w"> </span><span class="o">(</span>ESTABLISHED<span class="o">)</span>
+</pre></div>
+
+</div>
+<p>unixowe:</p>
+<div id="cb31" class="sourceCode">
+<div class="highlight"><pre><span></span>firefox<span class="w"> </span><span class="m">1500</span><span class="w"> </span>crusom<span class="w"> </span>219u<span class="w">     </span>unix<span class="w"> </span>0x000000005bfd8788<span class="w">       </span>0t0<span class="w">   </span><span class="m">484730</span><span class="w"> </span><span class="nv">type</span><span class="o">=</span>STREAM<span class="w"> </span><span class="o">(</span>CONNECTED<span class="o">)</span>
+firefox<span class="w"> </span><span class="m">1500</span><span class="w"> </span>crusom<span class="w"> </span>220u<span class="w">     </span>unix<span class="w"> </span>0x00000000704b1572<span class="w">       </span>0t0<span class="w">    </span><span class="m">13269</span><span class="w"> </span><span class="nv">type</span><span class="o">=</span>SEQPACKET<span class="w"> </span><span class="o">(</span>CONNECTED<span class="o">)</span>
+</pre></div>
+
+</div>
+<p>Potoki mają typ “STR”, ale nie znalazłem żadnych otwartych plików z
+typem STR.</p>
+<h3
+id="przekieruj-wyjście-z-programu-lsof-przed-i-po-otwarciu-wybranej-strony-odpowiednio-do-plików-before-i-after.-czy-poleceniem-diff--u-before-after-jesteś-w-stanie-zidentyfikować-nowo-utworzone-połączenia-sieciowe">Przekieruj
+wyjście z programu «lsof», przed i po otwarciu wybranej strony,
+odpowiednio do plików «before» i «after». Czy poleceniem «diff -u before
+after» jesteś w stanie zidentyfikować nowo utworzone połączenia
+sieciowe?</h3>
+<div class="highlight"><pre><span></span><span class="o">[</span><span class="n">crusom@crusomcarbon 1</span><span class="o">]</span><span class="err">$</span><span class="w"> </span><span class="n">lsof</span><span class="w"> </span><span class="o">-</span><span class="n">c</span><span class="w"> </span><span class="n">firefox</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="k">before</span>
+<span class="o">[</span><span class="n">crusom@crusomcarbon 1</span><span class="o">]</span><span class="err">$</span><span class="w"> </span><span class="n">lsof</span><span class="w"> </span><span class="o">-</span><span class="n">c</span><span class="w"> </span><span class="n">firefox</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="k">after</span>
+</pre></div>
+
+<div id="cb33" class="sourceCode">
+<div class="highlight"><pre><span></span>diff<span class="w"> </span>-u<span class="w"> </span>before<span class="w"> </span>after<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-Ei<span class="w"> </span><span class="s1">&#39;(ipv4|ipv6)&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>+
+</pre></div>
+
+</div>
+<div id="cb34" class="sourceCode">
+<div class="highlight"><pre><span></span>+firefox<span class="w"> </span><span class="m">1500</span><span class="w"> </span>crusom<span class="w"> </span>303u<span class="w">     </span>IPv4<span class="w">             </span><span class="m">591749</span><span class="w">       </span>0t0<span class="w">      </span>TCP<span class="w"> </span>crusomcarbon:40576-&gt;linux.org.pl:https<span class="w"> </span><span class="o">(</span>ESTABLISHED<span class="o">)</span>
++firefox<span class="w"> </span><span class="m">1500</span><span class="w"> </span>crusom<span class="w"> </span>379u<span class="w">     </span>IPv6<span class="w">             </span><span class="m">603457</span><span class="w">       </span>0t0<span class="w">      </span>TCP<span class="w"> </span>crusomcarbon:53600-&gt;<span class="o">[</span><span class="m">2001</span>:67c:4e8:f004::9<span class="o">]</span>:https<span class="w"> </span><span class="o">(</span>ESTABLISHED<span class="o">)</span>
++firefox<span class="w"> </span><span class="m">1500</span><span class="w"> </span>crusom<span class="w"> </span>387u<span class="w">     </span>IPv6<span class="w">             </span><span class="m">603459</span><span class="w">       </span>0t0<span class="w">      </span>TCP<span class="w"> </span>crusomcarbon:53608-&gt;<span class="o">[</span><span class="m">2001</span>:67c:4e8:f004::9<span class="o">]</span>:https<span class="w"> </span><span class="o">(</span>ESTABLISHED<span class="o">)</span>
+</pre></div>
+
+</div>
+<div id="cb35" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="o">[</span>crusom@crusomcarbon<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>getent<span class="w"> </span>ahostsv6<span class="w"> </span>linux.org.pl
+<span class="m">2001</span>:41d0:601:1100::ce8<span class="w"> </span>STREAM<span class="w"> </span>linux.org.pl
+<span class="m">2001</span>:41d0:601:1100::ce8<span class="w"> </span>DGRAM
+<span class="m">2001</span>:41d0:601:1100::ce8<span class="w"> </span>RAW
+</pre></div>
+
+</div>
+<p>Rzeczywiście, udało mi się znaleźć nowo utworzone połączenia.</p>
+<h2 id="zadanie-6">zadanie 6</h2>
+<div class="highlight"><pre><span></span>Zadanie 6. Wbudowanym poleceniem powłoki «time» zmierz czas wykonania długo działającego procesu, np. polecenia «find /usr».  
+Czemu suma czasów user i sys (a) nie jest równa real (b) może być większa od real?  
+Poleceniem «ulimit» nałóż ograniczenie na czas wykonania procesów potomnych powłoki tak, by limit się wyczerpał. Uruchom ponownie wybrany program – który sygnał wysłano do procesu?
+</pre></div>
+
+<h3
+id="wbudowanym-poleceniem-powłoki-time-zmierz-czas-wykonania-długo-działającego-procesu-np.-polecenia-find-usr.-czemu-suma-czasów-user-i-sys-a-nie-jest-równa-real-b-może-być-większa-od-real">Wbudowanym
+poleceniem powłoki «time» zmierz czas wykonania długo działającego
+procesu, np. polecenia «find /usr». Czemu suma czasów user i sys (a) nie
+jest równa real (b) może być większa od real?</h3>
+<ol type="a">
+<li></li>
+</ol>
+<div id="cb37" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="o">[</span>crusom@crusomcarbon<span class="w"> </span><span class="m">1</span><span class="o">]</span>$<span class="w"> </span><span class="nb">time</span><span class="w"> </span>find<span class="w"> </span>/usr<span class="w"> </span>&gt;<span class="w"> </span>/dev/null
+real<span class="w">    </span>0m3.388s
+user<span class="w">    </span>0m0.531s
+sys<span class="w">     </span>0m1.142s
+</pre></div>
+
+</div>
+<p>man 1 time</p>
+<div class="highlight"><pre><span></span>These statistics consist of (i) the elapsed real time between
+       invocation and termination, (ii) the user CPU time (the sum of
+       the tms_utime and tms_cutime values in a struct tms as returned
+       by times(2)), and (iii) the system CPU time (the sum of the
+       tms_stime and tms_cstime values in a struct tms as returned by
+       times(2)).
+</pre></div>
+
+<ul>
+<li>real to rzeczywisty czas, który minął między wywołaniem a
+zakończeniem programu,</li>
+<li>user to suma tms_utime i tms_cutime</li>
+<li>sys to suma tms_stime i tms_cstime</li>
+</ul>
+<p>Zajrzyjmy teraz do man 1 times:</p>
+<ul>
+<li>tms_utime czas CPU spędzony na wykonywaniu instrukcji procesu
+wywołującego</li>
+<li>tms_cutime czas CPU spędzony na wykonywaniu instrukcji przez dzieci
+procesu wywołującego</li>
+<li>tms_stime czas CPU spędzony na wykonywaniu wewnątrz jądra podczas
+wykonując zadania w imieniu procesu wywołującego.</li>
+<li>tms_stime czas CPU spędzony na wykonywaniu wewnątrz jądra podczas
+wykonując zadania w imieniu dzieci procesu wywołującego.</li>
+</ul>
+<p>Więc:</p>
+<ul>
+<li>user - czas spędzony przez proces i dzieci na wykonywaniu
+instrukcji,</li>
+<li>sys - czas spędzony w kernelu, na wykonywaniu zadań dla procesu i
+jego dzieci,</li>
+</ul>
+<p>Ponieważ nasz proces nie zajmował całego czasu procesora, a jedynie
+jego część, to rzeczywisty czas wykonania programu może być dłuższy, bo
+zawiera w sobie też inne procesy.</p>
+<ol start="2" type="a">
+<li></li>
+</ol>
+<p>Ponieważ współczesne CPU mają w sobie kilka procesorów, to jeśli
+wystąpiła by sytuacja, że każdy z procesorów wykonuje nasz proces i jego
+dzieci, a potem kończy, to nasz czas user+sys będzie kilkukrotnie
+wyższy, niż real.<br />
+Konkretnie tylukrotnie wyższy ile mamy procesorów.</p>
+<h3
+id="poleceniem-ulimit-nałóż-ograniczenie-na-czas-wykonania-procesów-potomnych-powłoki-tak-by-limit-się-wyczerpał.-uruchom-ponownie-wybrany-program-który-sygnał-wysłano-do-procesu">Poleceniem
+«ulimit» nałóż ograniczenie na czas wykonania procesów potomnych powłoki
+tak, by limit się wyczerpał. Uruchom ponownie wybrany program – który
+sygnał wysłano do procesu?</h3>
+<p>Nakładamy limit na 1 sekunde korzystając z</p>
+<div id="cb39" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="nb">ulimit</span><span class="w"> </span>-t<span class="w"> </span><span class="m">1</span>
+</pre></div>
+
+</div>
+<div id="cb40" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="o">[</span>crusom@crusomcarbon<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span><span class="nb">time</span><span class="w"> </span>find<span class="w"> </span>/<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null
+Killed
+
+real<span class="w">    </span>0m1.004s
+user<span class="w">    </span>0m0.382s
+sys<span class="w">     </span>0m0.610s
+<span class="o">[</span>crusom@crusomcarbon<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$?</span>
+<span class="m">137</span>
+</pre></div>
+
+</div>
+<p>Widzimy napis Killed, a exit code programu to 137.<br />
+Sprawdzamy <a href="https://tldp.org/LDP/abs/html/exitcodes.html">liste
+exit code’ów</a> i widzimy, że kod 128+n oznacza
+<code>Fatal error signal "n"</code>.<br />
+Patrzymy na <a
+href="https://faculty.cs.niu.edu/~hutchins/csci480/signals.htm">liste
+sygnałów</a> i rzeczywiście 9 oznacza <code>SIGKILL</code></p>
+<h2 id="zadanie-7">zadanie 7</h2>
+<div class="highlight"><pre><span></span>Zadanie 7. Napisz program, który będzie prezentował, że pliki procesu są kopiowane przez referencję w trakcie wywołania fork(2).  
+W procesie głównym otwórz plik do odczytu open(2). Czy zamknięcie pliku close(2) w procesie głównym zamyka plik także w dziecku?  
+Czy odczyt z pliku read(2) zmienia pozycję kursora lseek(2) w drugim procesie? Wyjaśnij zachowanie swojego programu!  
+Przed każdym komunikatem diagnostycznym wypisz pid procesu.  
+W drugiej części zadania należy wydrukować bieżącą pozycję kursora pliku przed operacją odczytu z pliku.  
+Należy wykorzystać dostarczone funkcje opakowujące uniksowe wywołania systemowe z biblioteki libcsapp.
+</pre></div>
+
+<h3
+id="napisz-program-który-będzie-prezentował-że-pliki-procesu-są-kopiowane-przez-referencję-w-trakcie-wywołania-fork2.-w-procesie-głównym-otwórz-plik-do-odczytu-open2.-czy-zamknięcie-pliku-close2-w-procesie-głównym-zamyka-plik-także-w-dziecku">Napisz
+program, który będzie prezentował, że pliki procesu są kopiowane przez
+referencję w trakcie wywołania fork(2). W procesie głównym otwórz plik
+do odczytu open(2). Czy zamknięcie pliku close(2) w procesie głównym
+zamyka plik także w dziecku?</h3>
+<p>kod źródłowy 7.c</p>
+<div id="cb42" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;signal.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;fcntl.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdint.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/types.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;errno.h&gt;</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;include/csapp.h&quot;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Open</span><span class="p">(</span><span class="s">&quot;a.txt&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">O_RDONLY</span><span class="p">);</span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="n">buf</span><span class="p">[</span><span class="mh">0x100</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Signal</span><span class="p">(</span><span class="n">SIGCHLD</span><span class="p">,</span><span class="w"> </span><span class="n">SIG_IGN</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">SIG_ERR</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">perror</span><span class="p">(</span><span class="s">&quot;signal&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="kt">pid_t</span><span class="w"> </span><span class="n">pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Fork</span><span class="p">();</span>
+<span class="w">  </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">pid</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="mi">-1</span><span class="p">:</span>
+<span class="w">      </span><span class="n">perror</span><span class="p">(</span><span class="s">&quot;fork&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[%jd] Sleeping...</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getpid</span><span class="p">());</span>
+<span class="w">      </span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="w">      </span><span class="kt">ssize_t</span><span class="w"> </span><span class="n">r</span><span class="p">;</span>
+<span class="w">      </span><span class="k">if</span><span class="p">((</span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="n">buf</span><span class="p">,</span><span class="mh">0x10</span><span class="p">))</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[%jd] Read error! %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">intmax_t</span><span class="p">)</span><span class="w"> </span><span class="n">getpid</span><span class="p">(),</span><span class="w"> </span><span class="n">strerror</span><span class="p">(</span><span class="n">errno</span><span class="p">));</span>
+<span class="w">      </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">buf</span><span class="p">[</span><span class="n">r</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[%jd] successfuly read()! %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,(</span><span class="kt">intmax_t</span><span class="p">)</span><span class="w"> </span><span class="n">getpid</span><span class="p">(),</span><span class="w"> </span><span class="n">buf</span><span class="p">);</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[%jd] Exiting.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getpid</span><span class="p">());</span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span>
+<span class="w">    </span><span class="k">default</span><span class="o">:</span>
+<span class="w">      </span><span class="n">Close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[%jd] Closed fd</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getpid</span><span class="p">());</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[%jd] Exiting.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getpid</span><span class="p">());</span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+<p>Otwieramy plik, robimy forka, dziecko chwile czeka, zeby byc pewnym
+ze rodzic zamknął file descriptor, po czym czyta plik.</p>
+<p>Wykonanie programu:</p>
+<div id="cb43" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="o">[</span>crusom@crusomcarbon<span class="w"> </span><span class="m">1</span><span class="o">]</span>$<span class="w"> </span>./a.out
+<span class="o">[</span><span class="m">183062</span><span class="o">]</span><span class="w"> </span>Closed<span class="w"> </span>fd
+<span class="o">[</span><span class="m">183062</span><span class="o">]</span><span class="w"> </span>Exiting.
+<span class="o">[</span><span class="m">183063</span><span class="o">]</span><span class="w"> </span>Sleeping...
+<span class="o">[</span>crusom@crusomcarbon<span class="w"> </span><span class="m">1</span><span class="o">]</span>$<span class="w"> </span><span class="o">[</span><span class="m">183063</span><span class="o">]</span><span class="w"> </span>successfuly<span class="w"> </span>read<span class="o">()</span>!<span class="w"> </span>afsfdsafdsafda
+
+<span class="o">[</span><span class="m">183063</span><span class="o">]</span><span class="w"> </span>Exiting.
+</pre></div>
+
+</div>
+<p>Rzeczywiście udało się przeczytać plik.</p>
+<p>Sprawdźmy jakich syscalli używa fork(), użyjmy w tym celu narzędzia
+strace<br />
+Po otwarciu pliku pojawia się taki syscall</p>
+<div id="cb44" class="sourceCode">
+<div class="highlight"><pre><span></span>clone<span class="o">(</span><span class="nv">child_stack</span><span class="o">=</span>NULL,<span class="w"> </span><span class="nv">flags</span><span class="o">=</span>CLONE_CHILD_CLEARTID<span class="p">|</span>CLONE_CHILD_SETTID<span class="p">|</span>SIGCHLD,<span class="w"> </span><span class="nv">child_tidptr</span><span class="o">=</span>0x7a3cf526fa10<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">183669</span>
+</pre></div>
+
+</div>
+<p>Sprawdźmy w clone(2) czy możemy znaleźć jakąś flagę, która zmieni
+zachowanie programu z file descryptorami.</p>
+<div class="highlight"><pre><span></span>CLONE_FILES (since Linux 2.0)
+      If CLONE_FILES is set, the calling process and the child process share the same file descriptor table.  Any file descriptor created by the  calling  process  or  by  the  child
+      process  is  also  valid  in the other process.  Similarly, if one of the processes closes a file descriptor, or changes its associated flags (using the fcntl(2) F_SETFD opera‐
+      tion), the other process is also affected.  If a process sharing a file descriptor table calls execve(2), its file descriptor table is duplicated (unshared).
+
+      If CLONE_FILES is not set, the child process inherits a copy of all file descriptors opened in the calling process at the time of the clone call.   Subsequent  operations  that
+      open  or  close file descriptors, or change file descriptor flags, performed by either the calling process or the child process do not affect the other process.  Note, however,
+      that the duplicated file descriptors in the child refer to the same open file descriptions as the corresponding file descriptors in the calling process,  and  thus  share  file
+      offsets and file status flags (see open(2)).
+</pre></div>
+
+<p>W pliku 7_ptrace.c znajduje się kod, który robi to samo co wcześniej,
+z tym że podłącza ptrace i dodaje flage CLONE_FILES do syscalla clone,
+gdy jest wołany.</p>
+<div id="cb46" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="cp">#define _GNU_SOURCE</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/ptrace.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/types.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/wait.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/user.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/syscall.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;errno.h&gt;</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;signal.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;fcntl.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdint.h&gt;</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;include/csapp.h&quot;</span>
+
+<span class="cp">#define CLONE_FILES 0x00000400</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">monitor_clone</span><span class="p">(</span><span class="kt">pid_t</span><span class="w"> </span><span class="n">child</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">status</span><span class="p">;</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">user_regs_struct</span><span class="w"> </span><span class="n">regs</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">status</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">WIFEXITED</span><span class="p">(</span><span class="n">status</span><span class="p">))</span><span class="w"> </span><span class="k">break</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ptrace</span><span class="p">(</span><span class="n">PTRACE_GETREGS</span><span class="p">,</span><span class="w"> </span><span class="n">child</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">regs</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">regs</span><span class="p">.</span><span class="n">orig_rax</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">SYS_clone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">regs</span><span class="p">.</span><span class="n">rdi</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">CLONE_FILES</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Dodajemy CLONE_FILES do flag</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">regs</span><span class="p">.</span><span class="n">rdi</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="n">CLONE_FILES</span><span class="p">;</span>
+<span class="w">        </span><span class="n">ptrace</span><span class="p">(</span><span class="n">PTRACE_SETREGS</span><span class="p">,</span><span class="w"> </span><span class="n">child</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">regs</span><span class="p">);</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// continue the process</span>
+<span class="w">    </span><span class="n">ptrace</span><span class="p">(</span><span class="n">PTRACE_SYSCALL</span><span class="p">,</span><span class="w"> </span><span class="n">child</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kt">pid_t</span><span class="w"> </span><span class="n">child</span><span class="p">;</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">signal</span><span class="p">(</span><span class="n">SIGCHLD</span><span class="p">,</span><span class="w"> </span><span class="n">SIG_IGN</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">SIG_ERR</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">perror</span><span class="p">(</span><span class="s">&quot;signal&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="n">child</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Fork</span><span class="p">();</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">child</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ptrace</span><span class="p">(</span><span class="n">PTRACE_TRACEME</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ret</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ptrace(PTRACE_TRACEM) error: %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">strerror</span><span class="p">(</span><span class="n">errno</span><span class="p">));</span>
+<span class="w">      </span><span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">kill</span><span class="p">(</span><span class="n">getpid</span><span class="p">(),</span><span class="w"> </span><span class="n">SIGSTOP</span><span class="p">);</span><span class="w"> </span><span class="c1">// Zatrzymujemy proces, czekając na rodzica</span>
+
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Open</span><span class="p">(</span><span class="s">&quot;a.txt&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">O_RDONLY</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">buf</span><span class="p">[</span><span class="mh">0x100</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+
+<span class="w">    </span><span class="kt">pid_t</span><span class="w"> </span><span class="n">pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Fork</span><span class="p">();</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pid</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[%jd] Sleeping...</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getpid</span><span class="p">());</span>
+<span class="w">      </span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">      </span><span class="kt">ssize_t</span><span class="w"> </span><span class="n">r</span><span class="p">;</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[%jd] Trying to read()</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getpid</span><span class="p">());</span>
+<span class="w">      </span><span class="k">if</span><span class="p">((</span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="n">buf</span><span class="p">,</span><span class="mh">0x10</span><span class="p">))</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[%jd] Error in read()! %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,(</span><span class="kt">intmax_t</span><span class="p">)</span><span class="w"> </span><span class="n">getpid</span><span class="p">(),</span><span class="w"> </span><span class="n">strerror</span><span class="p">(</span><span class="n">errno</span><span class="p">));</span>
+<span class="w">      </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">buf</span><span class="p">[</span><span class="n">r</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[%jd] Successful read()! %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,(</span><span class="kt">intmax_t</span><span class="p">)</span><span class="w"> </span><span class="n">getpid</span><span class="p">(),</span><span class="w"> </span><span class="n">buf</span><span class="p">);</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[%jd] Exiting.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getpid</span><span class="p">());</span>
+<span class="w">      </span><span class="n">exit</span><span class="p">(</span><span class="n">EXIT_SUCCESS</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">Close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[%jd] closed</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getpid</span><span class="p">());</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[%jd] Sleeping...</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getpid</span><span class="p">());</span>
+<span class="w">      </span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[%jd] Exiting.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getpid</span><span class="p">());</span>
+<span class="w">      </span><span class="n">exit</span><span class="p">(</span><span class="n">EXIT_SUCCESS</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Wait</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ptrace</span><span class="p">(</span><span class="n">PTRACE_SYSCALL</span><span class="p">,</span><span class="w"> </span><span class="n">child</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">monitor_clone</span><span class="p">(</span><span class="n">child</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+<div id="cb47" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="o">[</span>crusom@crusomcarbon<span class="w"> </span><span class="m">1</span><span class="o">]</span>$<span class="w"> </span>./a.out
+Dodajemy<span class="w"> </span>CLONE_FILES<span class="w"> </span><span class="k">do</span><span class="w"> </span>flag
+<span class="o">[</span><span class="m">192448</span><span class="o">]</span><span class="w"> </span>Sleeping...
+<span class="o">[</span><span class="m">192447</span><span class="o">]</span><span class="w"> </span>closed
+<span class="o">[</span><span class="m">192447</span><span class="o">]</span><span class="w"> </span>Sleeping...
+<span class="o">[</span><span class="m">192448</span><span class="o">]</span><span class="w"> </span>Trying<span class="w"> </span>to<span class="w"> </span>read<span class="o">()</span>
+<span class="o">[</span><span class="m">192448</span><span class="o">]</span><span class="w"> </span>Error<span class="w"> </span><span class="k">in</span><span class="w"> </span>read<span class="o">()</span>!<span class="w"> </span>Bad<span class="w"> </span>file<span class="w"> </span>descriptor
+<span class="o">[</span><span class="m">192448</span><span class="o">]</span><span class="w"> </span>Exiting.
+<span class="o">[</span><span class="m">192447</span><span class="o">]</span><span class="w"> </span>Exiting.
+</pre></div>
+
+</div>
+<p>Jak widać z flagą CLONE_FILES, dziecko i rodzic dzielą te samą
+tablice deskryptorów.</p>
+<h3
+id="czy-odczyt-z-pliku-read2-zmienia-pozycję-kursora-lseek2-w-drugim-procesie-wyjaśnij-zachowanie-swojego-programu">Czy
+odczyt z pliku read(2) zmienia pozycję kursora lseek(2) w drugim
+procesie? Wyjaśnij zachowanie swojego programu!</h3>
+<div id="cb48" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;signal.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;fcntl.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdint.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/types.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;errno.h&gt;</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;include/csapp.h&quot;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="n">pen</span><span class="p">(</span><span class="s">&quot;a.txt&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">O_RDONLY</span><span class="p">);</span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="n">buf</span><span class="p">[</span><span class="mh">0x100</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">signal</span><span class="p">(</span><span class="n">SIGCHLD</span><span class="p">,</span><span class="w"> </span><span class="n">SIG_IGN</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">SIG_ERR</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">perror</span><span class="p">(</span><span class="s">&quot;signal&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="kt">pid_t</span><span class="w"> </span><span class="n">pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Fork</span><span class="p">();</span>
+<span class="w">  </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">pid</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="mi">-1</span><span class="p">:</span>
+<span class="w">      </span><span class="n">perror</span><span class="p">(</span><span class="s">&quot;fork&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span>
+<span class="w">      </span><span class="kt">off_t</span><span class="w"> </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lseek</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">SEEK_CUR</span><span class="p">);</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[%jd] offset position %jd</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getpid</span><span class="p">(),</span><span class="w"> </span><span class="n">position</span><span class="p">);</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[%jd] Sleeping</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getpid</span><span class="p">());</span>
+<span class="w">      </span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="w">      </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lseek</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">SEEK_CUR</span><span class="p">);</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[%jd] offset position %jd</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getpid</span><span class="p">(),</span><span class="w"> </span><span class="n">position</span><span class="p">);</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[%jd] Exiting.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getpid</span><span class="p">());</span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span>
+<span class="w">    </span><span class="k">default</span><span class="o">:</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[%jd] Sleeping</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getpid</span><span class="p">());</span>
+<span class="w">      </span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[%jd] Read file</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getpid</span><span class="p">());</span>
+<span class="w">      </span><span class="n">Read</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="n">buf</span><span class="p">,</span><span class="mh">0x10</span><span class="p">);</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[%jd] Sleeping</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getpid</span><span class="p">());</span>
+<span class="w">      </span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[%jd] Exiting.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getpid</span><span class="p">());</span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+<p>Pozycja kursora zmieniła się też w dziecku!<br />
+Dlaczego? Wyjaśnia to fork(2)</p>
+<div class="highlight"><pre><span></span>The child inherits copies of the parent&#39;s set of open file descriptors.  
+Each file descriptor in the child refers to the same open file description (see open(2)) as the corresponding file descriptor in the parent.  
+This means that the two file descriptors share open file status flags, file offset, and signal-driven I/O attributes  (see  the  description  of F_SETOWN and F_SETSIG in fcntl(2)).
+</pre></div>
+
+<p>File descriptor to taki troche pointer do file description.<br />
+Close() sprawia, że ten “pointer” nie jest już dłużej możliwy do użytku,
+ale file description dalej żyje.</p>
+<h2 id="zadanie-8">Zadanie 8</h2>
+<div class="highlight"><pre><span></span>Rozwiąż problem n hetmanów6 z użyciem fork(2) i waitpid(2). Gdy w i-tym elemencie tablicy «board» przechowywana jest wartość j znaczy to, że pozycja i-tego hetmana na szachownicy to (i, j).  
+Mając niekonfliktujące ustawienie pierwszych k − 1 hetmanów po kolei startuj n podprocesów z proponowanym ustawieniem k-tego hetmana.  
+Podproces, który wykryje konfliktujące ustawienie hetmanów, ma zakończyć swe działanie. W przeciwnym wypadku zachowuje się jak rodzic dla k + 1 hetmana.  
+Podproces, który uzyska prawidłowe ustawienie n hetmanów, ma wydrukować je na standardowe wyjście.  
+Procedura «ndselect» wraca wielokrotnie z kolejnymi liczbami z zakresu 0...n − 1.
+</pre></div>
+
+<div id="cb51" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;include/csapp.h&quot;</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">;</span>
+<span class="cp">#define myexit() do { close(fd); exit(EXIT_SUCCESS); } while(0);</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">ndselect</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="cm">/* TODO: A loop is missing here that spawns processes and waits for them! */</span>
+<span class="w">  </span><span class="c1">// ojciec bierze kolejne dzieci</span>
+<span class="w">  </span><span class="kt">pid_t</span><span class="w"> </span><span class="n">children</span><span class="p">[</span><span class="n">n</span><span class="p">];</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">pid_t</span><span class="w"> </span><span class="n">pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Fork</span><span class="p">();</span>
+<span class="w">    </span><span class="n">children</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pid</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pid</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="c1">// ojciec czeka na dzieci, zeby po nich posprzatac</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">    </span><span class="n">waitpid</span><span class="p">(</span><span class="n">children</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">myexit</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">conflict</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">y1</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">x2</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">y2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">x2</span>
+<span class="w">    </span><span class="o">||</span><span class="w"> </span><span class="n">y1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">y2</span>
+<span class="w">    </span><span class="o">||</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">y1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">x2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">y2</span>
+<span class="w">    </span><span class="o">||</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">y1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">x2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">y2</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">print_line_sep</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">size</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span>
+<span class="w">    </span><span class="n">dprintf</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="s">&quot;+---&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">dprintf</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="s">&quot;+</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">print_board</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">board</span><span class="p">[</span><span class="n">size</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">size</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">print_line_sep</span><span class="p">(</span><span class="n">size</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">size</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">j</span><span class="p">)</span>
+<span class="w">      </span><span class="n">dprintf</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="s">&quot;|%s&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot; Q &quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;   &quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">dprintf</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="s">&quot;|</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="n">print_line_sep</span><span class="p">(</span><span class="n">size</span><span class="p">);</span>
+<span class="w">  </span><span class="n">dprintf</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">argv</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="w">    </span><span class="n">app_error</span><span class="p">(</span><span class="s">&quot;Usage: %s [SIZE]&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">9</span><span class="p">)</span>
+<span class="w">    </span><span class="n">app_error</span><span class="p">(</span><span class="s">&quot;Give board size in range from 4 to 9!&quot;</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">fd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Open</span><span class="p">(</span><span class="s">&quot;het.txt&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">O_RDWR</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">O_CREAT</span><span class="p">,</span><span class="w"> </span><span class="mo">0644</span><span class="p">);</span>
+
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">board</span><span class="p">[</span><span class="n">size</span><span class="p">];</span>
+<span class="w">  </span><span class="n">memset</span><span class="p">(</span><span class="n">board</span><span class="p">,</span><span class="mi">-1</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">board</span><span class="p">));</span>
+<span class="w">  </span><span class="c1">// tworzymy wszystkie mozliwe kombinacje planszy</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">size</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ndselect</span><span class="p">(</span><span class="n">size</span><span class="p">);</span>
+<span class="w">    </span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// sprawdzamy czy działa</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">size</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">size</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="k">continue</span><span class="p">;</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">conflict</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">board</span><span class="p">[</span><span class="n">j</span><span class="p">]))</span>
+<span class="w">        </span><span class="n">myexit</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="k">while</span><span class="p">(</span><span class="n">lockf</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="n">F_TLOCK</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="n">puts</span><span class="p">(</span><span class="s">&quot;locked...</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);};</span>
+<span class="w">  </span><span class="n">print_board</span><span class="p">(</span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">board</span><span class="p">);</span>
+<span class="w">  </span><span class="n">lockf</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="n">F_ULOCK</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+<p>Tworzymy wszystkie możliwe wariacje planszy i sprawdzamy czy nie ma
+konfliktów.<br />
+Używamy lockf, aby dać procesowi eksluzywny dostęp do pliku, żeby mógł w
+całości wyprintować plansze.<br />
+Gdy zdejmie blokade, to kolejny proces będzie mógł wyprintować.<br />
+W pliku het.txt znajdują się nasze rozwiązania.</p>
+<h1 id="footnotes">Footnotes</h1>
+<hr />
+<ol>
+<li><div id="fn1">
+<p><a
+href="https://stackoverflow.com/questions/32455684/difference-between-real-user-id-effective-user-id-and-saved-user-id"
+class="uri">https://stackoverflow.com/questions/32455684/difference-between-real-user-id-effective-user-id-and-saved-user-id</a><a
+href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p>
+</div></li>
+<li><div id="fn2">
+<p><a href="https://en.wikipedia.org/wiki/NX_bit"
+class="uri">https://en.wikipedia.org/wiki/NX_bit</a><a href="#fnref2"
+class="footnote-back" role="doc-backlink">↩︎</a></p>
+</div></li>
+<li><div id="fn3">
+<p>anonimowy znaczy tyle, że mapowanie nie jest powiązane z żadnym
+plikiem<a href="#fnref3" class="footnote-back"
+role="doc-backlink">↩︎</a></p>
+</div></li>
+<li><div id="fn4">
+<p>APUE 4.24<a href="#fnref4" class="footnote-back"
+role="doc-backlink">↩︎</a></p>
+</div></li>
+<li><div id="fn5">
+<p><a
+href="https://unix.stackexchange.com/questions/60034/what-are-character-special-and-block-special-files-in-a-unix-system"
+class="uri">https://unix.stackexchange.com/questions/60034/what-are-character-special-and-block-special-files-in-a-unix-system</a><a
+href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p>
+</div></li>
+<li><div id="fn6">
+<p><a href="https://en.wikipedia.org/wiki/Direct_Rendering_Manager"
+class="uri">https://en.wikipedia.org/wiki/Direct_Rendering_Manager</a><a
+href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p>
+</div></li>
+</ol>
+  </body>
+</html>

@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="date" content=''>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/../style.css"/>
+
+    <title>writeup</title>
+
+  </head>
+  <body>
+
+<ul>
+<li><a href="#zadanie-1" id="toc-zadanie-1">Zadanie 1</a>
+<ul>
+<li><a
+href="#czym-różni-się-przetwarzanie-równoległe-ang.-parallel-od-przetwarzania-współbieżnego-ang.-concurrent"
+id="toc-czym-różni-się-przetwarzanie-równoległe-ang.-parallel-od-przetwarzania-współbieżnego-ang.-concurrent">Czym
+różni się przetwarzanie równoległe (ang. parallel) od przetwarzania
+współbieżnego (ang. concurrent)?</a></li>
+<li><a
+href="#czym-charakteryzują-się-procedury-wielobieżne-ang.-reentrant"
+id="toc-czym-charakteryzują-się-procedury-wielobieżne-ang.-reentrant">Czym
+charakteryzują się procedury wielobieżne (ang. reentrant)?</a></li>
+<li><a
+href="#podaj-przykład-procedury-w-języku-c-a-wielobieżnej-ale-nie-wielowątkowo-bezpiecznej-ang.-mt-safe-b-na-odwrót."
+id="toc-podaj-przykład-procedury-w-języku-c-a-wielobieżnej-ale-nie-wielowątkowo-bezpiecznej-ang.-mt-safe-b-na-odwrót.">Podaj
+przykład procedury w języku C (a) wielobieżnej, ale nie
+wielowątkowo-bezpiecznej (ang. MT-safe) (b) na odwrót.</a></li>
+</ul></li>
+<li><a href="#zadanie-2" id="toc-zadanie-2">Zadanie 2</a>
+<ul>
+<li><a href="#zadanie-3" id="toc-zadanie-3">Zadanie 3</a></li>
+<li><a href="#zadanie-4" id="toc-zadanie-4">Zadanie 4</a></li>
+</ul></li>
+</ul>
+<h2 id="zadanie-1">Zadanie 1</h2>
+<div class="highlight"><pre><span></span>Zadanie 1. Czym różni się przetwarzanie równoległe (ang. parallel) od przetwarzania współbieżnego
+(ang. concurrent)? Czym charakteryzują się procedury wielobieżne (ang. reentrant)? Podaj przykład
+procedury w języku C (a) wielobieżnej, ale nie wielowątkowo-bezpiecznej (ang. MT-safe) (b) na odwrót.
+Kiedy w jednowątkowym procesie uniksowym może wystąpić współbieżność?
+</pre></div>
+
+<h3
+id="czym-różni-się-przetwarzanie-równoległe-ang.-parallel-od-przetwarzania-współbieżnego-ang.-concurrent">Czym
+różni się przetwarzanie równoległe (ang. parallel) od przetwarzania
+współbieżnego (ang. concurrent)?</h3>
+<p>Przetwarzanie równoległe jest wtedy gdy dzieje się kilka różnych
+rzeczy (na przykład działa kilka różnych wątków), ale niekonicznie w tym
+samym czasie (time-slicing itp.).<br />
+Przetwarzanie współbieżne kiedy mamy kilka procesorów i rzeczy dosłownie
+dzieją się w tym samym czasie (na odrębnych procesorach).</p>
+<div class="highlight"><pre><span></span>Concurrency                 Concurrency + parallelism
+(Single-Core CPU)           (Multi-Core CPU)
+ ___                         ___ ___
+|th1|                       |th1|th2|
+|   |                       |   |___|
+|___|___                    |   |___
+    |th2|                   |___|th2|
+ ___|___|                    ___|___|
+|th1|                       |th1|
+|___|___                    |   |___
+    |th2|                   |   |th2|
+</pre></div>
+
+<h3
+id="czym-charakteryzują-się-procedury-wielobieżne-ang.-reentrant">Czym
+charakteryzują się procedury wielobieżne (ang. reentrant)?</h3>
+<p>Procedura wielobieżna to taka procedura, która może zostać przerwana
+i wywołana jeszcze raz.<br />
+W szczególności są to signal handlery.</p>
+<h3
+id="podaj-przykład-procedury-w-języku-c-a-wielobieżnej-ale-nie-wielowątkowo-bezpiecznej-ang.-mt-safe-b-na-odwrót.">Podaj
+przykład procedury w języku C (a) wielobieżnej, ale nie
+wielowątkowo-bezpiecznej (ang. MT-safe) (b) na odwrót.</h3>
+<ol type="a">
+<li></li>
+</ol>
+<div id="cb3" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="cm">/* We save the global state in a local variable and we restore</span>
+<span class="cm">   it at the end of the function.  The function is now reentrant</span>
+<span class="cm">   but it is not thread safe. */</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="n">t</span><span class="p">;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">swap</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">y</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">s</span><span class="p">;</span>
+<span class="w">    </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="p">;</span>
+<span class="w">    </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">x</span><span class="p">;</span>
+<span class="w">    </span><span class="o">*</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">y</span><span class="p">;</span>
+<span class="w">    </span><span class="o">*</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="p">;</span>
+<span class="w">    </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+<ol start="2" type="a">
+<li></li>
+</ol>
+<div id="cb4" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="cm">/* We use a thread local variable: the function is now</span>
+<span class="cm">   thread-safe but still not reentrant (within the</span>
+<span class="cm">   same thread). */</span>
+
+<span class="n">__thread</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">t</span><span class="p">;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">swap</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">y</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">x</span><span class="p">;</span>
+<span class="w">    </span><span class="o">*</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">y</span><span class="p">;</span>
+<span class="w">    </span><span class="o">*</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+<p>Źródło: <a href="https://stackoverflow.com/a/33445858"></a> ### Kiedy
+w jednowątkowym procesie uniksowym może wystąpić współbieżność? Obsługa
+przerwań jest współbieżna de facto, przerwanie może przyjść w dowolnym
+momencie i wykonujemy wtedy inny kawałek kodu</p>
+<h2 id="zadanie-2">Zadanie 2</h2>
+<div class="highlight"><pre><span></span>Zadanie 2. Wybierz odpowiedni scenariusz zachowania wątków, w którym konkurują o dostęp do zasobów,
+i na tej podstawie precyzyjnie opisz zjawisko zakleszczenia (ang. deadlock), uwięzienia (ang. livelock)
+oraz głodzenia (ang. starvation).
+</pre></div>
+
+<p>Deadlock - wątek A czeka na zwolnienie zasobu przez wątek B, ale
+wątek B czeka na zwolnienie zasobu przez wątek A.</p>
+<p><img src="./assets/deadlock.png" /></p>
+<p>Livelock - jak deadlock, ale oba wątki zmieniają swój stan, tak że
+nadal się blokują. Przykładem jest sytuacja gdzie 2 osoby spotykają się
+w wąskim korytarzu i jedna drugiej chce ustąpić w tym samym
+czasie.<br />
+Starvation - scheduling lub eventy odbywają się w taki sposób, że wątek
+nigdy nie może się ruszyć</p>
+<h3 id="zadanie-3">Zadanie 3</h3>
+<div class="highlight"><pre><span></span>Zadanie 3. W poniższym programie występuje sytuacja wyścigu (ang. race condition) dotycząca dostępów
+do współdzielonej zmiennej «tally». Wyznacz jej najmniejszą i największą możliwą wartość.
+1 const int n = 50;
+2 shared int tally = 0;
+3
+4 void total() {
+5 for (int count = 1; count &lt;= n; count++)
+6 tally = tally + 1;
+7 }
+8
+9 void main() { parbegin (total(), total()); }
+Dyrektywa «parbegin» rozpoczyna współbieżne wykonanie procesów. Maszyna wykonuje instrukcje arytme-
+tyczne wyłącznie na rejestrach – tj. kompilator musi załadować wartość zmiennej «tally» do rejestru, przed
+wykonaniem dodawania. Jak zmieni się przedział możliwych wartości zmiennej «tally», gdy wystartujemy
+k procesów zamiast dwóch? Odpowiedź uzasadnij pokazując przeplot, który prowadzi do określonego wyniku
+</pre></div>
+
+<div id="cb7" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="c1">; jesli za kazdym razem drugi proces wykona ciag tych 3 instrukcji, przed tym jak pobralismy stara wartosc, to bedziemy miec max, czyli 100</span>
+<span class="nf">mov</span><span class="w"> </span><span class="no">rax</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="no">tally</span><span class="p">]</span>
+<span class="c1">; jesli za kazdym razem drugi proces wykona ciag tych 3 instrukcji, po tym jak pobralismy stara wartosc, to bedziemy miec minimum czyli 50</span>
+<span class="nf">add</span><span class="w"> </span><span class="no">rax</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span>
+<span class="nf">mov</span><span class="w"> </span><span class="p">[</span><span class="no">tally</span><span class="p">],</span><span class="w"> </span><span class="no">rax</span>
+</pre></div>
+
+</div>
+<h3 id="zadanie-4">Zadanie 4</h3>
+<div class="highlight"><pre><span></span>Zadanie 4. Podaj procedury wątków POSIX, które pełnią podobną funkcję co fork(2), exit(3), waitpid(2),
+atexit(3) oraz abort(3) na procesach.  
+Opisz semantykę podanych funkcji i powiedz gdzie się różnią od swoich odpowiedników na procesach.  
+Porównaj zachowanie wątków złączalnych (ang. joinable) i odczepionych (ang. detached).  
+Zauważ, że w systemie Linux procedura pthread_create odpowiada za utworzenie reprezentacji wątku w przestrzeni użytkownika, 
+w tym utworzenie stosu i uruchomienie wątku przy pomocy wywołania clone(2).  
+Kto zatem odpowiada za usunięcie segmentu stosu z przestrzeni użytkownika, gdy wątek złączalny albo odczepiony zakończy pracę? 
+Pomocne może być zajrzenie do implementacji funkcji pthread_exit, pthread_join i __unmapself
+</pre></div>
+  </body>
+</html>

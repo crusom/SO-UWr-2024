@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="date" content=''>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/../style.css"/>
+
+    <title>writeup</title>
+
+  </head>
+  <body>
+
+<ul>
+<li><a href="#zadanie-1" id="toc-zadanie-1">Zadanie 1</a>
+<ul>
+<li><a href="#kiedy-procedura-free-może-zwrócić-pamięć-do-jądra"
+id="toc-kiedy-procedura-free-może-zwrócić-pamięć-do-jądra">Kiedy
+procedura free może zwrócić pamięć do jądra?</a></li>
+</ul></li>
+<li><a href="#zadanie-2" id="toc-zadanie-2">Zadanie 2</a>
+<ul>
+<li><a
+href="#wyjaśnij-różnicę-między-fragmentacją-wewnętrzną-i-zewnętrzną."
+id="toc-wyjaśnij-różnicę-między-fragmentacją-wewnętrzną-i-zewnętrzną.">Wyjaśnij
+różnicę między fragmentacją wewnętrzną i zewnętrzną.</a></li>
+<li><a href="#czemu-algorytm-malloc-nie-można-stosować-kompaktowania"
+id="toc-czemu-algorytm-malloc-nie-można-stosować-kompaktowania">Czemu
+algorytm malloc nie można stosować kompaktowania?</a></li>
+<li><a
+href="#na-podstawie-6-2.3-opowiedz-o-dwóch-głównych-przyczynach-występowania-fragmentacji-zewnętrznej."
+id="toc-na-podstawie-6-2.3-opowiedz-o-dwóch-głównych-przyczynach-występowania-fragmentacji-zewnętrznej.">Na
+podstawie [6, §2.3] opowiedz o dwóch głównych przyczynach występowania
+fragmentacji zewnętrznej.</a></li>
+</ul></li>
+<li><a href="#zadanie-3" id="toc-zadanie-3">Zadanie 3</a></li>
+<li><a href="#todo" id="toc-todo">TODO</a>
+<ul>
+<li><a
+href="#exploiting-ordering-and-size-dependencies-wyjaśnij-jaki-jest-związek-między-czasem-życia-bloku-a-jego-rozmiarem"
+id="toc-exploiting-ordering-and-size-dependencies-wyjaśnij-jaki-jest-związek-między-czasem-życia-bloku-a-jego-rozmiarem">„Exploiting
+ordering and size dependencies” wyjaśnij jaki jest związek między czasem
+życia bloku, a jego rozmiarem?</a></li>
+<li><a
+href="#wyjaśnij-różnice-między-politykami-znajdowania-wolnych-bloków-first-fit-next-fit-i-best-fit.-na-podstawie-6-3.4-wymień-ich-słabe-i-mocne-strony"
+id="toc-wyjaśnij-różnice-między-politykami-znajdowania-wolnych-bloków-first-fit-next-fit-i-best-fit.-na-podstawie-6-3.4-wymień-ich-słabe-i-mocne-strony">Wyjaśnij
+różnice między politykami znajdowania wolnych bloków: first-fit,
+next-fit i best-fit. Na podstawie [6, §3.4] wymień ich słabe i mocne
+strony</a></li>
+<li><a href="#first-fit" id="toc-first-fit">first-fit</a></li>
+<li><a href="#next-fit" id="toc-next-fit">next-fit</a></li>
+<li><a href="#best-fit" id="toc-best-fit">best-fit</a></li>
+<li><a href="#zadanie-4" id="toc-zadanie-4">Zadanie 4</a></li>
+<li><a href="#zadanie-5" id="toc-zadanie-5">Zadanie 5</a>
+<ul>
+<li><a
+href="#rozważ-zastosowanie-leniwego-złączania-wolnych-bloków-w-algorytmie-kubełkowym-przydziału-pamięci-jakie-problemy-zauważasz"
+id="toc-rozważ-zastosowanie-leniwego-złączania-wolnych-bloków-w-algorytmie-kubełkowym-przydziału-pamięci-jakie-problemy-zauważasz">Rozważ
+zastosowanie leniwego złączania wolnych bloków w algorytmie kubełkowym
+przydziału pamięci – jakie problemy zauważasz?</a></li>
+</ul></li>
+</ul></li>
+</ul>
+<h2 id="zadanie-1">Zadanie 1</h2>
+<div class="highlight"><pre><span></span>Na użytek przydziału i zwalniania stron pamięci w przestrzeni użytkownika systemy uniksowe
+udostępniają wywołania systemowe sbrk(2) oraz parę mmap(2) i munmap(2). Jakie są wady stosowania sbrk
+do zarządzania rozmiarem sterty przez biblioteczny algorytm zarządzania pamięcią malloc(3)? Jak można
+to poprawić przy pomocy mmap i munmap? Kiedy procedura free może zwrócić pamięć do jądra?
+</pre></div>
+
+<p>Wykonajmy następujący program, który alokuje dużą ilość pamięci</p>
+<div class="highlight"><pre><span></span>   1 #include &lt;stdio.h&gt;
+   2 #include &lt;stdlib.h&gt;
+   3 int main() {
+   4   int *a = malloc(1024*1024*1024);
+ ► 5   int *b = malloc(1024);
+   6 }
+</pre></div>
+
+<div id="cb3" class="sourceCode">
+<div class="highlight"><pre><span></span>pwndbg&gt;<span class="w"> </span>print<span class="w"> </span>a
+<span class="nv">$1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">(</span>int<span class="w"> </span>*<span class="o">)</span><span class="w"> </span>0x7fffb7c00010
+pwndbg&gt;<span class="w"> </span>vmmap
+LEGEND:<span class="w"> </span>STACK<span class="w"> </span><span class="p">|</span><span class="w"> </span>HEAP<span class="w"> </span><span class="p">|</span><span class="w"> </span>CODE<span class="w"> </span><span class="p">|</span><span class="w"> </span>DATA<span class="w"> </span><span class="p">|</span><span class="w"> </span>RWX<span class="w"> </span><span class="p">|</span><span class="w"> </span>RODATA
+<span class="w">             </span>Start<span class="w">                </span>End<span class="w"> </span>Perm<span class="w">     </span>Size<span class="w"> </span>Offset<span class="w"> </span>File
+<span class="w">    </span>0x555555554000<span class="w">     </span>0x555555555000<span class="w"> </span>r--p<span class="w">     </span><span class="m">1000</span><span class="w">      </span><span class="m">0</span><span class="w"> </span>/tmp/a.out
+<span class="w">    </span>0x555555555000<span class="w">     </span>0x555555556000<span class="w"> </span>r-xp<span class="w">     </span><span class="m">1000</span><span class="w">   </span><span class="m">1000</span><span class="w"> </span>/tmp/a.out
+<span class="w">    </span>0x555555556000<span class="w">     </span>0x555555557000<span class="w"> </span>r--p<span class="w">     </span><span class="m">1000</span><span class="w">   </span><span class="m">2000</span><span class="w"> </span>/tmp/a.out
+<span class="w">    </span>0x555555557000<span class="w">     </span>0x555555558000<span class="w"> </span>r--p<span class="w">     </span><span class="m">1000</span><span class="w">   </span><span class="m">2000</span><span class="w"> </span>/tmp/a.out
+<span class="w">    </span>0x555555558000<span class="w">     </span>0x555555559000<span class="w"> </span>rw-p<span class="w">     </span><span class="m">1000</span><span class="w">   </span><span class="m">3000</span><span class="w"> </span>/tmp/a.out
+<span class="w">    </span>0x555555559000<span class="w">     </span>0x55555557a000<span class="w"> </span>rw-p<span class="w">    </span><span class="m">21000</span><span class="w">      </span><span class="m">0</span><span class="w"> </span><span class="o">[</span>heap<span class="o">]</span>
+<span class="w">    </span>0x7fffb7c00000<span class="w">     </span>0x7ffff7c01000<span class="w"> </span>rw-p<span class="w"> </span><span class="m">40001000</span><span class="w">      </span><span class="m">0</span><span class="w"> </span><span class="o">[</span>anon_7fffb7c00<span class="o">]</span>
+</pre></div>
+
+</div>
+<p>Jak widzimy nasza duża alokacja dostała swoje własne mapowanie.<br />
+Jak widzimy kolejna, mniejsza, alokacja znajduje sie już na standardowej
+stercie.<br />
+Jeśli teraz zwolnimy dużą alokacje, to zostanie ona oddana do systemu
+poleceniem munmap.</p>
+<p>Jeśli byśmy zaalowali dużo pamięci na początku sterty, po czym
+zwiększyli jej rozmiar za pomocą sbrk, zaalokowali mniejszy blok i
+zwolnili duży blok, to powstałaby luka, ponieważ niemielibyśmy jak oddać
+tej pamięci do systemu.</p>
+<div class="highlight"><pre><span></span>duzy=malloc(1024*1024*1024)
+ --------------------
+ |                  |
+ |     Duzy blok    | 
+ |                  |
+ --------------------
+maly=alloc(1024):
+ --------------------------------
+ |                  |           |
+ |     Duzy blok    | Maly blok |
+ |                  |           |
+ --------------------------------
+free(duzy)
+ --------------------------------
+ |                  |           |
+ |     Wolny blok   | Maly blok |
+ |                  |           |
+ --------------------------------
+</pre></div>
+
+<h3 id="kiedy-procedura-free-może-zwrócić-pamięć-do-jądra">Kiedy
+procedura free może zwrócić pamięć do jądra?</h3>
+<p>Albo munmap albo gdy zwolnimy ostatni blok na stercie.<br />
+Można wtedy wykonać sbrk z wartością ujemną.</p>
+<h2 id="zadanie-2">Zadanie 2</h2>
+<div class="highlight"><pre><span></span>Zadanie 2. Wyjaśnij różnicę między fragmentacją wewnętrzną i zewnętrzną.  
+Czemu algorytm malloc nie można stosować kompaktowania?  
+Na podstawie [6, §2.3] opowiedz o dwóch głównych przyczynach występowania fragmentacji zewnętrznej.
+</pre></div>
+
+<h3
+id="wyjaśnij-różnicę-między-fragmentacją-wewnętrzną-i-zewnętrzną.">Wyjaśnij
+różnicę między fragmentacją wewnętrzną i zewnętrzną.</h3>
+<p>Wewnętrzna gdy mamy niewykorzystną przestrzeń w środku bloku</p>
+<div class="highlight"><pre><span></span>Caused by
+ Overhead of maintaining heap data structures
+ Padding for alignment purposes
+ Explicit policy decisions
+(e.g., to return a big block to satisfy a small request)
+</pre></div>
+
+<p>Zewnętrzna gdy mamy dużo przerw między blokami, które nie są na tyle
+duże, aby je wykorzystać, ale byłyby na tyle duże, gdyby ta wolna pamięć
+była po sobie.</p>
+<h3 id="czemu-algorytm-malloc-nie-można-stosować-kompaktowania">Czemu
+algorytm malloc nie można stosować kompaktowania?</h3>
+<p>Bo pointery się popsują</p>
+<h3
+id="na-podstawie-6-2.3-opowiedz-o-dwóch-głównych-przyczynach-występowania-fragmentacji-zewnętrznej.">Na
+podstawie [6, §2.3] opowiedz o dwóch głównych przyczynach występowania
+fragmentacji zewnętrznej.</h3>
+<div class="highlight"><pre><span></span>Fragmentation is caused by isolated deaths
+</pre></div>
+
+<p>W skrócie, w zbiorze wielu zaalokowanych bloków zwolniony zostaje
+jeden blok a reszta nie.</p>
+<p>Istotne jest więc czy obiekty leżą obok siebie i czy są zwalniane w
+podobnym czasie.</p>
+<div class="highlight"><pre><span></span>Fragmentation is caused by time-varying behavior.
+</pre></div>
+
+<p>Program może alokować pamięć na różne sposoby w czasie wykonania
+programu.<br />
+Na przyklad na starcie moze zaalokowac duze obiekty, takie jak jakis
+kontekst i bufory, a potem mniejsze obiekty. Alokator powinien radzić
+sobie z takimi scenariuszami.</p>
+<h2 id="zadanie-3">Zadanie 3</h2>
+<div class="highlight"><pre><span></span>Zadanie 3. Posługując się wykresem wykorzystania pamięci w trakcie życia procesu opowiedz o trzech  wzorcach przydziału pamięci występujących w programach [6 , §2.4]. Na podstawie paragrafu zatytułowanego
+„Exploiting ordering and size dependencies” wyjaśnij jaki jest związek między czasem życia bloku, a jego rozmiarem?  
+Wyjaśnij różnice między politykami znajdowania wolnych bloków: first-fit, next-fit i best-fit.
+Na podstawie [6, §3.4] wymień ich słabe i mocne strony
+</pre></div>
+
+<h1 id="todo">TODO</h1>
+<p><img src="./assets/fig1.png" /></p>
+<div class="highlight"><pre><span></span>Peaks. Many programs use memory in bursty pat-
+terns, building up relatively large data structures
+which are used for the duration of a particular
+phase, and then discarding most or all of those
+data structures. Note that the “surviving” data
+structures are likely to be of different types, be-
+cause they represent the results of a phase, as op-
+posed to intermediate values which may be rep-
+resented differently. (A peak is like a ramp, but
+of shorter duration.)
+</pre></div>
+
+<p>Widzimy sporo peaków</p>
+<p><img src="./assets/fig2.png" /></p>
+<div class="highlight"><pre><span></span>Ramps. Many programs accumulate certain data
+structures monotonically over time. This may be
+because they keep a log of events, or because
+the problem-solving strategy requires building a
+large representation, after which a solution can
+be found quickly.
+</pre></div>
+
+<p><img src="./assets/fig3.png" /></p>
+<div class="highlight"><pre><span></span>Plateaus. Many programs build up data struc-
+tures quickly, and then use those data structures
+for long periods (often nearly the whole running
+time of the program)
+</pre></div>
+
+<h3
+id="exploiting-ordering-and-size-dependencies-wyjaśnij-jaki-jest-związek-między-czasem-życia-bloku-a-jego-rozmiarem">„Exploiting
+ordering and size dependencies” wyjaśnij jaki jest związek między czasem
+życia bloku, a jego rozmiarem?</h3>
+<p>Bloki zaalokowane w tym samym czasie o tym samym rozmiarze mają spore
+prawdopodobieństwo, że zostaną również zwolnione w tym samym
+czasie.<br />
+Opłaca się więc nam alokować bloki tego samego rozmiaru ciągle
+(continuous) w pamięci, aby zostały zwolnione jednocześnie.</p>
+<h3
+id="wyjaśnij-różnice-między-politykami-znajdowania-wolnych-bloków-first-fit-next-fit-i-best-fit.-na-podstawie-6-3.4-wymień-ich-słabe-i-mocne-strony">Wyjaśnij
+różnice między politykami znajdowania wolnych bloków: first-fit,
+next-fit i best-fit. Na podstawie [6, §3.4] wymień ich słabe i mocne
+strony</h3>
+<h3 id="first-fit">first-fit</h3>
+<p>znajduje pierwszy wolny blok wystarczajaco duzy, zeby zmiescic
+request. Jak blok jest wiekszy niz request to blok jest
+splitowany.<br />
+Powoduje powstanie wielu malych wolnych blokow na poczatku, co wydluza
+czas oczekiwania na wiekszy request.</p>
+<h3 id="next-fit">next-fit</h3>
+<p>first-fit ale rozpoczyna szukanie od ostatniej pozycji na ktorej
+skonczyl.<br />
+Szybciej znajdzie wolny blok, ale spowoduje fragmentacje, bloki z
+roznych faz programu przeplataja sie, wiec pewnie tez nie bedzie mozna
+ich złączyć i jest gorsze locality</p>
+<h3 id="best-fit">best-fit</h3>
+<p>Szuka jak najlepszego bloku spelniajacego request. Musi przeszukać
+całą listę, co zajmuje dlugo, chyba ze znajdzie blok o idealnym
+rozmiarze.<br />
+Do tego jesli znajdzie blok tylko troche wiekszy, to tworzy bardzo male
+wolne bloki. Poniewaz takie skanowanie calej listy zajmuje dlugo czasu,
+to slabo sie nadaje dla programow, ktore maja wiele zwolnionych
+blokow.</p>
+<h2 id="zadanie-4">Zadanie 4</h2>
+<div class="highlight"><pre><span></span>Zadanie 4. Algorytm przydziału pamięci udostępnia funkcje o sygnaturach «alloc: words -&gt; id» i «free:
+id -&gt; void» i ma do dyspozycji obszar 50 słów maszynowych. Funkcja «alloc» zwraca bloki o identyfikato-
+rach będącymi kolejnymi literami alfabetu. Zwracane adresy są podzielne przez rozmiar słowa maszynowego.
+Implementacja używa dwukierunkowej listy wolnych bloków oraz boundary tags bez optymalizacji. Wyszuki-
+wanie wolnych bloków działa zgodnie z polityką best-fit. Operacja zwalniania gorliwie złącza bloki i wstawia
+wolne bloki na koniec listy. Posługując się diagramem z wykładu wykonaj krokową symulację algorytmu
+przydziału pamięci dla poniższego ciągu żądań. Należy wziąć pod uwagę miejsce zajmowane przez struktury
+danych algorytmu przydziału oraz nieużytki.
+alloc(4) alloc(8) alloc(4) alloc(4) alloc(10) alloc(6)
+free(C) free(B) free(F) alloc(6) free(D) alloc(18)
+Czy coś by się zmieniło, gdyby algorytm wykorzystywał politykę first-fit?
+Wskazówka: Wolny blok można podzielić na dwa mniejsze pod warunkiem, że obydwa mogą pomieścić węzeł listy wolnych
+bloków. W przeciwnym wypadku nie można tego zrobić i trzeba wziąć blok, który jest dłuższy o mały nieużytek
+</pre></div>
+
+<p>Na chłopski rozum</p>
+<h2 id="zadanie-5">Zadanie 5</h2>
+<div class="highlight"><pre><span></span>Rozważmy algorytm kubełkowy [ 6, §3.6] (ang. segregated-fit) przydziału pamięci z gorliwym złączaniem wolnych bloków.  
+Porównaj go z algorytmem, który zarządza jedną listą wolnych bloków zgodnie ze strategią best-fit. 
+Jak przebiegają operacje «malloc» i «free»? 
+Co robi «malloc», gdy na danej liście nie ma wolnego bloku żądanego rozmiaru? 
+Gdzie należałoby przechowywać węzeł strażnik (ang. sentinel node) każdej z list wolnych bloków? 
+Rozważ zastosowanie leniwego złączania wolnych bloków w algorytmie kubełkowym przydziału pamięci – jakie problemy zauważasz?
+</pre></div>
+
+<h3
+id="rozważ-zastosowanie-leniwego-złączania-wolnych-bloków-w-algorytmie-kubełkowym-przydziału-pamięci-jakie-problemy-zauważasz">Rozważ
+zastosowanie leniwego złączania wolnych bloków w algorytmie kubełkowym
+przydziału pamięci – jakie problemy zauważasz?</h3>
+<p>Dłuższy czas przydzielania pamięci dla większych bloków. Muszą one
+sprawdzić wszystkie małe wolne bloki i dopiero potem przejsc przez
+procedure złączania i uzyskac blok.</p>
+  </body>
+</html>

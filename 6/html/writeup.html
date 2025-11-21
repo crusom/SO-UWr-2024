@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="date" content=''>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/../style.css"/>
+
+    <title>writeup</title>
+
+  </head>
+  <body>
+
+<ul>
+<li><a href="#zadanie-1" id="toc-zadanie-1">Zadanie 1</a>
+<ul>
+<li><a
+href="#czy-proces-z-tożsamością-ruid0-euid1000-suid1000-jest-uprzywilejowany-odpowiedź-uzasadnij"
+id="toc-czy-proces-z-tożsamością-ruid0-euid1000-suid1000-jest-uprzywilejowany-odpowiedź-uzasadnij">Czy
+proces z tożsamością ruid=0, euid=1000, suid=1000 jest uprzywilejowany?
+Odpowiedź uzasadnij</a></li>
+</ul></li>
+<li><a href="#zadanie-2" id="toc-zadanie-2">Zadanie 2</a>
+<ul>
+<li><a
+href="#jaką-rolę-pełnią-bity-uprawnień-rwx-dla-katalogów-w-systemach-uniksowych-opisz-znaczenie-bitów-set-gid-i-sticky-dla-katalogów."
+id="toc-jaką-rolę-pełnią-bity-uprawnień-rwx-dla-katalogów-w-systemach-uniksowych-opisz-znaczenie-bitów-set-gid-i-sticky-dla-katalogów.">Jaką
+rolę pełnią bity uprawnień «rwx» dla katalogów w systemach uniksowych?
+Opisz znaczenie bitów «set-gid» i «sticky» dla katalogów.</a></li>
+</ul></li>
+<li><a href="#zadanie-3" id="toc-zadanie-3">Zadanie 3</a>
+<ul>
+<li><a
+href="#jaką-tożsamość-będzie-miał-na-początku-proces-wykonujący-su-jeśli-przed-execve2-było-euid1000"
+id="toc-jaką-tożsamość-będzie-miał-na-początku-proces-wykonujący-su-jeśli-przed-execve2-było-euid1000">Jaką
+tożsamość będzie miał na początku proces wykonujący «su», jeśli przed
+execve(2) było euid=1000?</a></li>
+<li><a
+href="#zreferuj-działanie-uproszczonej-wersji-programu-su1-zakładając-że-wszystkie-wywołania-systemowe-kończą-się-bez-błędów-a-użytkownik-zdołał-się-uwierzytelnić.-skoncentruj-się-na-funkcjach-czytających-bazę-danych-użytkowników-odczytujących-i-sprawdzających-hasło-oraz-zmieniających-tożsamość-procesu."
+id="toc-zreferuj-działanie-uproszczonej-wersji-programu-su1-zakładając-że-wszystkie-wywołania-systemowe-kończą-się-bez-błędów-a-użytkownik-zdołał-się-uwierzytelnić.-skoncentruj-się-na-funkcjach-czytających-bazę-danych-użytkowników-odczytujących-i-sprawdzających-hasło-oraz-zmieniających-tożsamość-procesu.">Zreferuj
+działanie uproszczonej wersji programu su1 zakładając, że wszystkie
+wywołania systemowe kończą się bez błędów, a użytkownik zdołał się
+uwierzytelnić. Skoncentruj się na funkcjach czytających bazę danych
+użytkowników, odczytujących i sprawdzających hasło, oraz zmieniających
+tożsamość procesu.</a></li>
+</ul></li>
+<li><a href="#zadanie-4" id="toc-zadanie-4">Zadanie 4</a>
+<ul>
+<li><a
+href="#na-podstawie-38.2-i-38.3-wyjaśnij-czemu-programy-uprzywilejowane-należy-projektować-w-taki-sposób-by-operowały-z-najmniejszym-możliwym-zestawem-upoważnień-ang.-the-least-privilege."
+id="toc-na-podstawie-38.2-i-38.3-wyjaśnij-czemu-programy-uprzywilejowane-należy-projektować-w-taki-sposób-by-operowały-z-najmniejszym-możliwym-zestawem-upoważnień-ang.-the-least-privilege.">Na
+podstawie §38.2 i §38.3 wyjaśnij czemu programy uprzywilejowane należy
+projektować w taki sposób, by operowały z najmniejszym możliwym zestawem
+upoważnień (ang. the least privilege).</a></li>
+<li><a
+href="#zapoznaj-się-z-39.1-i-wytłumacz-czemu-standardowy-zestaw-funkcji-systemu-uniksowego-do-implementacji-programów-uprzywilejowanych-jest-niewystarczający.-jak-starają-się-to-naprawić-zdolności-ang.-capabilities"
+id="toc-zapoznaj-się-z-39.1-i-wytłumacz-czemu-standardowy-zestaw-funkcji-systemu-uniksowego-do-implementacji-programów-uprzywilejowanych-jest-niewystarczający.-jak-starają-się-to-naprawić-zdolności-ang.-capabilities">Zapoznaj
+się z §39.1 i wytłumacz czemu standardowy zestaw funkcji systemu
+uniksowego do implementacji programów uprzywilejowanych jest
+niewystarczający. Jak starają się to naprawić zdolności (ang.
+capabilities)?</a></li>
+<li><a
+href="#dla-nieuprzywilejowanego-procesu-posiadającego-zdolności-cap_dac_read_search-i-cap_kill-jądro-pomija-sprawdzanie-upoważnień-do-wykonywania-pewnych-akcji-wymień-je."
+id="toc-dla-nieuprzywilejowanego-procesu-posiadającego-zdolności-cap_dac_read_search-i-cap_kill-jądro-pomija-sprawdzanie-upoważnień-do-wykonywania-pewnych-akcji-wymień-je.">Dla
+nieuprzywilejowanego procesu posiadającego zdolności
+«CAP_DAC_READ_SEARCH» i «CAP_KILL» jądro pomija sprawdzanie upoważnień
+do wykonywania pewnych akcji – wymień je.</a></li>
+<li><a
+href="#kiedy-proces-użytkownika-może-wysłać-sygnał-do-innego-procesu"
+id="toc-kiedy-proces-użytkownika-może-wysłać-sygnał-do-innego-procesu">Kiedy
+proces użytkownika może wysłać sygnał do innego procesu?</a></li>
+</ul></li>
+<li><a href="#zadanie-5" id="toc-zadanie-5">Zadanie 5</a>
+<ul>
+<li><a
+href="#jakie-zadania-pełni-procedura-exit3-z-biblioteki-standardowej"
+id="toc-jakie-zadania-pełni-procedura-exit3-z-biblioteki-standardowej">Jakie
+zadania pełni procedura exit(3) z biblioteki standardowej?</a></li>
+<li><a
+href="#opisz-problemy-z-buforowaniem-plików-które-mogą-wystąpić-dla-strumieni-biblioteki-stdio3-w-przypadku-użycia-wywołań-fork2-execve2-i-_exit2."
+id="toc-opisz-problemy-z-buforowaniem-plików-które-mogą-wystąpić-dla-strumieni-biblioteki-stdio3-w-przypadku-użycia-wywołań-fork2-execve2-i-_exit2.">Opisz
+problemy z buforowaniem plików, które mogą wystąpić dla strumieni
+biblioteki stdio(3) w przypadku użycia wywołań fork(2), execve(2) i
+_exit(2).</a></li>
+<li><a
+href="#jak-zapobiec-tym-problemom-jaka-jest-domyślna-strategia-buforowania-strumienia-związanego-z-a-plikiem-terminala-b-plikiem-zwykłym-c-standardowym-wyjściem-błędów-stderr."
+id="toc-jak-zapobiec-tym-problemom-jaka-jest-domyślna-strategia-buforowania-strumienia-związanego-z-a-plikiem-terminala-b-plikiem-zwykłym-c-standardowym-wyjściem-błędów-stderr.">Jak
+zapobiec tym problemom? Jaka jest domyślna strategia buforowania
+strumienia związanego z (a) plikiem terminala (b) plikiem zwykłym (c)
+standardowym wyjściem błędów «stderr».</a></li>
+<li><a
+href="#piszesz-program-który-używa-biblioteki-stdio.-działanie-programu-da-się-przerwać-sygnałem-sigint.-ma-on-wtedy-opróżnić-wszystkie-bufory-otwartych-strumieni-i-dopiero-wtedy-wyjść.-zaproponuj-rozwiązanie-pamiętając-że-w-procedurach-obsługi-sygnału-nie-wolno-korzystać-z-funkcji-które-nie-są-wielobieżne."
+id="toc-piszesz-program-który-używa-biblioteki-stdio.-działanie-programu-da-się-przerwać-sygnałem-sigint.-ma-on-wtedy-opróżnić-wszystkie-bufory-otwartych-strumieni-i-dopiero-wtedy-wyjść.-zaproponuj-rozwiązanie-pamiętając-że-w-procedurach-obsługi-sygnału-nie-wolno-korzystać-z-funkcji-które-nie-są-wielobieżne.">Piszesz
+program który używa biblioteki «stdio». Działanie programu da się
+przerwać sygnałem «SIGINT». Ma on wtedy opróżnić wszystkie bufory
+otwartych strumieni i dopiero wtedy wyjść. Zaproponuj rozwiązanie
+pamiętając, że w procedurach obsługi sygnału nie wolno korzystać z
+funkcji, które nie są wielobieżne.</a></li>
+</ul></li>
+<li><a href="#zadanie-6" id="toc-zadanie-6">Zadanie 6</a></li>
+</ul>
+<h2 id="zadanie-1">Zadanie 1</h2>
+<div class="highlight"><pre><span></span>Zadanie 1. W każdym z poniższych przypadków zakładamy, że początkowa tożsamość naszego procesu  
+to: ruid=1000, euid=0, suid=0. Jak zmieni się tożsamość procesu po wywołaniu następujących funkcji:  
+(a) setuid(2000), (b) setreuid(-1, 2000), (c) seteuid(2000), (d) setresuid(-1, 2000, 3000).  
+Odpowiedź uzasadnij posługując się podręcznikami systemowymi setuid(2), setreuid(2), setresuid(2).  
+Czy proces z tożsamością ruid=0, euid=1000, suid=1000 jest uprzywilejowany? Odpowiedź uzasadnij  
+</pre></div>
+
+<ol type="a">
+<li>poniewaz euid to root, to moze ustawic swoje uid na jakikolwiek
+proces, wiec syscall sie powiedzie<br />
+</li>
+<li>ruid zostaje taki sam, a euid zmieni sie na 2000<br />
+</li>
+<li>euid zostanie ustawiony na 2000<br />
+</li>
+<li>reuid zostanie ten sam (1000), euid na 2000, saved na 3000</li>
+</ol>
+<h3
+id="czy-proces-z-tożsamością-ruid0-euid1000-suid1000-jest-uprzywilejowany-odpowiedź-uzasadnij">Czy
+proces z tożsamością ruid=0, euid=1000, suid=1000 jest uprzywilejowany?
+Odpowiedź uzasadnij</h3>
+<p>W trakcie sprawdzania uprawnień brany jest pod uwagę tylko effective
+id.<br />
+Proces moze ustawic swoj euid na ruid i stac sie rootem, ale aktualnie
+jest uzytkownikiem.</p>
+<h2 id="zadanie-2">Zadanie 2</h2>
+<div class="highlight"><pre><span></span>Zadanie 2. Jaką rolę pełnią bity uprawnień «rwx» dla katalogów w systemach uniksowych? Opisz znaczenie bitów «set-gid» i «sticky» dla katalogów.  
+Napisz w pseudokodzie i zreferuj procedurę «bool my_access(struct stat *sb, int mode)».  
+Pierwszy i drugi argument opisano odpowiednio w stat(2) i access(2).  
+Dla procesu o tożsamości zadanej przez getuid(2) i getgroups(2) procedura «my_access» sprawdza czy proces ma upoważniony dostęp «mode» do pliku o metadanych wczytanych do «sb».  
+Wskazówka: Rozważ uprawnienia katalogu «/usr/local» i «/tmp».
+</pre></div>
+
+<h3
+id="jaką-rolę-pełnią-bity-uprawnień-rwx-dla-katalogów-w-systemach-uniksowych-opisz-znaczenie-bitów-set-gid-i-sticky-dla-katalogów.">Jaką
+rolę pełnią bity uprawnień «rwx» dla katalogów w systemach uniksowych?
+Opisz znaczenie bitów «set-gid» i «sticky» dla katalogów.</h3>
+<p>R - mozna czytac entries (getdirents)<br />
+W - mozna modyfikowac zawartosc katalogu (creat, unlink, rename)<br />
+X - mozna czytac metadane pliku i ich zawartosc (stat)<br />
+sticky - plik moze usunac tylko jego wlasciciel (a nie czlonek
+grupy)</p>
+<p>setgid -</p>
+<div class="highlight"><pre><span></span>Setting the setgid permission on a directory causes files and subdirectories created within to inherit its group ownership,  
+rather than the primary group of the file-creating process. Created subdirectories also inherit the setgid bit.  
+The policy is only applied during creation and, thus, only prospectively.  
+Directories and files existing when the setgid bit is applied are unaffected, as are directories and files moved into the directory on which the bit is set. 
+</pre></div>
+
+<h4
+id="napisz-w-pseudokodzie-i-zreferuj-procedurę-bool-my_accessstruct-stat-sb-int-mode.">Napisz
+w pseudokodzie i zreferuj procedurę «bool my_access(struct stat *sb, int
+mode)».</h4>
+<div id="cb4" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdbool.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/stat.h&gt;</span>
+<span class="cm">/*</span>
+<span class="cm">  The check is done using the calling process&#39;s real UID and GID, rather than the effective IDs as is done when actually attempting an operation (e.g., open(2)) on the file.</span>
+<span class="cm">  Similarly, for the root user, the check uses the set of permitted capabilities rather than the set of effective capabilities;</span>
+<span class="cm">  and for non-root users, the check uses an empty set of capabilities.</span>
+
+<span class="cm">  This allows set-user-ID programs and capability-endowed programs to easily determine the invoking user&#39;s authority.</span>
+<span class="cm">  In other words, access() does not answer the &quot;can I read/write/execute  this  file?&quot;  question.</span>
+<span class="cm">  It answers a slightly different question: &quot;(assuming I&#39;m a setuid binary) can the user who invoked me read/write/execute this file?&quot;,</span>
+<span class="cm">  which gives setuser-ID programs the possibility to prevent malicious users from causing them to read files which users shouldn&#39;t be able to read.</span>
+<span class="cm">*/</span>
+
+<span class="c1">// #define R_OK  4   /* Test for read permission.  */</span>
+<span class="c1">// #define W_OK  2   /* Test for write permission.  */</span>
+<span class="c1">// #define X_OK  1   /* Test for execute permission.  */</span>
+<span class="c1">// #define F_OK  0   /* Test for existence.  */</span>
+
+<span class="kt">bool</span><span class="w"> </span><span class="nf">my_access</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">stat</span><span class="w"> </span><span class="o">*</span><span class="n">sb</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">mode</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">file_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sb</span><span class="o">-&gt;</span><span class="n">st_mode</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">uid_t</span><span class="w"> </span><span class="n">ruid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getuid</span><span class="p">();</span>
+<span class="w">  </span><span class="c1">// we&#39;re the owner.</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">sb</span><span class="o">-&gt;</span><span class="n">st_uid</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">ruid</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Now check if the requested mode is ok</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">file_r</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">file_mode</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">S_IRUSR</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">file_w</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">file_mode</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">S_IWUSR</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">file_x</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">file_mode</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">S_IXUSR</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">mode</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">R_OK</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">file_r</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">mode</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">W_OK</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">file_w</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">mode</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">X_OK</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">file_x</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// if we got to this point i guess we&#39;re fine</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="c1">// second case, we may be in supplementary group, which owns the file.</span>
+<span class="w">  </span><span class="c1">// (code from getgroups(3) example)</span>
+<span class="w">  </span><span class="kt">gid_t</span><span class="w"> </span><span class="n">rgid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getgid</span><span class="p">();</span>
+
+<span class="w">  </span><span class="kt">long</span><span class="w"> </span><span class="n">ngroups_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sysconf</span><span class="p">(</span><span class="n">_SC_NGROUPS_MAX</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">gid_t</span><span class="w"> </span><span class="o">*</span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">gid_t</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="n">ngroups_max</span><span class="w"> </span><span class="o">*</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">gid_t</span><span class="p">));</span>
+
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">ngroups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getgroups</span><span class="p">(</span><span class="n">ngroups_max</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="p">);</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">ngroups</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rgid</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">group</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"> </span><span class="c1">// nope</span>
+</pre></div>
+
+</div>
+<h2 id="zadanie-3">Zadanie 3</h2>
+<div class="highlight"><pre><span></span>Zadanie 3. Właścicielem pliku programu su(1) jest «root», a plik ma ustawiony bit «set-uid».  
+Jaką tożsamość będzie miał na początku proces wykonujący «su», jeśli przed execve(2) było euid=1000?  
+Zreferuj działanie uproszczonej wersji programu su1 zakładając, że wszystkie wywołania systemowe kończą  
+się bez błędów, a użytkownik zdołał się uwierzytelnić. Skoncentruj się na funkcjach czytających bazę danych  
+użytkowników, odczytujących i sprawdzających hasło, oraz zmieniających tożsamość procesu.
+</pre></div>
+
+<h3
+id="jaką-tożsamość-będzie-miał-na-początku-proces-wykonujący-su-jeśli-przed-execve2-było-euid1000">Jaką
+tożsamość będzie miał na początku proces wykonujący «su», jeśli przed
+execve(2) było euid=1000?</h3>
+<p>Proces otrzyma euid roota.</p>
+<h3
+id="zreferuj-działanie-uproszczonej-wersji-programu-su1-zakładając-że-wszystkie-wywołania-systemowe-kończą-się-bez-błędów-a-użytkownik-zdołał-się-uwierzytelnić.-skoncentruj-się-na-funkcjach-czytających-bazę-danych-użytkowników-odczytujących-i-sprawdzających-hasło-oraz-zmieniających-tożsamość-procesu.">Zreferuj
+działanie uproszczonej wersji programu su1 zakładając, że wszystkie
+wywołania systemowe kończą się bez błędów, a użytkownik zdołał się
+uwierzytelnić. Skoncentruj się na funkcjach czytających bazę danych
+użytkowników, odczytujących i sprawdzających hasło, oraz zmieniających
+tożsamość procesu.</h3>
+<div id="cb6" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="kt">int</span>
+<span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">usr</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">pass</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">shell</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">envshell</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">term</span><span class="p">;</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">passwd</span><span class="w"> </span><span class="o">*</span><span class="n">pw</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">newargv</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">uid_t</span><span class="w"> </span><span class="n">uid</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">ARGBEGIN</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="sc">&#39;l&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="n">lflag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="sc">&#39;p&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="n">pflag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span>
+<span class="w">    </span><span class="k">default</span><span class="o">:</span>
+<span class="w">        </span><span class="n">usage</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">ARGEND</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">        </span><span class="n">usage</span><span class="p">();</span>
+<span class="w">    </span><span class="n">usr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">argc</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;root&quot;</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">errno</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// The  getpwnam()  function returns a pointer to a structure containing the broken-out fields of </span>
+<span class="w">    </span><span class="c1">// the record in the password database (e.g., the local password file /etc/passwd, NIS, and LDAP) that matches the username name.</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="c1">// struct passwd {</span>
+<span class="w">    </span><span class="c1">//   char   *pw_name;       /* username */</span>
+<span class="w">    </span><span class="c1">//   char   *pw_passwd;     /* user password */</span>
+<span class="w">    </span><span class="c1">//   uid_t   pw_uid;        /* user ID */</span>
+<span class="w">    </span><span class="c1">//   gid_t   pw_gid;        /* group ID */</span>
+<span class="w">    </span><span class="c1">//   char   *pw_gecos;      /* user information */</span>
+<span class="w">    </span><span class="c1">//   char   *pw_dir;        /* home directory */</span>
+<span class="w">    </span><span class="c1">//   char   *pw_shell;      /* shell program */</span>
+<span class="w">    </span><span class="c1">// };</span>
+
+<span class="w">    </span><span class="n">pw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getpwnam</span><span class="p">(</span><span class="n">usr</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">pw</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">errno</span><span class="p">)</span>
+<span class="w">            </span><span class="n">eprintf</span><span class="p">(</span><span class="s">&quot;getpwnam: %s:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">usr</span><span class="p">);</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="n">eprintf</span><span class="p">(</span><span class="s">&quot;who are you?</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// check the real user id (the process that called execve).</span>
+<span class="w">    </span><span class="c1">// If it&#39;s root then there&#39;s no need for authentication</span>
+<span class="w">    </span><span class="n">uid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getuid</span><span class="p">();</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">uid</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">pass</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getpass</span><span class="p">(</span><span class="s">&quot;Password: &quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">pass</span><span class="p">)</span>
+<span class="w">            </span><span class="n">eprintf</span><span class="p">(</span><span class="s">&quot;getpass:&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pw_check</span><span class="p">(</span><span class="n">pw</span><span class="p">,</span><span class="w"> </span><span class="n">pass</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">            </span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// The  initgroups()  function  initializes  the group access list by reading the group database /etc/group and using all groups of which user is a member</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">initgroups</span><span class="p">(</span><span class="n">usr</span><span class="p">,</span><span class="w"> </span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_gid</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">        </span><span class="n">eprintf</span><span class="p">(</span><span class="s">&quot;initgroups:&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// set our gid to the user we want to be</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">setgid</span><span class="p">(</span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_gid</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">        </span><span class="n">eprintf</span><span class="p">(</span><span class="s">&quot;setgid:&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// set our uid to the user we want to be</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">setuid</span><span class="p">(</span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_uid</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">        </span><span class="n">eprintf</span><span class="p">(</span><span class="s">&quot;setuid:&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">shell</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_shell</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="sc">&#39;\0&#39;</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;/bin/sh&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_shell</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">//  Start the shell as a login shell with an environment similar to a real login.</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">lflag</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">term</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getenv</span><span class="p">(</span><span class="s">&quot;TERM&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">clearenv</span><span class="p">();</span>
+<span class="w">        </span><span class="n">setenv</span><span class="p">(</span><span class="s">&quot;HOME&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_dir</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="n">setenv</span><span class="p">(</span><span class="s">&quot;SHELL&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">shell</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="n">setenv</span><span class="p">(</span><span class="s">&quot;USER&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_name</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="n">setenv</span><span class="p">(</span><span class="s">&quot;LOGNAME&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_name</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="n">setenv</span><span class="p">(</span><span class="s">&quot;TERM&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">term</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">term</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;linux&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">chdir</span><span class="p">(</span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_dir</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">            </span><span class="n">eprintf</span><span class="p">(</span><span class="s">&quot;chdir %s:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_dir</span><span class="p">);</span>
+<span class="w">        </span><span class="n">newargv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">shell</span><span class="p">;</span>
+<span class="w">        </span><span class="c1">// Make bash act as if it had been invoked as a login shell (see INVOCATION below).</span>
+<span class="w">        </span><span class="n">newargv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;-l&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">newargv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Create a pseudo-terminal for the session.</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pflag</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">envshell</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getenv</span><span class="p">(</span><span class="s">&quot;SHELL&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">envshell</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">envshell</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="sc">&#39;\0&#39;</span><span class="p">)</span>
+<span class="w">                </span><span class="n">shell</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">envshell</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">setenv</span><span class="p">(</span><span class="s">&quot;HOME&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_dir</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">            </span><span class="n">setenv</span><span class="p">(</span><span class="s">&quot;SHELL&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">shell</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_name</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;root&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">setenv</span><span class="p">(</span><span class="s">&quot;USER&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_name</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">                </span><span class="n">setenv</span><span class="p">(</span><span class="s">&quot;LOGNAME&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_name</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">newargv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">shell</span><span class="p">;</span>
+<span class="w">        </span><span class="n">newargv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">execve</span><span class="p">(</span><span class="n">shell</span><span class="p">,</span><span class="w"> </span><span class="n">newargv</span><span class="p">,</span><span class="w"> </span><span class="n">environ</span><span class="p">);</span>
+<span class="w">    </span><span class="n">weprintf</span><span class="p">(</span><span class="s">&quot;execve %s:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">shell</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">errno</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">ENOENT</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">127</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">126</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+<h2 id="zadanie-4">Zadanie 4</h2>
+<div class="highlight"><pre><span></span>Zadanie 4. Na podstawie §38.2 i §38.3 wyjaśnij czemu programy uprzywilejowane należy projektować w taki
+sposób, by operowały z najmniejszym możliwym zestawem upoważnień (ang. the least privilege). 
+Zreferuj wytyczne dotyczące projektowania takich programów. Zapoznaj się z §39.1 i wytłumacz czemu standardowy
+zestaw funkcji systemu uniksowego do implementacji programów uprzywilejowanych jest niewystarczający.
+Jak starają się to naprawić zdolności (ang. capabilities)? Dla nieuprzywilejowanego procesu posiadającego
+zdolności «CAP_DAC_READ_SEARCH» i «CAP_KILL» jądro pomija sprawdzanie upoważnień do wykonywania
+pewnych akcji – wymień je. Kiedy proces użytkownika może wysłać sygnał do innego procesu
+</pre></div>
+
+<h3
+id="na-podstawie-38.2-i-38.3-wyjaśnij-czemu-programy-uprzywilejowane-należy-projektować-w-taki-sposób-by-operowały-z-najmniejszym-możliwym-zestawem-upoważnień-ang.-the-least-privilege.">Na
+podstawie §38.2 i §38.3 wyjaśnij czemu programy uprzywilejowane należy
+projektować w taki sposób, by operowały z najmniejszym możliwym zestawem
+upoważnień (ang. the least privilege).</h3>
+<p>Jesli nasz system zostalby przejety przez atakujacego, to
+niechcielibysmy zeby byl on w stanie wyrzadzic szkody.<br />
+Na przyklad, jesli nasz web server ma podatnosc i ktos ja z sukcesem
+zeksploituje, to oczekujemy ze sam server bedzie uruchomiony z jak
+najmniejszymi uprawnieniami, przez co atakujacy nie wyrzadzi szkod.</p>
+<p>Powinnismy wychodzic z trybu uprzywilejowanego, gdy wykonamy
+potrzebne akcje. Jesli tryb uprzywilejowany nie bedzie nam wiecej
+potrzebny, to powinnismy sie go calkowicie pozbyc. W przypadku roota
+wystarczy uzyc setuid.<br />
+Setuid jest jednak dosc quirky, bo jesli nie wywoluje go root to</p>
+<div class="highlight"><pre><span></span>If  the  process does not have appropriate privileges, but uid is equal to the real user ID or the saved set-user-ID, 
+setuid() shall set the effective user ID to uid; the real user ID and saved set-user-ID shall remain unchanged.
+</pre></div>
+
+<p>Mozna uzyc setreuid, jak czytamy:</p>
+<div class="highlight"><pre><span></span>If  the  real  user ID is being set (ruid is not -1), or the effective user ID is being set to 
+a value not equal to the real user ID, then the saved set-user-ID of the current process shall be set equal to the new effective user ID.
+</pre></div>
+
+<p>Przed wywolaniem execa wystarczy, ze ustawimy effective uid i real
+uid, bo</p>
+<div class="highlight"><pre><span></span>   The effective user ID of the process is copied to the saved set-
+   user-ID; similarly, the effective group ID is copied to the saved
+   set-group-ID.  This copying takes place after any effective ID
+   changes that occur because of the set-user-ID and set-group-ID
+   mode bits.
+
+   The process&#39;s real UID and real GID, as well as its supplementary
+   group IDs, are unchanged by a call to execve().
+</pre></div>
+
+<p>Powinnismy tez pamietac zeby zamykac file desciptory, bo pozostaja
+otwarte, nawet po dropnieciu uprawnien.</p>
+<h3
+id="zapoznaj-się-z-39.1-i-wytłumacz-czemu-standardowy-zestaw-funkcji-systemu-uniksowego-do-implementacji-programów-uprzywilejowanych-jest-niewystarczający.-jak-starają-się-to-naprawić-zdolności-ang.-capabilities">Zapoznaj
+się z §39.1 i wytłumacz czemu standardowy zestaw funkcji systemu
+uniksowego do implementacji programów uprzywilejowanych jest
+niewystarczający. Jak starają się to naprawić zdolności (ang.
+capabilities)?</h3>
+<p>Podzial na procesy uprzywielejowane i nie, sprawiaja ze proces
+uprzywilejowany moze wszystko.<br />
+Czesto jednak chcemy, zeby proces mogl wykonac tylko jedna
+uprzywilejowana akcje, na przyklad ping, aby wysylal i odbieral pakiety,
+ale niekoniecznie bypassowal checki odczytu plikow.<br />
+Capabilities pozwalaja nam na bardziej granualne zarzadzanie akcjami
+uprzywilejowanymi.</p>
+<h3
+id="dla-nieuprzywilejowanego-procesu-posiadającego-zdolności-cap_dac_read_search-i-cap_kill-jądro-pomija-sprawdzanie-upoważnień-do-wykonywania-pewnych-akcji-wymień-je.">Dla
+nieuprzywilejowanego procesu posiadającego zdolności
+«CAP_DAC_READ_SEARCH» i «CAP_KILL» jądro pomija sprawdzanie upoważnień
+do wykonywania pewnych akcji – wymień je.</h3>
+<p>Quick man page lookup</p>
+<div class="highlight"><pre><span></span>CAP_DAC_READ_SEARCH
+      •  Bypass file read permission checks and directory read and execute permission checks;
+      •  invoke open_by_handle_at(2);
+      •  use the linkat(2) AT_EMPTY_PATH flag to create a link to a file referred to by a file descriptor.
+</pre></div>
+
+<div class="highlight"><pre><span></span>CAP_KILL
+      Bypass permission checks for sending signals (see kill(2)).  This includes use of the ioctl(2) KDSIGACCEPT operation.
+</pre></div>
+
+<h3
+id="kiedy-proces-użytkownika-może-wysłać-sygnał-do-innego-procesu">Kiedy
+proces użytkownika może wysłać sygnał do innego procesu?</h3>
+<p>Jesli ruid lub euid procesu wysylajacego jest rowne reuid/suid
+procesu do ktorego wysylamy. Zrodlo slajd 9ty wykladu 6b.</p>
+<h2 id="zadanie-5">Zadanie 5</h2>
+<div class="highlight"><pre><span></span>Zadanie 5. Jakie zadania pełni procedura exit(3) z biblioteki standardowej?  
+Opisz problemy z buforowaniem plików, które mogą wystąpić dla strumieni biblioteki stdio(3) w przypadku użycia wywołań fork(2), execve(2) i _exit(2).  
+Jak zapobiec tym problemom? Jaka jest domyślna strategia buforowania strumienia związanego z (a) plikiem terminala (b) plikiem zwykłym (c) standardowym wyjściem błędów «stderr».  
+Piszesz program który używa biblioteki «stdio». Działanie programu da się przerwać sygnałem «SIGINT».  
+Ma on wtedy opróżnić wszystkie bufory otwartych strumieni i dopiero wtedy wyjść.  
+Zaproponuj rozwiązanie pamiętając, że w procedurach obsługi sygnału nie wolno korzystać z funkcji, które nie są wielobieżne.
+</pre></div>
+
+<h3
+id="jakie-zadania-pełni-procedura-exit3-z-biblioteki-standardowej">Jakie
+zadania pełni procedura exit(3) z biblioteki standardowej?</h3>
+<p>Jak mowi exit(3):</p>
+<div class="highlight"><pre><span></span>All  functions  registered  with  atexit(3)  and  on_exit(3)  are  called,  in the reverse order of their registration.
+
+All open stdio(3) streams are flushed and closed.  Files created by tmpfile(3) are removed.
+</pre></div>
+
+<p>Destruktory sa tez wywolywane. Mozemy to latwo przetestowac.</p>
+<div id="cb15" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
+<span class="n">__attribute__</span><span class="p">((</span><span class="n">destructor</span><span class="p">))</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">asdf</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;asdf</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">main</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">_exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);}</span>
+</pre></div>
+
+</div>
+<p>Destuktor nie jest wywolywany. Jesli jednak wywolamy zamiast _exit,
+exit z stdlib, to wszystko dziala elegancko.</p>
+<h3
+id="opisz-problemy-z-buforowaniem-plików-które-mogą-wystąpić-dla-strumieni-biblioteki-stdio3-w-przypadku-użycia-wywołań-fork2-execve2-i-_exit2.">Opisz
+problemy z buforowaniem plików, które mogą wystąpić dla strumieni
+biblioteki stdio(3) w przypadku użycia wywołań fork(2), execve(2) i
+_exit(2).</h3>
+<p>Musimy pamietac, aby zflushowac dane przed wywolaniem forka, poniewaz
+nowy proces dostanie kopie bufora.</p>
+<p>Execve podmienia nasza przestrzen, ale pozostaja otwarte
+deskryptory.<br />
+Do tego musimy pamietac tez o flushowaniu buforow, bo utracimy nasze
+dane.</p>
+<p>_exit() to syscall, wiec po nasz program chamsko po prostu zakoncza
+dzialanie, bez zadnego flushowania buforow.</p>
+<h3
+id="jak-zapobiec-tym-problemom-jaka-jest-domyślna-strategia-buforowania-strumienia-związanego-z-a-plikiem-terminala-b-plikiem-zwykłym-c-standardowym-wyjściem-błędów-stderr.">Jak
+zapobiec tym problemom? Jaka jest domyślna strategia buforowania
+strumienia związanego z (a) plikiem terminala (b) plikiem zwykłym (c)
+standardowym wyjściem błędów «stderr».</h3>
+<ol type="a">
+<li>bufor jest flushowany, po napotkaniu znaku nowej linii “”</li>
+<li>bufor jest flushowany, po zapelnieniu go calego</li>
+<li>brak buforowania</li>
+</ol>
+<p>Problemom mozna zapobiec pamietajac o flushowaniu, lub ustawiajac
+odpowiedni sposob buforowania za pomoca setvbuf.</p>
+<h3
+id="piszesz-program-który-używa-biblioteki-stdio.-działanie-programu-da-się-przerwać-sygnałem-sigint.-ma-on-wtedy-opróżnić-wszystkie-bufory-otwartych-strumieni-i-dopiero-wtedy-wyjść.-zaproponuj-rozwiązanie-pamiętając-że-w-procedurach-obsługi-sygnału-nie-wolno-korzystać-z-funkcji-które-nie-są-wielobieżne.">Piszesz
+program który używa biblioteki «stdio». Działanie programu da się
+przerwać sygnałem «SIGINT». Ma on wtedy opróżnić wszystkie bufory
+otwartych strumieni i dopiero wtedy wyjść. Zaproponuj rozwiązanie
+pamiętając, że w procedurach obsługi sygnału nie wolno korzystać z
+funkcji, które nie są wielobieżne.</h3>
+<p>ummmmmmmmmmmmm</p>
+<div id="cb16" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">handle_sigint</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">sig</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">write</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">stdout</span><span class="o">-&gt;</span><span class="n">_IO_buf_base</span><span class="p">,</span><span class="w"> </span><span class="n">stdout</span><span class="o">-&gt;</span><span class="n">_IO_buf_end</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">stdout</span><span class="o">-&gt;</span><span class="n">_IO_buf_base</span><span class="p">);</span>
+<span class="w">    </span><span class="n">_exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+<p>pobite gary</p>
+<h2 id="zadanie-6">Zadanie 6</h2>
+<div class="highlight"><pre><span></span>Zadanie 6 (2). Program «writeperf» służy do testowania wydajności operacji zapisu do pliku. Nasz
+microbenchmark2 wczytuje z linii poleceń opcje i argumenty opisane dalej. Na standardowe wyjście drukuje
+t trójkątów (opcja «-t») prostokątnych o boku złożonym z l znaków gwiazdki «*» (opcja «-l»). Jeśli
+standardowe wyjście zostało przekierowane do pliku oraz została podana opcja «-s», to przed zakończeniem
+programu bufory pliku zostaną zsynchronizowane z dyskiem wywołaniem fsync(2).
+Program realizuje pięć wariantów zapisu do pliku:
+• Każdą linię trójkąta zapisuje osobno wywołaniem write(2) (argument «write»).
+• Używa strumienia biblioteki stdio bez buforowania (argument «fwrite»), z buforowaniem liniami
+(argument «fwrite-line») i buforowaniem pełnym (argument «fwrite-full»).
+• Wykorzystuje wywołanie systemowe writev(2) do zapisania do «IOV_MAX» linii na raz.
+Twoim zadaniem jest odpowiednie skonfigurowanie bufora strumienia «stdout» z użyciem procedury
+setvbuf(3) oraz zaimplementowanie metody zapisu z użyciem «writev».
+Przy pomocy skryptu powłoki «writeperf.sh» porównaj wydajność wymienionych wcześniej metod zapisu.
+Uzasadnij przedstawione wyniki. Miej na uwadze liczbę wywołań systemowych (należy to zbadać posługując
+się narzędziem strace(1) z opcją «-c») oraz liczbę kopii danych wykonanych celem przesłania zawartości
+linii do buforów dysku.
+</pre></div>
+  </body>
+</html>

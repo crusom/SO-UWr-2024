@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="date" content=''>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/../style.css"/>
+
+    <title>writeup</title>
+
+  </head>
+  <body>
+
+<ul>
+<li><a href="#zadanie-1" id="toc-zadanie-1">Zadanie 1</a>
+<ul>
+<li><a
+href="#zadanie-1.-na-podstawie-3-49.1-wyjaśnij-słuchaczom-różnicę-między-odwzorowaniami-plików-w-pamięć-ang.-memory-mapped-files-i-odwzorowaniami-pamięci-anonimowej-ang.-anonymous-mappings.-jaką-zawartością-wypełniana-jest-pamięć-wirtualna-należąca-do-tychże-odwzorowań"
+id="toc-zadanie-1.-na-podstawie-3-49.1-wyjaśnij-słuchaczom-różnicę-między-odwzorowaniami-plików-w-pamięć-ang.-memory-mapped-files-i-odwzorowaniami-pamięci-anonimowej-ang.-anonymous-mappings.-jaką-zawartością-wypełniana-jest-pamięć-wirtualna-należąca-do-tychże-odwzorowań">Zadanie
+1. Na podstawie [3, 49.1] wyjaśnij słuchaczom różnicę między
+odwzorowaniami plików w pamięć (ang. memory-mapped files) i
+odwzorowaniami pamięci anonimowej (ang. anonymous mappings). Jaką
+zawartością wypełniana jest pamięć wirtualna należąca do tychże
+odwzorowań?</a></li>
+<li><a href="#czym-różni-się-odwzorowanie-prywatne-od-dzielonego"
+id="toc-czym-różni-się-odwzorowanie-prywatne-od-dzielonego">Czym różni
+się odwzorowanie prywatne od dzielonego?</a></li>
+<li><a
+href="#czy-pamięć-obiektów-odwzorowanych-prywatnie-może-być-współdzielona"
+id="toc-czy-pamięć-obiektów-odwzorowanych-prywatnie-może-być-współdzielona">Czy
+pamięć obiektów odwzorowanych prywatnie może być współdzielona?</a></li>
+<li><a
+href="#czemu-można-tworzyć-odwzorowania-plików-urządzeń-blokowych-w-pamięć-a-znakowych-nie"
+id="toc-czemu-można-tworzyć-odwzorowania-plików-urządzeń-blokowych-w-pamięć-a-znakowych-nie">Czemu
+można tworzyć odwzorowania plików urządzeń blokowych w pamięć, a
+znakowych nie?</a></li>
+</ul></li>
+<li><a href="#zadanie-2" id="toc-zadanie-2">Zadanie 2</a>
+<ul>
+<li><a
+href="#na-podstawie-opisu-do-3-tabeli-49-1-podaj-scenariusze-użycia-prywatnych-i-dzielonych-odwzorowań-plików-w-pamięć-albo-pamięci-anonimowej.-pokaż-jak-je-utworzyć-z-użyciem-wywołania-mmap2."
+id="toc-na-podstawie-opisu-do-3-tabeli-49-1-podaj-scenariusze-użycia-prywatnych-i-dzielonych-odwzorowań-plików-w-pamięć-albo-pamięci-anonimowej.-pokaż-jak-je-utworzyć-z-użyciem-wywołania-mmap2.">Na
+podstawie opisu do [ 3, tabeli 49 –1] podaj scenariusze użycia
+prywatnych i dzielonych odwzorowań plików w pamięć albo pamięci
+anonimowej. Pokaż jak je utworzyć z użyciem wywołania mmap(2).</a></li>
+<li><a href="#co-się-dzieje-z-odwzorowaniami-po-wywołaniu-fork2"
+id="toc-co-się-dzieje-z-odwzorowaniami-po-wywołaniu-fork2">Co się dzieje
+z odwzorowaniami po wywołaniu fork(2)?</a></li>
+<li><a
+href="#czy-wywołanie-execve2-tworzy-odwzorowania-prywatne-czy-dzielone"
+id="toc-czy-wywołanie-execve2-tworzy-odwzorowania-prywatne-czy-dzielone">Czy
+wywołanie execve(2) tworzy odwzorowania prywatne czy dzielone?</a></li>
+<li><a
+href="#w-jaki-sposób-jądro-systemu-automatycznie-zwiększa-rozmiar-stosu-do-ustalonego-limitu"
+id="toc-w-jaki-sposób-jądro-systemu-automatycznie-zwiększa-rozmiar-stosu-do-ustalonego-limitu">W
+jaki sposób jądro systemu automatycznie zwiększa rozmiar stosu do
+ustalonego limitu?</a></li>
+<li><a
+href="#kiedy-jądro-wyśle-sygnał-sigbus-do-procesu-posiadającego-odwzorowanie-pliku-w-pamięć-3-49.4.3"
+id="toc-kiedy-jądro-wyśle-sygnał-sigbus-do-procesu-posiadającego-odwzorowanie-pliku-w-pamięć-3-49.4.3">Kiedy
+jądro wyśle sygnał SIGBUS do procesu posiadającego odwzorowanie pliku w
+pamięć [ 3, §49.4.3]</a></li>
+</ul></li>
+<li><a href="#zadanie-3" id="toc-zadanie-3">Zadanie 3</a>
+<ul>
+<li><a
+href="#na-podstawie-podręcznika-proc5-wyjaśnij-znaczenie-poszczególnych-pól."
+id="toc-na-podstawie-podręcznika-proc5-wyjaśnij-znaczenie-poszczególnych-pól.">Na
+podstawie podręcznika proc(5) wyjaśnij znaczenie poszczególnych
+pól.</a></li>
+<li><a
+href="#przypomnij-jaka-jest-różnica-między-zbiorem-roboczym-i-rezydentnym-procesu."
+id="toc-przypomnij-jaka-jest-różnica-między-zbiorem-roboczym-i-rezydentnym-procesu.">Przypomnij
+jaka jest różnica między zbiorem roboczym i rezydentnym
+procesu.</a></li>
+<li><a
+href="#napisz-krótki-skrypt-np.-w-języku-python-lub-awk1-który-wyznaczy-sumę-vmsize-i-osobno-sumę-vmrss-wszystkich-procesów.-czemu-ta-druga-wartość-nie-pokrywa-się-z-rozmiarem-używanej-pamięci-raportowanym-przez-polecenie-vmstat--s"
+id="toc-napisz-krótki-skrypt-np.-w-języku-python-lub-awk1-który-wyznaczy-sumę-vmsize-i-osobno-sumę-vmrss-wszystkich-procesów.-czemu-ta-druga-wartość-nie-pokrywa-się-z-rozmiarem-używanej-pamięci-raportowanym-przez-polecenie-vmstat--s">Napisz
+krótki skrypt (np. w języku Python lub awk(1)), który wyznaczy sumę
+«VmSize» i osobno sumę «VmRSS» wszystkich procesów. Czemu ta druga
+wartość nie pokrywa się z rozmiarem używanej pamięci raportowanym przez
+polecenie «vmstat -s»?</a></li>
+</ul></li>
+<li><a href="#zadanie-4" id="toc-zadanie-4">Zadanie 4</a>
+<ul>
+<li><a
+href="#jakie-informacje-musi-dostarczyć-procesor-żeby-można-było-wykonać-procedurę-obsługi-błędu-stronicowania"
+id="toc-jakie-informacje-musi-dostarczyć-procesor-żeby-można-było-wykonać-procedurę-obsługi-błędu-stronicowania">Jakie
+informacje musi dostarczyć procesor, żeby można było wykonać procedurę
+obsługi błędu stronicowania?</a></li>
+<li><a
+href="#do-czego-służą-struktury-jądra-mm_structpgd-i-mm_structmmap-zdefiniowane-w-pliku-includelinuxmm_types.h"
+id="toc-do-czego-służą-struktury-jądra-mm_structpgd-i-mm_structmmap-zdefiniowane-w-pliku-includelinuxmm_types.h">Do
+czego służą struktury jądra «mm_struct::pgd» i «mm_struct::mmap»
+zdefiniowane w pliku include/linux/mm_types.h?</a></li>
+<li><a
+href="#kiedy-jądro-wyśle-procesowi-sygnał-sigsegv-z-kodem-segv_maperr-lub-segv_accerr"
+id="toc-kiedy-jądro-wyśle-procesowi-sygnał-sigsegv-z-kodem-segv_maperr-lub-segv_accerr">Kiedy
+jądro wyśle procesowi sygnał SIGSEGV z kodem «SEGV_MAPERR» lub
+«SEGV_ACCERR»?</a></li>
+<li><a
+href="#w-jakiej-sytuacji-wystąpi-pomniejsza-usterka-strony-ang.-minor-page-fault-lub-poważna-usterka-strony-ang.-major-page-fault"
+id="toc-w-jakiej-sytuacji-wystąpi-pomniejsza-usterka-strony-ang.-minor-page-fault-lub-poważna-usterka-strony-ang.-major-page-fault">W
+jakiej sytuacji wystąpi pomniejsza usterka strony (ang. minor page
+fault) lub poważna usterka strony (ang. major page fault)?</a></li>
+<li><a href="#jaką-rolę-pełni-w-systemie-bufor-stron-ang.-page-cache"
+id="toc-jaką-rolę-pełni-w-systemie-bufor-stron-ang.-page-cache">Jaką
+rolę pełni w systemie bufor stron (ang. page cache)?</a></li>
+</ul></li>
+<li><a href="#zadanie-5" id="toc-zadanie-5">Zadanie 5</a>
+<ul>
+<li><a
+href="#co-jądro-przechowuje-w-strukturze-vm_area_struct-opisującej-segment-d-a-w-szczególności-w-polach-vm_prot-i-vm_flags"
+id="toc-co-jądro-przechowuje-w-strukturze-vm_area_struct-opisującej-segment-d-a-w-szczególności-w-polach-vm_prot-i-vm_flags">Co
+jądro przechowuje w strukturze «vm_area_struct» opisującej segment D, a
+w szczególności w polach «vm_prot» i «vm_flags»?</a></li>
+<li><a
+href="#jak-jądro-zmodyfikuje-mm_structpgd-w-trakcie-pierwszego-odczytu-ze-strony-p-należącej-do-d-a-jak-w-trakcie-późniejszego-pierwszego-zapisu-do-p"
+id="toc-jak-jądro-zmodyfikuje-mm_structpgd-w-trakcie-pierwszego-odczytu-ze-strony-p-należącej-do-d-a-jak-w-trakcie-późniejszego-pierwszego-zapisu-do-p">Jak
+jądro zmodyfikuje «mm_struct::pgd» w trakcie pierwszego odczytu ze
+strony p należącej do D, a jak w trakcie późniejszego pierwszego zapisu
+do p?</a></li>
+<li><a
+href="#co-jądro-musi-zrobić-z-tablicą-stron-procesu-który-zawołał-fork2"
+id="toc-co-jądro-musi-zrobić-z-tablicą-stron-procesu-który-zawołał-fork2">Co
+jądro musi zrobić z tablicą stron procesu, który zawołał
+fork(2)?</a></li>
+</ul></li>
+<li><a href="#zadanie-6" id="toc-zadanie-6">Zadanie 6</a>
+<ul>
+<li><a
+href="#czy-mamy-gwarancję-że-program-nie-zobaczy-modyfikacji-zawartości-pliku-które-zostaną-wprowadzone-po-utworzeniu-tego-odwzorowania"
+id="toc-czy-mamy-gwarancję-że-program-nie-zobaczy-modyfikacji-zawartości-pliku-które-zostaną-wprowadzone-po-utworzeniu-tego-odwzorowania">Czy
+mamy gwarancję, że program nie zobaczy modyfikacji zawartości pliku,
+które zostaną wprowadzone po utworzeniu tego odwzorowania?</a></li>
+<li><a
+href="#co-złego-mogłoby-się-stać-gdyby-system-operacyjny-pozwolił-modyfikować-plik-wykonywalny-który-jest-uruchomiony"
+id="toc-co-złego-mogłoby-się-stać-gdyby-system-operacyjny-pozwolił-modyfikować-plik-wykonywalny-który-jest-uruchomiony">Co
+złego mogłoby się stać, gdyby system operacyjny pozwolił modyfikować
+plik wykonywalny, który jest uruchomiony?</a></li>
+</ul></li>
+<li><a href="#zadanie-7" id="toc-zadanie-7">Zadanie 7</a></li>
+</ul>
+<h2 id="zadanie-1">Zadanie 1</h2>
+<div class="highlight"><pre><span></span>Zadanie 1. Na podstawie [3, 49.1] wyjaśnij słuchaczom różnicę między odwzorowaniami plików w pamięć (ang. memory-mapped files) i odwzorowaniami pamięci anonimowej (ang. anonymous mappings).  
+Jaką zawartością wypełniana jest pamięć wirtualna należąca do tychże odwzorowań?  
+Czym różni się odwzorowanie prywatne od dzielonego?  
+Czy pamięć obiektów odwzorowanych prywatnie może być współdzielona? Czemu można tworzyć odwzorowania plików urządzeń blokowych w pamięć, a znakowych nie?
+Wskazówka: Jądro może udostępniać pamięć karty graficznej albo partycję dysku jako urządzenie blokowe
+</pre></div>
+
+<h3
+id="zadanie-1.-na-podstawie-3-49.1-wyjaśnij-słuchaczom-różnicę-między-odwzorowaniami-plików-w-pamięć-ang.-memory-mapped-files-i-odwzorowaniami-pamięci-anonimowej-ang.-anonymous-mappings.-jaką-zawartością-wypełniana-jest-pamięć-wirtualna-należąca-do-tychże-odwzorowań">Zadanie
+1. Na podstawie [3, 49.1] wyjaśnij słuchaczom różnicę między
+odwzorowaniami plików w pamięć (ang. memory-mapped files) i
+odwzorowaniami pamięci anonimowej (ang. anonymous mappings). Jaką
+zawartością wypełniana jest pamięć wirtualna należąca do tychże
+odwzorowań?</h3>
+<p>Odwzorowanie pliku w pamiec - mapuje plik na dysku do pamieci
+wirtualnej. Operacje na pamięci przekładają się na odczyt z dysku<br />
+Odwzorowanie pamięci anonimowej - mapowanie niepodparte plikiem, daje
+nam po prostu nowe strony w pamięci wirtualnej, zainicjalizowane
+zerami</p>
+<h3 id="czym-różni-się-odwzorowanie-prywatne-od-dzielonego">Czym różni
+się odwzorowanie prywatne od dzielonego?</h3>
+<p>Zmiany w odwzorowaniu dzielonym przekładają się na zmiany w pliku na
+dysku.<br />
+W odwzorowaniu prywatnym nie.</p>
+<h3
+id="czy-pamięć-obiektów-odwzorowanych-prywatnie-może-być-współdzielona">Czy
+pamięć obiektów odwzorowanych prywatnie może być współdzielona?</h3>
+<p>tak, na przyklad biblioteki wspoldzielone (so) załadowane do pamięci
+fizycznej mogą być podmapowane przez wiele procesów w pgd (page global
+directory).</p>
+<h3
+id="czemu-można-tworzyć-odwzorowania-plików-urządzeń-blokowych-w-pamięć-a-znakowych-nie">Czemu
+można tworzyć odwzorowania plików urządzeń blokowych w pamięć, a
+znakowych nie?</h3>
+<p>Ponieważ urządzenia znakowe są sekwencyjne, nie znamy ich
+rozmiaru.</p>
+<h2 id="zadanie-2">Zadanie 2</h2>
+<div class="highlight"><pre><span></span>Zadanie 2. Na podstawie opisu do [ 3, tabeli 49 –1] podaj scenariusze użycia prywatnych i dzielonych odwzorowań plików w pamięć albo pamięci anonimowej.  
+Pokaż jak je utworzyć z użyciem wywołania mmap(2). Co się dzieje z odwzorowaniami po wywołaniu fork(2)?  
+Czy wywołanie execve(2) tworzy odwzorowania prywatne czy dzielone? 
+W jaki sposób jądro systemu automatycznie zwiększa rozmiar stosu do ustalonego limitu? Kiedy jądro wyśle sygnał SIGBUS do procesu posiadającego odwzorowanie pliku w pamięć [ 3, §49.4.3]
+</pre></div>
+
+<h3
+id="na-podstawie-opisu-do-3-tabeli-49-1-podaj-scenariusze-użycia-prywatnych-i-dzielonych-odwzorowań-plików-w-pamięć-albo-pamięci-anonimowej.-pokaż-jak-je-utworzyć-z-użyciem-wywołania-mmap2.">Na
+podstawie opisu do [ 3, tabeli 49 –1] podaj scenariusze użycia
+prywatnych i dzielonych odwzorowań plików w pamięć albo pamięci
+anonimowej. Pokaż jak je utworzyć z użyciem wywołania mmap(2).</h3>
+<div id="cb3" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="nf">mmap</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">len</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">prot</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">,</span>
+<span class="w">   </span><span class="kt">int</span><span class="w"> </span><span class="n">fildes</span><span class="p">,</span><span class="w"> </span><span class="kt">off_t</span><span class="w"> </span><span class="n">off</span><span class="p">);</span>
+</pre></div>
+
+</div>
+<p>prywatne-pamięć przydaje się gdy chcemy zainicjalizowac pamiec
+zawartoscia pliku, np. gdy loader ładuje elfa do pamięci</p>
+<div id="cb4" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">stat</span><span class="w"> </span><span class="n">stat</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Open</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">O_RDONLY</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="n">fstat</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">stat</span><span class="p">);</span>
+<span class="n">mmap</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">stat</span><span class="p">.</span><span class="n">st_size</span><span class="p">,</span><span class="w"> </span><span class="n">SOME_PROTECTION</span><span class="p">,</span><span class="w"> </span><span class="n">MAP_PRIVATE</span><span class="p">,</span><span class="n">fd</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+</div>
+<p>prywatne-anonim przydaje sie do alokacji, na przyklad dla malloca</p>
+<div id="cb5" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="n">mmap</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">SOME_SIZE</span><span class="p">,</span><span class="w"> </span><span class="n">SOME_PROTECTION</span><span class="p">,</span><span class="w"> </span><span class="n">MAP_PRIVATE</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">MAP_ANON</span><span class="p">,</span><span class="mi">-1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+</div>
+<p>dzielone-pamiec gdy chcemy czytac i/lub modyfikowac plik, gdzie
+potrzebujemy duzo skoków. łatwiej jest nam uzywac mmapa niz read/write.
+Również komunikacja międzyprocesowa (IPC)</p>
+<div id="cb6" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">stat</span><span class="w"> </span><span class="n">stat</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Open</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">O_RDONLY</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="n">fstat</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">stat</span><span class="p">);</span>
+<span class="n">mmap</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">stat</span><span class="p">.</span><span class="n">st_size</span><span class="p">,</span><span class="w"> </span><span class="n">SOME_PROTECTION</span><span class="p">,</span><span class="w"> </span><span class="n">MAP_SHARED</span><span class="p">,</span><span class="n">fd</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+</div>
+<p>dzielone-anonim do komunikacji miedzyprocesowej (IPC)</p>
+<div id="cb7" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="n">mmap</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">SOME_SIZE</span><span class="p">,</span><span class="w"> </span><span class="n">SOME_PROTECTION</span><span class="p">,</span><span class="w"> </span><span class="n">MAP_ANON</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">MAP_SHARED</span><span class="p">,</span><span class="n">fd</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+</div>
+<h3 id="co-się-dzieje-z-odwzorowaniami-po-wywołaniu-fork2">Co się dzieje
+z odwzorowaniami po wywołaniu fork(2)?</h3>
+<p>Nowy proces dostaje dokładnie to samo mapowanie, a strony są
+oznaczone przez Copy-on-write.<br />
+Jak podają slajdy:</p>
+<div class="highlight"><pre><span></span> Create exact copies of current mm_struct,vm_area_struct, and page tables.
+ Flag each page in both processes as read-only
+ Flag each vm_area_struct in both processes as private COW
+</pre></div>
+
+<h3
+id="czy-wywołanie-execve2-tworzy-odwzorowania-prywatne-czy-dzielone">Czy
+wywołanie execve(2) tworzy odwzorowania prywatne czy dzielone?</h3>
+<p>Odwzorowania są prywatne. <img src="/assets/slajd11.png" /></p>
+<h3
+id="w-jaki-sposób-jądro-systemu-automatycznie-zwiększa-rozmiar-stosu-do-ustalonego-limitu">W
+jaki sposób jądro systemu automatycznie zwiększa rozmiar stosu do
+ustalonego limitu?</h3>
+<p>Gdy mapuje stos korzystamy z flagi MAP_GROWSDOWN, która:</p>
+<div class="highlight"><pre><span></span>MAP_GROWSDOWN
+      This flag is used for stacks.  It indicates to the kernel
+      virtual memory system that the mapping should extend
+      downward in memory.  The return address is one page lower
+      than the memory area that is actually created in the
+      process&#39;s virtual address space.  Touching an address in
+      the &quot;guard&quot; page below the mapping will cause the mapping
+      to grow by a page.  This growth can be repeated until the
+      mapping grows to within a page of the high end of the next
+      lower mapping, at which point touching the &quot;guard&quot; page
+      will result in a SIGSEGV signal.
+</pre></div>
+
+<p>W skrócie - strona za stosem to GUARD PAGE, gdy jej dotkniemy to
+kernel przydzieli stosowi więcej pamięci</p>
+<h3
+id="kiedy-jądro-wyśle-sygnał-sigbus-do-procesu-posiadającego-odwzorowanie-pliku-w-pamięć-3-49.4.3">Kiedy
+jądro wyśle sygnał SIGBUS do procesu posiadającego odwzorowanie pliku w
+pamięć [ 3, §49.4.3]</h3>
+<p><img src="/assets/49_4.png" /></p>
+<p>Jesli mamy segment pamieci, w którym mamy strony niepodmapowane
+zadnym plikiem, tzn. zaladowany plik jest krotszy niz wielkosc naszej
+pamieci, to dostep do tej pamieci nieodpowiadajacej plikowi spowoduje
+SIGBUS.<br />
+SIGBUS informuje ze zrobilismy dostep do pamieci, ktora nie odpowiada
+zadnemu plikowi.</p>
+<h2 id="zadanie-3">Zadanie 3</h2>
+<div class="highlight"><pre><span></span>Zadanie 3. Przy pomocy polecenia «cat /proc/$(pgrep Xorg)/status | egrep ’Vm|Rss’» wyświetl zużycie pamięci procesu wykonującego kod X-serwera.  
+Na podstawie podręcznika proc(5) wyjaśnij znaczenie poszczególnych pól.  
+Przypomnij jaka jest różnica między zbiorem roboczym i rezydentnym procesu. 
+Napisz krótki skrypt (np. w języku Python lub awk(1)), który wyznaczy sumę «VmSize» i osobno sumę «VmRSS» wszystkich procesów. Czemu ta druga wartość nie pokrywa się z rozmiarem używanej pamięci raportowanym przez polecenie «vmstat -s»?
+</pre></div>
+
+<div id="cb11" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="o">[</span>crusom@crusomcarbon<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>cat<span class="w"> </span>/proc/<span class="k">$(</span>pgrep<span class="w"> </span>Xorg<span class="k">)</span>/status<span class="w"> </span><span class="p">|</span><span class="w"> </span>egrep<span class="w"> </span><span class="s1">&#39;Vm|Rss&#39;</span>
+egrep:<span class="w"> </span>warning:<span class="w"> </span>egrep<span class="w"> </span>is<span class="w"> </span>obsolescent<span class="p">;</span><span class="w"> </span>using<span class="w"> </span>grep<span class="w"> </span>-E
+VmPeak:<span class="w">  </span><span class="m">1020744</span><span class="w"> </span>kB
+VmSize:<span class="w">   </span><span class="m">810048</span><span class="w"> </span>kB
+VmLck:<span class="w">         </span><span class="m">0</span><span class="w"> </span>kB
+VmPin:<span class="w">         </span><span class="m">0</span><span class="w"> </span>kB
+VmHWM:<span class="w">    </span><span class="m">116668</span><span class="w"> </span>kB
+VmRSS:<span class="w">     </span><span class="m">82760</span><span class="w"> </span>kB
+RssAnon:<span class="w">           </span><span class="m">34400</span><span class="w"> </span>kB
+RssFile:<span class="w">           </span><span class="m">47372</span><span class="w"> </span>kB
+RssShmem:<span class="w">            </span><span class="m">988</span><span class="w"> </span>kB
+VmData:<span class="w">    </span><span class="m">83880</span><span class="w"> </span>kB
+VmStk:<span class="w">       </span><span class="m">132</span><span class="w"> </span>kB
+VmExe:<span class="w">      </span><span class="m">1764</span><span class="w"> </span>kB
+VmLib:<span class="w">    </span><span class="m">117424</span><span class="w"> </span>kB
+VmPTE:<span class="w">       </span><span class="m">496</span><span class="w"> </span>kB
+VmSwap:<span class="w">        </span><span class="m">0</span><span class="w"> </span>kB
+</pre></div>
+
+</div>
+<h3
+id="na-podstawie-podręcznika-proc5-wyjaśnij-znaczenie-poszczególnych-pól.">Na
+podstawie podręcznika proc(5) wyjaśnij znaczenie poszczególnych
+pól.</h3>
+<p>nie proc tylko proc_pid_status(5)</p>
+<p>VmPeak - Peak virtual memory size.</p>
+<p>VmSize - Virtual memory size. Suma VmLib, VmExe, VmData, VmStk</p>
+<p>VmLck - Locked memory size (see mlock(2)).</p>
+<p>VmPin - Pinned memory size (since Linux 3.2). These are pages that
+can’t be moved because something needs to directly access physical
+memory.</p>
+<p>VmHWM - Peak resident set size (“high water mark”).</p>
+<p>VmRSS - Resident set size. Note that the value here is the sum of
+RssAnon, RssFile, and RssShmem.</p>
+<p>RssAnon - Size of resident anonymous memory</p>
+<p>RssFile - Size of resident file mappings.</p>
+<p>RssShmem - Size of resident shared memory (includes System V shared
+memory, mappings from tmpfs(5), and shared anonymous mappings</p>
+<p>VmData VmStk VmExe - Size of data, stack, and text segments.</p>
+<p>VmLib - Shared library code size.</p>
+<p>VmPTE - Page table entries size (since Linux 2.6.10).</p>
+<p>VmSwap - Swapped-out virtual memory size by anonymous private pages;
+shmem swap usage is not included (since Linux 2.6.34).</p>
+<h3
+id="przypomnij-jaka-jest-różnica-między-zbiorem-roboczym-i-rezydentnym-procesu.">Przypomnij
+jaka jest różnica między zbiorem roboczym i rezydentnym procesu.</h3>
+<p>Zbiór roboczy podaje ilość stron z których proces korzystał w danym
+przedziale czasowym<br />
+Zbiór rezydentny to ilość stron procesu, która jest trzymana w RAMie
+(pamieci fizycznej!). Tak więc nie wlicza się w to swap space ani files
+system</p>
+<h3
+id="napisz-krótki-skrypt-np.-w-języku-python-lub-awk1-który-wyznaczy-sumę-vmsize-i-osobno-sumę-vmrss-wszystkich-procesów.-czemu-ta-druga-wartość-nie-pokrywa-się-z-rozmiarem-używanej-pamięci-raportowanym-przez-polecenie-vmstat--s">Napisz
+krótki skrypt (np. w języku Python lub awk(1)), który wyznaczy sumę
+«VmSize» i osobno sumę «VmRSS» wszystkich procesów. Czemu ta druga
+wartość nie pokrywa się z rozmiarem używanej pamięci raportowanym przez
+polecenie «vmstat -s»?</h3>
+<div id="cb12" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="nv">vmsize_sum</span><span class="o">=</span><span class="m">0</span>
+<span class="nv">vmrss_sum</span><span class="o">=</span><span class="m">0</span>
+<span class="k">for</span><span class="w"> </span>pid<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>ps<span class="w"> </span>-e<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $1}&#39;</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span><span class="nv">f</span><span class="o">=</span><span class="s2">&quot;/proc/</span><span class="nv">$pid</span><span class="s2">/status&quot;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>!<span class="w"> </span>-f<span class="w"> </span><span class="nv">$f</span><span class="w">  </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="k">continue</span><span class="p">;</span><span class="w"> </span><span class="k">fi</span>
+<span class="w">    </span><span class="nv">vmsize</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;VmSize&quot;</span><span class="w"> </span><span class="nv">$f</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $2}&#39;</span><span class="k">)</span>
+<span class="w">    </span><span class="nv">vmrss</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;VmRSS&quot;</span><span class="w"> </span><span class="nv">$f</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $2}&#39;</span><span class="k">)</span>
+<span class="w">    </span><span class="nv">vmsize_sum</span><span class="o">=</span><span class="k">$((</span><span class="nv">vmsize_sum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nv">vmsize</span><span class="k">))</span>
+<span class="w">    </span><span class="nv">vmrss_sum</span><span class="o">=</span><span class="k">$((</span><span class="nv">vmrss_sum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nv">vmrss</span><span class="k">))</span>
+<span class="k">done</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Suma VmSize: </span><span class="nv">$vmsize_sum</span><span class="s2"> kB&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Suma VmRSS: </span><span class="nv">$vmrss_sum</span><span class="s2"> kB&quot;</span>
+</pre></div>
+
+</div>
+<div id="cb13" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="o">[</span>crusom@crusomcarbon<span class="w"> </span><span class="m">7</span><span class="o">]</span>$<span class="w"> </span>./vm.sh<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>vmstat<span class="w"> </span>-s
+Suma<span class="w"> </span>VmSize:<span class="w"> </span><span class="m">265972932</span><span class="w"> </span>kB
+Suma<span class="w"> </span>VmRSS:<span class="w"> </span><span class="m">17681800</span><span class="w"> </span>kB
+<span class="w">     </span><span class="m">16135548</span><span class="w"> </span>K<span class="w"> </span>total<span class="w"> </span>memory
+<span class="w">      </span><span class="m">8633416</span><span class="w"> </span>K<span class="w"> </span>used<span class="w"> </span>memory
+<span class="w">      </span><span class="m">8694260</span><span class="w"> </span>K<span class="w"> </span>active<span class="w"> </span>memory
+<span class="w">      </span><span class="m">5415992</span><span class="w"> </span>K<span class="w"> </span>inactive<span class="w"> </span>memory
+<span class="w">       </span><span class="m">837700</span><span class="w"> </span>K<span class="w"> </span>free<span class="w"> </span>memory
+<span class="w">       </span><span class="m">361156</span><span class="w"> </span>K<span class="w"> </span>buffer<span class="w"> </span>memory
+<span class="w">      </span><span class="m">7487460</span><span class="w"> </span>K<span class="w"> </span>swap<span class="w"> </span>cache
+<span class="w">     </span><span class="m">16777212</span><span class="w"> </span>K<span class="w"> </span>total<span class="w"> </span>swap
+<span class="w">         </span><span class="m">3080</span><span class="w"> </span>K<span class="w"> </span>used<span class="w"> </span>swap
+<span class="w">     </span><span class="m">16774132</span><span class="w"> </span>K<span class="w"> </span>free<span class="w"> </span>swap
+<span class="w">      </span><span class="m">5658104</span><span class="w"> </span>non-nice<span class="w"> </span>user<span class="w"> </span>cpu<span class="w"> </span>ticks
+<span class="w">          </span><span class="m">115</span><span class="w"> </span>nice<span class="w"> </span>user<span class="w"> </span>cpu<span class="w"> </span>ticks
+<span class="w">      </span><span class="m">2436633</span><span class="w"> </span>system<span class="w"> </span>cpu<span class="w"> </span>ticks
+<span class="w">     </span><span class="m">64236873</span><span class="w"> </span>idle<span class="w"> </span>cpu<span class="w"> </span>ticks
+<span class="w">       </span><span class="m">269362</span><span class="w"> </span>IO-wait<span class="w"> </span>cpu<span class="w"> </span>ticks
+<span class="w">       </span><span class="m">303900</span><span class="w"> </span>IRQ<span class="w"> </span>cpu<span class="w"> </span>ticks
+<span class="w">       </span><span class="m">304143</span><span class="w"> </span>softirq<span class="w"> </span>cpu<span class="w"> </span>ticks
+<span class="w">            </span><span class="m">0</span><span class="w"> </span>stolen<span class="w"> </span>cpu<span class="w"> </span>ticks
+<span class="w">            </span><span class="m">0</span><span class="w"> </span>non-nice<span class="w"> </span>guest<span class="w"> </span>cpu<span class="w"> </span>ticks
+<span class="w">            </span><span class="m">0</span><span class="w"> </span>nice<span class="w"> </span>guest<span class="w"> </span>cpu<span class="w"> </span>ticks
+<span class="w">     </span><span class="m">30958737</span><span class="w"> </span>K<span class="w"> </span>paged<span class="w"> </span><span class="k">in</span>
+<span class="w">     </span><span class="m">35970925</span><span class="w"> </span>K<span class="w"> </span>paged<span class="w"> </span>out
+<span class="w">            </span><span class="m">0</span><span class="w"> </span>pages<span class="w"> </span>swapped<span class="w"> </span><span class="k">in</span>
+<span class="w">            </span><span class="m">1</span><span class="w"> </span>pages<span class="w"> </span>swapped<span class="w"> </span>out
+<span class="w">    </span><span class="m">293874936</span><span class="w"> </span>interrupts
+<span class="w">    </span><span class="m">822829712</span><span class="w"> </span>CPU<span class="w"> </span>context<span class="w"> </span>switches
+<span class="w">   </span><span class="m">1731870298</span><span class="w"> </span>boot<span class="w"> </span><span class="nb">time</span>
+<span class="w">       </span><span class="m">836455</span><span class="w"> </span>forks
+</pre></div>
+
+</div>
+<p>vmstat czyta z /proc/meminfo i daje tylko oszacowania</p>
+<p><a
+href="https://www.man7.org/linux/man-pages/man5/proc_meminfo.5.html"
+class="uri">https://www.man7.org/linux/man-pages/man5/proc_meminfo.5.html</a></p>
+<p>i tak na przykład active:</p>
+<div class="highlight"><pre><span></span>Active %lu
+     Memory that has been used more recently and usually
+     not reclaimed unless absolutely necessary.
+</pre></div>
+
+<p>Powód tak dużej rozbieżności wynika prawdopodobnie z tego, że sumując
+RSS liczymy wielokrotnie RssFile i RssShmem czyli pamięć współdzieloną,
+a vmstat tego nie robi (za te dane odpowiada kernel).</p>
+<h2 id="zadanie-4">Zadanie 4</h2>
+<div class="highlight"><pre><span></span>Zadanie 4. Na podstawie slajdów do wykładu opisz algorytm obsługi błędu stronicowania w systemie Linux.
+Jakie informacje musi dostarczyć procesor, żeby można było wykonać procedurę obsługi błędu stronicowania?  
+Do czego służą struktury jądra «mm_struct::pgd» i «mm_struct::mmap» zdefiniowane w pliku include/linux/mm_types.h?  
+Kiedy jądro wyśle procesowi sygnał SIGSEGV z kodem «SEGV_MAPERR» lub «SEGV_ACCERR»?  
+W jakiej sytuacji wystąpi pomniejsza usterka strony (ang. minor page fault) lub poważna usterka strony (ang. major page fault)? Jaką rolę pełni w systemie bufor stron (ang. page cache)?
+</pre></div>
+
+<p><img src="/assets/slajd3.png" /></p>
+<ol type="1">
+<li>Jeśli strona nie istnieje, to kernel wysyła seg fault</li>
+<li>Jeśli strona istnieje, ale nie jest załadowana, to jest
+ładowana</li>
+<li>Jeśli zrobiliśmy z pamięcią coś, na co nie pozwala jego protection,
+to kernel wysyła seg fault</li>
+</ol>
+<h3
+id="jakie-informacje-musi-dostarczyć-procesor-żeby-można-było-wykonać-procedurę-obsługi-błędu-stronicowania">Jakie
+informacje musi dostarczyć procesor, żeby można było wykonać procedurę
+obsługi błędu stronicowania?</h3>
+<p>Error code:</p>
+<p><img src="/assets/intel_error_code.png" /></p>
+<p>rejestr cr2 zawiera linear address gdzie wystapil page fault</p>
+<p>oprócz tego zawsze gdy wywoływany jest wektor wyjątków no to
+otrzymujemy na stosie:</p>
+<div class="highlight"><pre><span></span>If a stack switch does occur, the processor does the following:
+----------- snip -------------
+3. Pushes the temporarily saved SS, ESP, EFLAGS, CS, and EIP values for the interrupted procedure’s stack onto
+the new stack
+</pre></div>
+
+<h3
+id="do-czego-służą-struktury-jądra-mm_structpgd-i-mm_structmmap-zdefiniowane-w-pliku-includelinuxmm_types.h">Do
+czego służą struktury jądra «mm_struct::pgd» i «mm_struct::mmap»
+zdefiniowane w pliku include/linux/mm_types.h?</h3>
+<p>PGD jest najwyższym page table w hierarchii, służy on do tego żeby
+dla danej strony pamięci wirtualnej znaleźć odpowiadającą mu ramke w
+pamięci fizycznej</p>
+<p>mmap wskazuje na liste dwukierunkową “aren” (czyli segmentów)
+procesu.<br />
+Areny są opisane przez vm_area_struct</p>
+<p>!!!!! Od linuxa v6.1 mm_struct nie zawiera juz struct vm_area_struct
+*mmap, ponieważ ta funkcjonalnosc jest juz uzywana przez maple_tree <a
+href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=763ecb035029f500d7e6dc99acd1ad299b7726a1"
+class="uri">https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=763ecb035029f500d7e6dc99acd1ad299b7726a1</a></p>
+<h3
+id="kiedy-jądro-wyśle-procesowi-sygnał-sigsegv-z-kodem-segv_maperr-lub-segv_accerr">Kiedy
+jądro wyśle procesowi sygnał SIGSEGV z kodem «SEGV_MAPERR» lub
+«SEGV_ACCERR»?</h3>
+<p>SEGV_MAPERR gdy strona nie jest w ogóle podmapowana (punkt 1 naszego
+algorytmu) SEGV_ACCERR gdy dotykamy strony a nie mamy do tego uprawnien
+(punkt 3 naszego algorytmu)</p>
+<h3
+id="w-jakiej-sytuacji-wystąpi-pomniejsza-usterka-strony-ang.-minor-page-fault-lub-poważna-usterka-strony-ang.-major-page-fault">W
+jakiej sytuacji wystąpi pomniejsza usterka strony (ang. minor page
+fault) lub poważna usterka strony (ang. major page fault)?</h3>
+<p><a href="https://en.wikipedia.org/wiki/Page_fault"
+class="uri">https://en.wikipedia.org/wiki/Page_fault</a></p>
+<p>Major page fault wymaga skopiowania strony z dysku, występuje gdy
+strona nie jest w pamięci z powodu na przykład mechanizmu swapowania .
+Minor page fault wymaga jedynie oznaczenia strony w PTE (page table
+entry). Może wystąpić na przykład, gdy pamięć jest dzielona i dana
+strona została już załadowana przez jakiś inny proces.</p>
+<h3 id="jaką-rolę-pełni-w-systemie-bufor-stron-ang.-page-cache">Jaką
+rolę pełni w systemie bufor stron (ang. page cache)?</h3>
+<p><a
+href="https://github.com/firmianay/Life-long-Learner/blob/master/linux-kernel-development/chapter-16.md"
+class="uri">https://github.com/firmianay/Life-long-Learner/blob/master/linux-kernel-development/chapter-16.md</a></p>
+<p>Bufor stron trzyma strony odpowiadające blokom na dysku.<br />
+Mechanizm ten przydaje się, bo dostęp do dysku jest bardzo wolny, a
+niektóre bloki są często czytane, np. root directory “/”.<br />
+Gdy kernel chce przeczytać plik, to najpierw sprawdza page cache. Jeśli
+strona z blokiem znajduje sie w page cache’u to mamy cache hit, w
+przeciwnym przypadku mamy cache miss.</p>
+<h2 id="zadanie-5">Zadanie 5</h2>
+<div class="highlight"><pre><span></span>Zadanie 5. Chcemy rozszerzyć algorytm z poprzedniego zadania o obsługę kopiowania przy zapisie (ang. copy on write).  
+W przestrzeni adresowej procesu utworzono odwzorowania prywatne segmentów pliku wykonywalnego ELF.  
+Rozważmy kilkustronicowy segment danych D przechowujący sekcję «.data».  
+Wiele procesów wykonuje ten sam program, zatem każdy może zmodyfikować dowolną stronę w swoim segmencie D.
+Co jądro przechowuje w strukturze «vm_area_struct» opisującej segment D, a w szczególności w polach «vm_prot» i «vm_flags»?  
+Jak jądro zmodyfikuje «mm_struct::pgd» w trakcie pierwszego odczytu ze strony p należącej do D, a jak w trakcie późniejszego pierwszego zapisu do p?  
+Co jądro musi zrobić z tablicą stron procesu, który zawołał fork(2)?
+</pre></div>
+
+<h3
+id="co-jądro-przechowuje-w-strukturze-vm_area_struct-opisującej-segment-d-a-w-szczególności-w-polach-vm_prot-i-vm_flags">Co
+jądro przechowuje w strukturze «vm_area_struct» opisującej segment D, a
+w szczególności w polach «vm_prot» i «vm_flags»?</h3>
+<p><a
+href="https://elixir.bootlin.com/linux/v6.0-rc1/source/arch/x86/include/asm/pgtable_types.h#L176"
+class="uri">https://elixir.bootlin.com/linux/v6.0-rc1/source/arch/x86/include/asm/pgtable_types.h#L176</a>
+vm_proto definiuje ochrone pamięci</p>
+<div class="highlight"><pre><span></span>#define pgprot_val(x)       ((x).pgprot)
+#define __pgprot(x)     ((pgprot_t) { (x) } )
+#define __pg(x)         __pgprot(x)
+
+#define PAGE_NONE        __pg(   0|   0|   0|___A|   0|   0|   0|___G)
+#define PAGE_SHARED      __pg(__PP|__RW|_USR|___A|__NX|   0|   0|   0)
+#define PAGE_SHARED_EXEC     __pg(__PP|__RW|_USR|___A|   0|   0|   0|   0)
+#define PAGE_COPY_NOEXEC     __pg(__PP|   0|_USR|___A|__NX|   0|   0|   0)
+#define PAGE_COPY_EXEC       __pg(__PP|   0|_USR|___A|   0|   0|   0|   0)
+#define PAGE_COPY        __pg(__PP|   0|_USR|___A|__NX|   0|   0|   0)
+#define PAGE_READONLY        __pg(__PP|   0|_USR|___A|__NX|   0|   0|   0)
+#define PAGE_READONLY_EXEC   __pg(__PP|   0|_USR|___A|   0|   0|   0|   0)
+</pre></div>
+
+<p><a
+href="https://elixir.bootlin.com/linux/v6.0-rc1/source/include/linux/mm.h#L260"
+class="uri">https://elixir.bootlin.com/linux/v6.0-rc1/source/include/linux/mm.h#L260</a>
+vm_flags daje nam szczegóły co do mapowania, takie jak czy strona jest
+dzielona, czy rosnie w dol (dla stosu), czy jest mergeable itd.</p>
+<div class="highlight"><pre><span></span>/*
+ * vm_flags in vm_area_struct, see mm_types.h.
+ * When changing, update also include/trace/events/mmflags.h
+ */
+#define VM_NONE     0x00000000
+
+#define VM_READ     0x00000001  /* currently active flags */
+#define VM_WRITE    0x00000002
+#define VM_EXEC     0x00000004
+#define VM_SHARED   0x00000008
+
+/* mprotect() hardcodes VM_MAYREAD &gt;&gt; 4 == VM_READ, and so for r/w/x bits. */
+#define VM_MAYREAD  0x00000010  /* limits for mprotect() etc */
+#define VM_MAYWRITE 0x00000020
+#define VM_MAYEXEC  0x00000040
+#define VM_MAYSHARE 0x00000080
+
+#define VM_GROWSDOWN    0x00000100  /* general info on the segment */
+#define VM_UFFD_MISSING 0x00000200  /* missing pages tracking */
+#define VM_PFNMAP   0x00000400  /* Page-ranges managed without &quot;struct page&quot;, just pure PFN */
+#define VM_UFFD_WP  0x00001000  /* wrprotect pages tracking */
+
+#define VM_LOCKED   0x00002000
+#define VM_IO           0x00004000  /* Memory mapped I/O or similar */
+
+                    /* Used by sys_madvise() */
+#define VM_SEQ_READ 0x00008000  /* App will access data sequentially */
+#define VM_RAND_READ    0x00010000  /* App will not benefit from clustered reads */
+
+#define VM_DONTCOPY 0x00020000      /* Do not copy this vma on fork */
+#define VM_DONTEXPAND   0x00040000  /* Cannot expand with mremap() */
+#define VM_LOCKONFAULT  0x00080000  /* Lock the pages covered when they are faulted in */
+#define VM_ACCOUNT  0x00100000  /* Is a VM accounted object */
+#define VM_NORESERVE    0x00200000  /* should the VM suppress accounting */
+#define VM_HUGETLB  0x00400000  /* Huge TLB Page VM */
+#define VM_SYNC     0x00800000  /* Synchronous page faults */
+#define VM_ARCH_1   0x01000000  /* Architecture-specific flag */
+#define VM_WIPEONFORK   0x02000000  /* Wipe VMA contents in child. */
+#define VM_DONTDUMP 0x04000000  /* Do not include in the core dump */
+
+#ifdef CONFIG_MEM_SOFT_DIRTY
+# define VM_SOFTDIRTY   0x08000000  /* Not soft dirty clean area */
+#else
+# define VM_SOFTDIRTY   0
+#endif
+
+#define VM_MIXEDMAP 0x10000000  /* Can contain &quot;struct page&quot; and pure PFN pages */
+#define VM_HUGEPAGE 0x20000000  /* MADV_HUGEPAGE marked this vma */
+#define VM_NOHUGEPAGE   0x40000000  /* MADV_NOHUGEPAGE marked this vma */
+#define VM_MERGEABLE    0x80000000  /* KSM may merge identical pages */
+</pre></div>
+
+<h3
+id="jak-jądro-zmodyfikuje-mm_structpgd-w-trakcie-pierwszego-odczytu-ze-strony-p-należącej-do-d-a-jak-w-trakcie-późniejszego-pierwszego-zapisu-do-p">Jak
+jądro zmodyfikuje «mm_struct::pgd» w trakcie pierwszego odczytu ze
+strony p należącej do D, a jak w trakcie późniejszego pierwszego zapisu
+do p?</h3>
+<p><img src="/assets/intel_52.png" /></p>
+<p>W trakcie pierwszego odczytu, jeśli nie ma page entry, no to jądro
+ładuje strone do pamięci i ustawia page entry.<br />
+W trakcie pierwszego zapisu, skoro korzystamy z COW, to jądro musi
+stworzyć nową stronę w pamięci i zaktualizować page entry, aby na nią
+wskazywał.<br />
+Nowa strona musi być oznaczona do zapisu.</p>
+<h3
+id="co-jądro-musi-zrobić-z-tablicą-stron-procesu-który-zawołał-fork2">Co
+jądro musi zrobić z tablicą stron procesu, który zawołał fork(2)?</h3>
+<p>Nowy proces dostaje kopie pgd, najprawdopodobniej strony mają
+ustawiony bit R/W, żeby wiedzieć kiedy wywołać page fault.</p>
+<h2 id="zadanie-6">Zadanie 6</h2>
+<div class="highlight"><pre><span></span>Zadanie 6. Wiemy, że jądro używa stronicowania na żądanie (ang. demand paging) dla wszystkich odwzorowań.  
+Rozważmy program, który utworzył prywatne odwzorowanie pliku w pamięć. 
+Czy mamy gwarancję, że program nie zobaczy modyfikacji zawartości pliku, które zostaną wprowadzone po utworzeniu tego odwzorowania?  
+Próba otworzenia open(2) pliku wykonywalnego do zapisu, kiedy ten plik jest załadowany i wykonywany w jakimś procesie, zawiedzie z błędem «ETXTBSY».  
+Podobnie, nie możemy załadować do przestrzeni adresowej execve(2) pliku, który jest otwarty do zapisu.  
+Co złego mogłoby się stać, gdyby system operacyjny pozwolił modyfikować plik wykonywalny, który jest uruchomiony?
+</pre></div>
+
+<h3
+id="czy-mamy-gwarancję-że-program-nie-zobaczy-modyfikacji-zawartości-pliku-które-zostaną-wprowadzone-po-utworzeniu-tego-odwzorowania">Czy
+mamy gwarancję, że program nie zobaczy modyfikacji zawartości pliku,
+które zostaną wprowadzone po utworzeniu tego odwzorowania?</h3>
+<p>Zróbmy test</p>
+<p>plik test.c:</p>
+<div id="cb21" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/stat.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/mman.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;fcntl.h&gt;</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">stat</span><span class="w"> </span><span class="n">stat</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">open</span><span class="p">(</span><span class="s">&quot;asdf&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">O_RDONLY</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="n">fstat</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">stat</span><span class="p">);</span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">buf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">mmap</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">stat</span><span class="p">.</span><span class="n">st_size</span><span class="p">,</span><span class="w"> </span><span class="n">PROT_READ</span><span class="p">,</span><span class="w"> </span><span class="n">MAP_PRIVATE</span><span class="p">,</span><span class="n">fd</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+<span class="w">  </span><span class="n">write</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="n">stat</span><span class="p">.</span><span class="n">st_size</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+<p>plik overwrite.c:</p>
+<div id="cb22" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;fcntl.h&gt;</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">open</span><span class="p">(</span><span class="s">&quot;asdf&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">O_RDWR</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="n">s</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;bbbbbbbbbbbbbbbb&quot;</span><span class="p">;</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="p">(</span><span class="mi">4086</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span><span class="o">/</span><span class="mi">16</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">    </span><span class="n">write</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">);</span>
+<span class="w">  </span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+</pre></div>
+
+</div>
+<p>Zróbmy test</p>
+<div id="cb23" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="o">[</span>crusom@crusomcarbon<span class="w"> </span>tmp<span class="o">]</span>$<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;print(&#39;0&#39; * 4096*3)&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>asdf
+<span class="o">[</span>crusom@crusomcarbon<span class="w"> </span>tmp<span class="o">]</span>$<span class="w"> </span>./a.out<span class="w"> </span><span class="p">&amp;</span>
+<span class="o">[</span><span class="m">2</span><span class="o">]</span><span class="w"> </span><span class="m">948294</span>
+<span class="o">[</span>crusom@crusomcarbon<span class="w"> </span>tmp<span class="o">]</span>$<span class="w"> </span>./overwrite
+<span class="o">[</span>crusom@crusomcarbon<span class="w"> </span>tmp<span class="o">]</span>$<span class="w"> </span>bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+</pre></div>
+
+</div>
+<p>Jak widzimy, mimo że mmap został wykonany zanim plik został
+nadpisany, to kto faktycznie czytamy z pliku, to czytamy z już
+zmodyfikowanego pliku.<br />
+Wynika to ze stronnicowania na żądanie. Jądra czyta wczytuje strone,
+dopiero gdy rzeczywiście ją dotykamy.</p>
+<h3
+id="co-złego-mogłoby-się-stać-gdyby-system-operacyjny-pozwolił-modyfikować-plik-wykonywalny-który-jest-uruchomiony">Co
+złego mogłoby się stać, gdyby system operacyjny pozwolił modyfikować
+plik wykonywalny, który jest uruchomiony?</h3>
+<p>Z pewnością zepsułby się stan naszego procesu, bo wykonywalibyśmy
+nieplanowane instrukcje.<br />
+Atakujący może celowo nadpisać program, aby wykonać złośliwy kod (memory
+injection)</p>
+<h2 id="zadanie-7">Zadanie 7</h2>
+<p>Zbadajmy czas wykonania dla jednowątkowego programu:</p>
+<div class="highlight"><pre><span></span>8.52user 0.28system 0:08.83elapsed 99%CPU (0avgtext+0avgdata 525380maxresident)k
+0inputs+0outputs (0major+131143minor)pagefaults 0swaps
+</pre></div>
+
+<div id="cb25" class="sourceCode">
+<div class="highlight"><pre><span></span>sudo<span class="w"> </span>perf<span class="w"> </span>record<span class="w"> </span>./forksort
+</pre></div>
+
+</div>
+<div id="cb26" class="sourceCode">
+<div class="highlight"><pre><span></span>Samples:<span class="w"> </span>35K<span class="w"> </span>of<span class="w"> </span>event<span class="w"> </span><span class="s1">&#39;cycles:P&#39;</span>,<span class="w"> </span>Event<span class="w"> </span>count<span class="w"> </span><span class="o">(</span>approx.<span class="o">)</span>:<span class="w"> </span><span class="m">33303232029</span>
+Overhead<span class="w">  </span>Command<span class="w">   </span>Shared<span class="w"> </span>Object<span class="w">      </span>Symbol
+<span class="w">  </span><span class="m">65</span>.07%<span class="w">  </span>forksort<span class="w">  </span>forksort<span class="w">           </span><span class="o">[</span>.<span class="o">]</span><span class="w"> </span>Partition<span class="w">                                                                                                                                          </span>◆
+<span class="w">   </span><span class="m">9</span>.34%<span class="w">  </span>forksort<span class="w">  </span>libc.so.6<span class="w">          </span><span class="o">[</span>.<span class="o">]</span><span class="w"> </span>random<span class="w">                                                                                                                                             </span>▒
+<span class="w">   </span><span class="m">8</span>.77%<span class="w">  </span>forksort<span class="w">  </span>forksort<span class="w">           </span><span class="o">[</span>.<span class="o">]</span><span class="w"> </span>InsertionSort<span class="w">                                                                                                                                      </span>▒
+<span class="w">   </span><span class="m">5</span>.54%<span class="w">  </span>forksort<span class="w">  </span>forksort<span class="w">           </span><span class="o">[</span>.<span class="o">]</span><span class="w"> </span>SwapElem<span class="w">                                                                                                                                           </span>▒
+<span class="w">   </span><span class="m">1</span>.36%<span class="w">  </span>forksort<span class="w">  </span>libc.so.6<span class="w">          </span><span class="o">[</span>.<span class="o">]</span><span class="w"> </span>random_r<span class="w">                                                                                                                                           </span>▒
+<span class="w">   </span><span class="m">1</span>.14%<span class="w">  </span>forksort<span class="w">  </span>forksort<span class="w">           </span><span class="o">[</span>.<span class="o">]</span><span class="w"> </span>main<span class="w">                                                                                                                                               </span>▒
+<span class="w">   </span><span class="m">0</span>.76%<span class="w">  </span>forksort<span class="w">  </span>forksort<span class="w">           </span><span class="o">[</span>.<span class="o">]</span><span class="w"> </span>QuickSort<span class="w">                                                                                                                                          </span>▒
+<span class="w">   </span><span class="m">0</span>.65%<span class="w">  </span>forksort<span class="w">  </span>libc.so.6<span class="w">          </span><span class="o">[</span>.<span class="o">]</span><span class="w"> </span>0x000000000016c60d<span class="w">                                                                                                                                 </span>▒
+<span class="w">   </span><span class="m">0</span>.53%<span class="w">  </span>forksort<span class="w">  </span>libc.so.6<span class="w">          </span><span class="o">[</span>.<span class="o">]</span><span class="w"> </span>0x000000000016c6c0<span class="w">                                                                                                                                 </span>▒
+</pre></div>
+
+</div>
+<p>Najwiecej cykli zajmuje Partition, InsertionSort i SwapElem,
+wszystkie są wywoływane przez QuickSort, który możemy zrównoleglić</p>
+<div class="highlight"><pre><span></span>W przypadku zrównoleglania, Prawo Amdahla mówi, że jeżeli P jest proporcją programu, który może podlegać zrównolegleniu (np. korzyści z wykonywania równoległego) i ( 1 − P ) jest proporcją części, która nie może zostać zrównoleglona (pozostaje w przetwarzaniu szeregowym), wówczas maksymalne przyspieszenie jakie może być uzyskane przy użyciu N procesorów jest równe:
+1 / ((1-P) + (P/N))
+</pre></div>
+
+<p>Nasze P to 65.07% + 8.77% + 5.54% + 0.76% = 80.14% = 0.80<br />
+N to liczba procesorów, u mnie to jest N=4 dla rdzeni fizycznych i N=8
+dla wirtualnych.<br />
+Podejrzewam że interesują nas rdzenie fizyczne, bo prawo to było
+stworzone przed hyper-threadingiem.</p>
+<p>Przyspieszenie wynosi 1 / (0.20 + 0.2) = 2.5</p>
+<div id="cb28" class="sourceCode">
+<div class="highlight"><pre><span></span>env<span class="w"> </span><span class="nb">time</span><span class="w"> </span>./forksort<span class="w"> </span><span class="m">2</span>&gt;<span class="w"> </span>forksort_multithread.txt
+</pre></div>
+
+</div>
+<div class="highlight"><pre><span></span>12.15user 0.85system 0:03.49elapsed 372%CPU (0avgtext+0avgdata 525460maxresident)k
+0inputs+0outputs (0major+255070minor)pagefaults 0swaps
+</pre></div>
+
+<p>Porównajmy czasy wykonania 8.83/3.49 = 2.53</p>
+<p>Przyspieszenie wynosiło 2.53, co jest bliskie prawu amdahla.</p>
+<p>Możemy też zauważyć, że zużycie procesora wynosiło 372%CPU, ponieważ
+korzystaliśmy z 4 rdzeni, a nie tylko jednego.</p>
+  </body>
+</html>

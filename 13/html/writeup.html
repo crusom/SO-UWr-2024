@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="date" content=''>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/../style.css"/>
+
+    <title>writeup</title>
+
+  </head>
+  <body>
+
+<ul>
+<li><a href="#słowniczek-studenta-debila"
+id="toc-słowniczek-studenta-debila">Słowniczek studenta debila</a>
+<ul>
+<li><a href="#mutex-mutual-exclusion-to"
+id="toc-mutex-mutual-exclusion-to">mutex (mutual exclusion) to:</a></li>
+<li><a href="#zmienna-warunkowa-to"
+id="toc-zmienna-warunkowa-to">zmienna warunkowa to:</a></li>
+<li><a href="#semafor-to" id="toc-semafor-to">semafor to:</a></li>
+<li><a href="#zadanie-1" id="toc-zadanie-1">Zadanie 1</a>
+<ul>
+<li><a
+href="#przypomnij-z-wykładu-na-czym-polega-problem-odwrócenia-priorytetów-oraz-metodę-jego-rozwiązywania-o-nazwie-dziedziczenie-priorytetów"
+id="toc-przypomnij-z-wykładu-na-czym-polega-problem-odwrócenia-priorytetów-oraz-metodę-jego-rozwiązywania-o-nazwie-dziedziczenie-priorytetów">Przypomnij
+z wykładu na czym polega problem odwrócenia priorytetów oraz metodę jego
+rozwiązywania o nazwie dziedziczenie priorytetów?</a></li>
+<li><a
+href="#w-jakim-celu-mutex-pamięta-właściciela-tj.-wątek-który-trzyma-blokadę"
+id="toc-w-jakim-celu-mutex-pamięta-właściciela-tj.-wątek-który-trzyma-blokadę">W
+jakim celu mutex pamięta właściciela, tj. wątek który trzyma
+blokadę?</a></li>
+<li><a
+href="#w-jaki-sposób-należy-rozszerzyć-implementację-operacji-mutex_lock-i-mutex_unlock-żeby-nie-dopuścić-do-odwrócenia-priorytetów"
+id="toc-w-jaki-sposób-należy-rozszerzyć-implementację-operacji-mutex_lock-i-mutex_unlock-żeby-nie-dopuścić-do-odwrócenia-priorytetów">W
+jaki sposób należy rozszerzyć implementację operacji «mutex_lock» i
+«mutex_unlock», żeby nie dopuścić do odwrócenia priorytetów?</a></li>
+<li><a href="#czy-semafory-są-odporne-na-problem-odwrócenia-priorytetów"
+id="toc-czy-semafory-są-odporne-na-problem-odwrócenia-priorytetów">Czy
+semafory są odporne na problem odwrócenia priorytetów?</a></li>
+</ul></li>
+<li><a href="#zadanie-2" id="toc-zadanie-2">Zadanie 2</a></li>
+<li><a href="#zadanie-3" id="toc-zadanie-3">Zadanie 3</a>
+<ul>
+<li><a
+href="#opisz-semantykę-operacji-futex_wait-i-futex_wake-mechanizmu-futex2-1-2.3.6-wykorzystywanego-w-systemie-linux-do-implementacji-środków-synchronizacji-w-przestrzeni-użytkownika."
+id="toc-opisz-semantykę-operacji-futex_wait-i-futex_wake-mechanizmu-futex2-1-2.3.6-wykorzystywanego-w-systemie-linux-do-implementacji-środków-synchronizacji-w-przestrzeni-użytkownika.">Opisz
+semantykę operacji «FUTEX_WAIT» i «FUTEX_WAKE» mechanizmu futex(2) [ 1,
+2.3.6] wykorzystywanego w systemie Linux do implementacji środków
+synchronizacji w przestrzeni użytkownika.</a></li>
+<li><a
+href="#czym-różnią-się-blokady-adaptacyjne-ang.-adaptive-lock-od-zwykłych-blokad-usypiających"
+id="toc-czym-różnią-się-blokady-adaptacyjne-ang.-adaptive-lock-od-zwykłych-blokad-usypiających">Czym
+różnią się blokady adaptacyjne (ang. adaptive lock) od zwykłych blokad
+usypiających?</a></li>
+<li><a
+href="#zreferuj-implementację-prostej-blokady-z-operacjami-__lock-i-__unlock."
+id="toc-zreferuj-implementację-prostej-blokady-z-operacjami-__lock-i-__unlock.">Zreferuj
+implementację prostej blokady z operacjami __lock i __unlock.</a></li>
+<li><a href="#co-wyraża-wartość-blokady"
+id="toc-co-wyraża-wartość-blokady">Co wyraża wartość blokady</a></li>
+<li><a
+href="#jak-zachowuje-się-blokada-w-warunkach-wysokiego-współzawodnictwa"
+id="toc-jak-zachowuje-się-blokada-w-warunkach-wysokiego-współzawodnictwa">Jak
+zachowuje się blokada w warunkach wysokiego współzawodnictwa?</a></li>
+<li><a href="#w-jakich-warunkach-usypiamy-i-wybudzamy-wątki"
+id="toc-w-jakich-warunkach-usypiamy-i-wybudzamy-wątki">W jakich
+warunkach usypiamy i wybudzamy wątki?</a></li>
+</ul></li>
+<li><a href="#zadanie-4" id="toc-zadanie-4">Zadanie 4</a>
+<ul>
+<li><a href="#lost-wakup" id="toc-lost-wakup">lost wakup</a></li>
+<li><a href="#fifo" id="toc-fifo">fifo</a></li>
+</ul></li>
+</ul></li>
+</ul>
+<h1 id="słowniczek-studenta-debila">Słowniczek studenta debila</h1>
+<h3 id="mutex-mutual-exclusion-to">mutex (mutual exclusion) to:</h3>
+<ul>
+<li>zmienna binarna nazywana blokadą, którą może mieć pobrany tylko
+jeden wątek</li>
+<li>zmienna z informacją o tym, kto obecnie posiada blokadę<br />
+Mutex gwarantuje, ze tylko jeden wątek w danym czasie może mieć dostęp
+do jakiegoś zasobu</li>
+</ul>
+<h3 id="zmienna-warunkowa-to">zmienna warunkowa to:</h3>
+<ul>
+<li>wait-queue, czyli kolejka do której dodajemy uśpione przez nas wątki
+albo wyjmujemy i budzimy wątki<br />
+Zmienną warunkową nazywamy tak, ponieważ zwykly występuje jakiś warunek
+dla którego usypiamy albo budzimy wątki.<br />
+Przykładem jest oczekiwanie na zmiane stanu zmiennej. Bez zmiennej
+warunkowej robilibyśmy busy-waiting, a tak mozemy po prostu pójść spać i
+zostaniemy wybudzeni, gdy warunek zostanie spełniony.<br />
+Np.</li>
+</ul>
+<div id="cb1" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="n">syncVar</span><span class="p">.</span><span class="n">lock</span><span class="p">.</span><span class="n">acquire</span><span class="p">();</span>
+
+<span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">queue</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span>
+<span class="w">   </span><span class="n">syncVar</span><span class="p">.</span><span class="n">wait</span><span class="p">();</span>
+
+<span class="c1">// do stuff with queue</span>
+
+<span class="n">syncVar</span><span class="p">.</span><span class="n">lock</span><span class="p">.</span><span class="n">release</span><span class="p">();</span>
+</pre></div>
+
+</div>
+<h3 id="semafor-to">semafor to:</h3>
+<ul>
+<li>mutex + wait-queue + counter<br />
+Semafor od zmiennej warunkowej różni się tym, że mamy jakąś liczbe N
+dostępnych rzeczy, więc przydaje się w scenariuszu producent/konsument
+(jest N rzeczy które można skonsumować)</li>
+</ul>
+<h2 id="zadanie-1">Zadanie 1</h2>
+<div class="highlight"><pre><span></span>Zadanie 1. Przypomnij z wykładu na czym polega problem odwrócenia priorytetów oraz metodę jego rozwiązywania o nazwie dziedziczenie priorytetów?  
+W jakim celu mutex pamięta właściciela, tj. wątek który trzyma blokadę?  
+W jaki sposób należy rozszerzyć implementację operacji «mutex_lock» i «mutex_unlock», żeby nie dopuścić do odwrócenia priorytetów?  
+Czy semafory są odporne na problem odwrócenia priorytetów?
+</pre></div>
+
+<p><img src="./assets/odwrocenie_priorytetow.png" /></p>
+<h3
+id="przypomnij-z-wykładu-na-czym-polega-problem-odwrócenia-priorytetów-oraz-metodę-jego-rozwiązywania-o-nazwie-dziedziczenie-priorytetów">Przypomnij
+z wykładu na czym polega problem odwrócenia priorytetów oraz metodę jego
+rozwiązywania o nazwie dziedziczenie priorytetów?</h3>
+<p>Problem <strong>odwrócenia priorytetów</strong> polega na tym, że
+wątek o wysokim priorytecie TH1 nie może wykonać od razu swojej pracy,
+ponieważ blokada jest trzymana przez wątek o niskim priorytecie
+TH3.<br />
+A ponieważ może istnieć dużo wątków o wyższym od TH3 priorytecie, to
+może on czekać bardzo długo, a razem z nim TH1, który ma przecież wysoki
+priorytet.</p>
+<p>Rozwiązaniem jest <strong>dziedziczenie priorytetów</strong>, czyli
+tymczasowe (do wyjscia z sekcji krytycznej) nadanie TH3 wysokiego
+priorytetu, aby prędko oddał blokadę, żeby TH1 mógł się wykonać.</p>
+<h3
+id="w-jakim-celu-mutex-pamięta-właściciela-tj.-wątek-który-trzyma-blokadę">W
+jakim celu mutex pamięta właściciela, tj. wątek który trzyma
+blokadę?</h3>
+<p>Dzięki temu, że znamy wątek, który trzyma mutex możemy w sytuacji
+opisanej wyżej zastosować <strong>dziedziczenie priorytetów</strong> i
+nadać wątkowi o niskim priorytecie trzymającemu mutex, wysoki
+priorytet.</p>
+<h3
+id="w-jaki-sposób-należy-rozszerzyć-implementację-operacji-mutex_lock-i-mutex_unlock-żeby-nie-dopuścić-do-odwrócenia-priorytetów">W
+jaki sposób należy rozszerzyć implementację operacji «mutex_lock» i
+«mutex_unlock», żeby nie dopuścić do odwrócenia priorytetów?</h3>
+<p>mutex_lock patrzy kto obecnie trzyma blokade i jesli owy wątek ma
+niższy priorytet od nas, to nadaje mu tymczasowo nasz priorytet.</p>
+<p>mutex_unlock patrzy czy został zmieniony jego priorytet na czas
+wykonania sekcji krytycznej, jeśli tak, to ustawia priorytet na
+oryginalny.</p>
+<h3 id="czy-semafory-są-odporne-na-problem-odwrócenia-priorytetów">Czy
+semafory są odporne na problem odwrócenia priorytetów?</h3>
+<p>Nie, ponieważ semafory nie wiedzą, kto trzyma semafor.</p>
+<h2 id="zadanie-2">Zadanie 2</h2>
+<div class="highlight"><pre><span></span>Zadanie 2. Podaj implementację (w języku C) semafora1 z operacjami «init», «wait» oraz «post»
+używając wyłącznie muteksów i zmiennych warunkowych standardu POSIX.1. Pamiętaj, że wartość semafora
+musi być zawsze nieujemna.
+Podpowiedź: typedef struct Sem { pthread_mutex_t mutex; pthread_cond_t waiters; int value; } Sem_t;
+</pre></div>
+
+<p>Idea jest taka, ze w wait pobieramy mutex, sprawdzamy warunek i
+pobieramy item lub śpimy (pthread_cond_wait)</p>
+<div id="cb4" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;pthread.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">Sem</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">pthread_mutex_t</span><span class="w"> </span><span class="n">mutex</span><span class="p">;</span><span class="w"> </span><span class="n">pthread_cond_t</span><span class="w"> </span><span class="n">waiters</span><span class="p">;</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="n">Sem_t</span><span class="p">;</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">init</span><span class="p">(</span><span class="n">Sem_t</span><span class="w"> </span><span class="o">*</span><span class="n">sem</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">val</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;init value can&#39;t be negative!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">-1</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="n">sem</span><span class="o">-&gt;</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">val</span><span class="p">;</span>
+
+<span class="w">  </span><span class="n">pthread_cond_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sem</span><span class="o">-&gt;</span><span class="n">waiters</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"> </span><span class="c1">// &quot;the cond_attr parameter is actually ignored.&quot;</span>
+<span class="w">  </span><span class="n">pthread_mutex_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sem</span><span class="o">-&gt;</span><span class="n">mutex</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w">  </span><span class="c1">// there&#39;re 3 attributs &#39;fast&#39;, &#39;recursive&#39; and &#39;error checking&#39; and fast is the default one</span>
+<span class="p">}</span>
+<span class="c1">// P (decrease)</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">wait</span><span class="p">(</span><span class="n">Sem_t</span><span class="w"> </span><span class="o">*</span><span class="n">sem</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">pthread_mutex_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sem</span><span class="o">-&gt;</span><span class="n">mutex</span><span class="p">);</span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">sem</span><span class="o">-&gt;</span><span class="n">value</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">pthread_cond_wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sem</span><span class="o">-&gt;</span><span class="n">waiters</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sem</span><span class="o">-&gt;</span><span class="n">mutex</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// have somebody produced a new item?</span>
+
+<span class="w">  </span><span class="c1">// we take the item!</span>
+<span class="w">  </span><span class="n">sem</span><span class="o">-&gt;</span><span class="n">value</span><span class="o">--</span><span class="p">;</span>
+<span class="w">  </span><span class="n">pthread_mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sem</span><span class="o">-&gt;</span><span class="n">mutex</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="c1">// V (increase)</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="n">Sem_t</span><span class="w"> </span><span class="o">*</span><span class="n">sem</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">pthread_mutex_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sem</span><span class="o">-&gt;</span><span class="n">mutex</span><span class="p">);</span>
+<span class="w">  </span><span class="c1">// i assume there&#39;s no buffer size limit cause it&#39;s not specified in the assignment</span>
+<span class="w">  </span><span class="n">sem</span><span class="o">-&gt;</span><span class="n">value</span><span class="o">++</span><span class="p">;</span>
+<span class="w">  </span><span class="c1">// If no threads are waiting on cond, nothing happens</span>
+<span class="w">  </span><span class="n">pthread_cond_signal</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sem</span><span class="o">-&gt;</span><span class="n">waiters</span><span class="p">);</span>
+<span class="w">  </span><span class="n">pthread_mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sem</span><span class="o">-&gt;</span><span class="n">mutex</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+<h2 id="zadanie-3">Zadanie 3</h2>
+<div class="highlight"><pre><span></span>Zadanie 3. Opisz semantykę operacji «FUTEX_WAIT» i «FUTEX_WAKE» mechanizmu futex(2) [ 1, 2.3.6] wykorzystywanego w systemie Linux do implementacji środków synchronizacji w przestrzeni użytkownika.  
+Czym różnią się blokady adaptacyjne (ang. adaptive lock) od zwykłych blokad usypiających?  
+Zreferuj implementację prostej blokady z operacjami __lock i __unlock.  
+Przyjmujemy, że zmienna «libc.need_locks» ma wartość 1.  
+Funkcje «__futexwait» i «__wake» są zdefiniowane w pliku pthread_impl.h.  
+Instrukcje atomowe zwracają starą wartość modyfikowanej komórki pamięci. Co wyraża wartość blokady?  
+Jak zachowuje się blokada w warunkach wysokiego współzawodnictwa?  
+W jakich warunkach usypiamy i wybudzamy wątki?
+</pre></div>
+
+<h3
+id="opisz-semantykę-operacji-futex_wait-i-futex_wake-mechanizmu-futex2-1-2.3.6-wykorzystywanego-w-systemie-linux-do-implementacji-środków-synchronizacji-w-przestrzeni-użytkownika.">Opisz
+semantykę operacji «FUTEX_WAIT» i «FUTEX_WAKE» mechanizmu futex(2) [ 1,
+2.3.6] wykorzystywanego w systemie Linux do implementacji środków
+synchronizacji w przestrzeni użytkownika.</h3>
+<div id="cb6" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="kt">long</span><span class="w"> </span><span class="nf">syscall</span><span class="p">(</span><span class="n">SYS_futex</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="o">*</span><span class="n">uaddr</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">futex_op</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">val</span><span class="p">,</span>
+<span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">timespec</span><span class="w"> </span><span class="o">*</span><span class="n">timeout</span><span class="p">,</span><span class="w">   </span><span class="cm">/* or: uint32_t val2 */</span>
+<span class="w">            </span><span class="kt">uint32_t</span><span class="w"> </span><span class="o">*</span><span class="n">uaddr2</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">val3</span><span class="p">);</span>
+</pre></div>
+
+</div>
+<p>FUTEX_WAIT: sprawdza, czy pod adresem uaddr jest wartosc val, jesli
+nie to wychodzi z errorem EAGAIN (pozwala to zapobiec lost wake-ups),
+jesli tak to spi az albo nie zostanie wybudzony przez FUTEX_WAKE, albo
+nie skończy się timeout (jeśli był ustawiony)<br />
+FUTEX_WAKE: budzi maksymalnie val wątków oczekujących na uaddr</p>
+<h3
+id="czym-różnią-się-blokady-adaptacyjne-ang.-adaptive-lock-od-zwykłych-blokad-usypiających">Czym
+różnią się blokady adaptacyjne (ang. adaptive lock) od zwykłych blokad
+usypiających?</h3>
+<p>Blokady adaptacyjne korzystają ze spinlocka, jeśli w oparciu o jakieś
+heurystyki spodziewają się krótkiego czasu oczekiwania (a jest to dość
+powszechne).<br />
+Jeśli jednak czekają już długo, to przechodzą w stan uśpienia.<br />
+Blokady adaptacyjne są bardziej efektywne dla krótkich czasów
+oczekiwania, bo nie trzeba robić content switcha do kernela.</p>
+<h3
+id="zreferuj-implementację-prostej-blokady-z-operacjami-__lock-i-__unlock.">Zreferuj
+implementację prostej blokady z operacjami __lock i __unlock.</h3>
+<div id="cb7" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="cm">/* This lock primitive combines a flag (in the sign bit) and a</span>
+<span class="cm"> * congestion count (= threads inside the critical section, CS) in a</span>
+<span class="cm"> * single int that is accessed through atomic operations. The states</span>
+<span class="cm"> * of the int for value x are:</span>
+<span class="cm"> *</span>
+<span class="cm"> * x == 0: unlocked and no thread inside the critical section</span>
+<span class="cm"> *</span>
+<span class="cm"> * x &lt; 0: locked with a congestion of x-INT_MIN, including the thread</span>
+<span class="cm"> * that holds the lock</span>
+<span class="cm"> *</span>
+<span class="cm"> * x &gt; 0: unlocked with a congestion of x</span>
+<span class="cm"> *</span>
+<span class="cm"> * or in an equivalent formulation x is the congestion count or&#39;ed</span>
+<span class="cm"> * with INT_MIN as a lock flag.</span>
+<span class="cm"> */</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">__lock</span><span class="p">(</span><span class="k">volatile</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">l</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">need_locks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">libc</span><span class="p">.</span><span class="n">need_locks</span><span class="p">;</span><span class="w"> </span><span class="c1">// 1</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">need_locks</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="cm">/* fast path: INT_MIN for the lock, +1 for the congestion */</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a_cas</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">INT_MIN</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="c1">// cmpxchg - sprawdzamy czy l == 0, jak tak to ustawiamy l na INT_MIN + 1 (INT_MIN daje flage, czyli ze CS jest zajety a 1 ze 1 watek)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">need_locks</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">libc</span><span class="p">.</span><span class="n">need_locks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">current</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="c1">// nie było wątków w sekcji krytycznej i udało nam się ustawić jeden wątek (nas)</span>
+<span class="w">    </span><span class="cm">/* A first spin loop, for medium congestion. */</span>
+<span class="w">    </span><span class="c1">// próbujemy 10 razy wziąć blokade</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">current</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">INT_MIN</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="c1">// moze ktos zwolnil locka? załóżmy, że lock jest zwolniony i spróbujmy go wziąć</span>
+<span class="w">        </span><span class="c1">// assertion: current &gt;= 0</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a_cas</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">current</span><span class="p">,</span><span class="w"> </span><span class="n">INT_MIN</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">current</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">val</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">current</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="c1">// było current wątków i udało nam się dodać nasz wątek do kolejki</span>
+<span class="w">        </span><span class="n">current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">val</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// Spinning failed, so mark ourselves as being inside the CS.</span>
+<span class="w">    </span><span class="n">current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a_fetch_add</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="c1">// &quot;a_fetch_add atomically adds the value argument to the pointed-to object and returns the _old_ value&quot;</span>
+<span class="w">    </span><span class="cm">/* The main lock acquisition loop for heavy congestion. The only</span>
+<span class="cm">     * change to the value performed inside that loop is a successful</span>
+<span class="cm">     * lock via the CAS that acquires the lock. */</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(;;)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="cm">/* We can only go into wait, if we know that somebody holds the</span>
+<span class="cm">         * lock and will eventually wake us up, again. */</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">current</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">__futexwait</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">current</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="c1">// nie ma wyjścia, idziemy spać</span>
+<span class="w">            </span><span class="n">current</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">INT_MIN</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="cm">/* assertion: current &gt; 0, the count includes us already. */</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a_cas</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">current</span><span class="p">,</span><span class="w"> </span><span class="n">INT_MIN</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">current</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">val</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">current</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="c1">// :DDDDD</span>
+<span class="w">        </span><span class="n">current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">val</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">__unlock</span><span class="p">(</span><span class="k">volatile</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">l</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="cm">/* Check l[0] to see if we are multi-threaded. */</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">a_fetch_add</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="p">(</span><span class="n">INT_MIN</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="p">(</span><span class="n">INT_MIN</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// jeśli jest tylko jeden wątek w sekcji krytycznej, to nie ma po co go budzić, bo nie spi!</span>
+<span class="w">            </span><span class="n">__wake</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+<p>Próbujemy pobrać blokade w trzech etapach: fast path (udało
+się pobrać od razu), medium congestion (próbujemy 10 razy), heavy
+congestion (śpimy, aż ktoś nas nie wybudzi)</p>
+<h3 id="co-wyraża-wartość-blokady">Co wyraża wartość blokady</h3>
+<div id="cb8" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="cm">/* This lock primitive combines a flag (in the sign bit) and a</span>
+<span class="cm"> * congestion count (= threads inside the critical section, CS) in a</span>
+<span class="cm"> * single int that is accessed through atomic operations. The states</span>
+<span class="cm"> * of the int for value x are:</span>
+<span class="cm"> *</span>
+<span class="cm"> * x == 0: unlocked and no thread inside the critical section</span>
+<span class="cm"> *</span>
+<span class="cm"> * x &lt; 0: locked with a congestion of x-INT_MIN, including the thread</span>
+<span class="cm"> * that holds the lock</span>
+<span class="cm"> *</span>
+<span class="cm"> * x &gt; 0: unlocked with a congestion of x</span>
+<span class="cm"> *</span>
+<span class="cm"> * or in an equivalent formulation x is the congestion count or&#39;ed</span>
+<span class="cm"> * with INT_MIN as a lock flag.</span>
+<span class="cm"> */</span>
+</pre></div>
+
+</div>
+<h3
+id="jak-zachowuje-się-blokada-w-warunkach-wysokiego-współzawodnictwa">Jak
+zachowuje się blokada w warunkach wysokiego współzawodnictwa?</h3>
+<p>Spinlockuje</p>
+<h3 id="w-jakich-warunkach-usypiamy-i-wybudzamy-wątki">W jakich
+warunkach usypiamy i wybudzamy wątki?</h3>
+<p>Usypiamy, jak nie udało się pobrać spinlockiem blokady.<br />
+Wybudzamy, jeśli więcej niż jeden wątek jest na blokadzie (jeśli jest
+jeden, to jest on w sekcji krytycznej obecnie, więc nie ma kogo
+budzić)</p>
+<h2 id="zadanie-4">Zadanie 4</h2>
+<p><img src="./assets/zadanie4.png" /></p>
+<h3 id="lost-wakup">lost wakup</h3>
+<p>Jeśli acquire() będzie między 5tą a 6tą linią, tzn. po wyjściu z
+mutexa, ale przed wejściem do blocka, a wtedy wykona się release robiący
+block.post(), to będziemy mieć lost wakeup.</p>
+<h3 id="fifo">fifo</h3>
+<p>jeśli acquire() będzie między 6tą a 7tą linią, tzn. po wyjściu z
+block, a przed wejściem do mutexa, ale w tym czasie przyjdą 3 wątki
+które zrobią acquire(), a potem nasz wątek się dokończy, to zwiększy
+active z 3 do 4 (co łamie trzeci warunek) i ustawi must_wait na
+false.<br />
+Problem ten by się rozwiązał jakbyśmy właśnie używali while zamiast
+if.</p>
+  </body>
+</html>

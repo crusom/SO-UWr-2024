@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="date" content=''>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/../style.css"/>
+
+    <title>writeup</title>
+
+  </head>
+  <body>
+
+<ul>
+<li><a href="#zadanie-1" id="toc-zadanie-1">Zadanie 1</a>
+<ul>
+<li><a
+href="#czemu-program-działa-szybciej-jeśli-zmienna-spacing-jest-równa-8-zamiast-1"
+id="toc-czemu-program-działa-szybciej-jeśli-zmienna-spacing-jest-równa-8-zamiast-1">Czemu
+program działa szybciej, jeśli zmienna spacing jest równa 8 zamiast
+1?</a></li>
+<li><a href="#diagram-przejść-stanów"
+id="toc-diagram-przejść-stanów">Diagram przejść stanów</a></li>
+</ul></li>
+<li><a href="#zadanie-2" id="toc-zadanie-2">Zadanie 2</a>
+<ul>
+<li><a
+href="#zdefiniuj-pojęcie-modelu-spójności-pamięci-ang.-memory-consistency-model"
+id="toc-zdefiniuj-pojęcie-modelu-spójności-pamięci-ang.-memory-consistency-model">Zdefiniuj
+pojęcie modelu spójności pamięci (ang. memory consistency
+model)</a></li>
+<li><a
+href="#następnie-opowiedz-jakie-gwarancje-daje-programiście-spójność-sekwencyjna."
+id="toc-następnie-opowiedz-jakie-gwarancje-daje-programiście-spójność-sekwencyjna.">Następnie
+opowiedz jakie gwarancje daje programiście spójność
+sekwencyjna.</a></li>
+<li><a
+href="#wyjaśnij-gwarancje-które-daje-programiście-każdy-z-tych-modeli-x86-64-i-armv7"
+id="toc-wyjaśnij-gwarancje-które-daje-programiście-każdy-z-tych-modeli-x86-64-i-armv7">Wyjaśnij
+gwarancje, które daje programiście każdy z tych modeli (x86-64 i
+ARMv7)</a></li>
+<li><a href="#przykład" id="toc-przykład">Przykład</a></li>
+</ul></li>
+<li><a href="#zadanie-3" id="toc-zadanie-3">Zadanie 3</a>
+<ul>
+<li><a
+href="#następnie-pokaż-gdzie-trzeba-wstawić-instrukcje-bariery-pamięciowej3-więcej-niż-jedną-aby-program-zachowywał-się-poprawnie."
+id="toc-następnie-pokaż-gdzie-trzeba-wstawić-instrukcje-bariery-pamięciowej3-więcej-niż-jedną-aby-program-zachowywał-się-poprawnie.">Następnie
+pokaż gdzie trzeba wstawić instrukcje bariery pamięciowej3 (więcej niż
+jedną!), aby program zachowywał się poprawnie.</a></li>
+</ul></li>
+<li><a href="#zadanie-4" id="toc-zadanie-4">Zadanie 4</a></li>
+</ul>
+<h2 id="zadanie-1">Zadanie 1</h2>
+<div class="highlight"><pre><span></span>Zadanie 1. Zdefiniuj pojęcie spójności pamięci podręcznych (ang. cache coherence). Uruchamiamy
+program ze slajdu pt. „Thread Function: Memory Accumulation” do wykładu na komputerze z wieloma
+procesorami. 
+Czemu program działa szybciej, jeśli zmienna spacing jest równa 8 zamiast 1?  
+Posługując się diagramem przejść stanów, zaprezentuj działanie protokołu MSI1 na przykładzie dwóch procesorów, z których każdy zwiększa n razy zawartość komórki pamięci x o 1. 
+Każdy procesor wykonuje w pętli trzy instrukcje: załadowanie wartości z pamięci do rejestru, 
+wykonanie operacji arytmetycznej i zapisanie wartości do pamięci.
+Chcemy prześledzić jak zmienia się stan linii pamięci podręcznej przechowującej zmienną x, 
+w zależności od akcji procesora i żądań przychodzących z magistrali pamięci.
+</pre></div>
+
+<h3
+id="czemu-program-działa-szybciej-jeśli-zmienna-spacing-jest-równa-8-zamiast-1">Czemu
+program działa szybciej, jeśli zmienna spacing jest równa 8 zamiast
+1?</h3>
+<p>Cache operuje na jednostkach zwanych liniami cache’u, które mają
+zwykle 64 bajty. A więc gdy ładujemy coś z pamięci głównej do cache’u to
+ładujemy od razu 64 bajty. Jeśli występuje sytuacja, w której w pamięci
+głównej mamy obok siebie dwie zmienne, używane oddzielnie przez dwa
+procesory, to mimo ze cpu1 korzysta ze zmiennej A, a cpu2 ze zmiennej B,
+to po każdej modyfikacji A lub B jeden procesor musi do drugiego wysłac
+informacje, że poprzednia linia cache’u jest nieaktualna i trzeba ją
+zaktualizować.</p>
+<h3 id="diagram-przejść-stanów">Diagram przejść stanów</h3>
+<p>Nie wiem czy o to autorowi chodziło, mam nadzieje ze tak bo robienie
+diagramów jest irytujące</p>
+<p><img src="./assets/diagram_stanow.png" /></p>
+<h2 id="zadanie-2">Zadanie 2</h2>
+<div class="highlight"><pre><span></span>Zadanie 2. Zdefiniuj pojęcie modelu spójności pamięci (ang. memory consistency model). 
+Następnie opowiedz jakie gwarancje daje programiście spójność sekwencyjna. 
+Niestety procesory wykonujące instrukcje
+poza porządkiem programu potrafią zmienić kolejność żądań odczytu i zapisu pamięci, co może zostać
+zaobserwowane przez inne procesory. Artykuł „Memory ordering”2 opisuje model pamięci implementowany
+przez architekturę x86-64 i ARMv7. Wyjaśnij gwarancje, które daje programiście każdy z tych modeli. Wybierz
+ciąg instrukcji load i store, a następnie powiedz, które z nich procesor może zmieniać kolejnością wysyłając
+do magistrali pamięci.
+</pre></div>
+
+<h3
+id="zdefiniuj-pojęcie-modelu-spójności-pamięci-ang.-memory-consistency-model">Zdefiniuj
+pojęcie modelu spójności pamięci (ang. memory consistency model)</h3>
+<p>Model spójności pamięci określa kolejność w jakiej operacje na
+pamięci są wykonywane i widoczne dla innych procesorów</p>
+<h3
+id="następnie-opowiedz-jakie-gwarancje-daje-programiście-spójność-sekwencyjna.">Następnie
+opowiedz jakie gwarancje daje programiście spójność sekwencyjna.</h3>
+<p>Spójność sekwencyjna daje gwarancje, ze operacje na pamięci wykonają
+się i będą widoczne dla innych w takiej kolejności, w jakiej są ułożone
+w programie.</p>
+<h3
+id="wyjaśnij-gwarancje-które-daje-programiście-każdy-z-tych-modeli-x86-64-i-armv7">Wyjaśnij
+gwarancje, które daje programiście każdy z tych modeli (x86-64 i
+ARMv7)</h3>
+<p><strong>x86-64</strong> Daje nam najwięcej gwarancji, jedyny
+reordering który jest zezwolony to wykonanie odczytów przed
+zapisami.<br />
+Reszta kolejności jest zachowana, czyli zapisy są w kolejności i odczyty
+są w kolejności.</p>
+<p><strong>ARMv7</strong> daje bardzo mało gwarancji, jedne zapisy mogą
+być przed innymi zapisami, tak samo odczyty. Zapisy mogą być przed
+odczytami i wice wersa.</p>
+<p>Konieczne z tego względu jest korzystanie z barier (dmb).<br />
+Problemem jest też Incoherent instruction cache pipeline, tzn. mamy
+cache instrukcji i danych i jeśli dynamicznie zmodyfikujemy kod w data
+cache, to nie zmodyfikuje się instruction cache i bedzie wykonywac sie
+stary kod.</p>
+<p>Jest jedna gwarancja, to znaczy zależność danych jest
+zachowana.<br />
+Np.</p>
+<div class="highlight"><pre><span></span>mov reg1, [x]
+mov x, reg1+1
+</pre></div>
+
+<p>najpierw musi wykonać się pierwszy mov, a dopiero potem drugi,
+ponieważ drugi potrzebuje znać najnowszą wartość reg1.</p>
+<h3 id="przykład">Przykład</h3>
+<div id="cb4" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="nf">mov</span><span class="w"> </span><span class="p">[</span><span class="no">m1</span><span class="p">],</span><span class="w"> </span><span class="no">reg1</span>
+<span class="nf">mov</span><span class="w"> </span><span class="p">[</span><span class="no">m2</span><span class="p">],</span><span class="w"> </span><span class="no">reg1</span>
+</pre></div>
+
+</div>
+<p>W x86-64 jest zachowana sekwencyjnosc zapisów, więc inne wątki
+najpierw zobaczą modyfikacje m1, a dopiero potem m2.<br />
+Na ARMie moze nastąpić reordering i najpierw wykona się m2 potem m1.</p>
+<h2 id="zadanie-3">Zadanie 3</h2>
+<div class="highlight"><pre><span></span>Zadanie 3 (bonus). Uzasadnij, że poniższy program (algorytm Petersona) zachowuje się niepoprawnie,
+gdy wykonywany jest na architekturze x86-64 (total store order model). Wskaż kontrprzykład, który pokona
+ten algorytm na architekturze ARMv7 (weak memory model). 
+Następnie pokaż gdzie trzeba wstawić instrukcje bariery pamięciowej3 (więcej niż jedną!), aby program zachowywał się poprawnie.
+</pre></div>
+
+<div id="cb6" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="mi">1</span><span class="w"> </span><span class="n">shared</span><span class="w"> </span><span class="n">boolean</span><span class="w"> </span><span class="n">blocked</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">false</span><span class="p">,</span><span class="w"> </span><span class="nb">false</span><span class="w"> </span><span class="p">};</span>
+<span class="mi">2</span><span class="w"> </span><span class="n">shared</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">turn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="mi">3</span>
+<span class="mi">4</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">P</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="mi">5</span><span class="w">   </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="nb">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="mi">6</span><span class="w">       </span><span class="n">blocked</span><span class="p">[</span><span class="n">id</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="mi">7</span><span class="w">       </span><span class="n">turn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<span class="mi">8</span><span class="w">       </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">blocked</span><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">id</span><span class="p">]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">turn</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">id</span><span class="p">))</span>
+<span class="mi">9</span><span class="w">           </span><span class="k">continue</span><span class="p">;</span>
+<span class="mi">10</span><span class="w">      </span><span class="cm">/* put code to execute in critical section here */</span>
+<span class="mi">11</span><span class="w">      </span><span class="n">blocked</span><span class="p">[</span><span class="n">id</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="mi">12</span><span class="w">  </span><span class="p">}</span>
+<span class="mi">13</span><span class="w"> </span><span class="p">}</span>
+<span class="mi">14</span>
+<span class="mi">15</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">parbegin</span><span class="w"> </span><span class="p">(</span><span class="n">P</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="n">P</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span><span class="w"> </span><span class="p">}</span>
+</pre></div>
+
+</div>
+<p><strong>x86-64</strong> zezwala na reordering odczytów przed
+zapisy.<br />
+Ponieważ while w while’u są tylko odczyty to może się ok wykonać zanim
+wykona się linia 6 i 7.<br />
+W ten sposób oba procesory wejdą do sekcji krytycznej.</p>
+<p>Na architekturze <strong>ARMv7</strong> załóżmy, że nie mamy już
+problemu reorderingu odczytów i zapisów.<br />
+Problemem jest jednak kolejność wykonania blocked i turn, przykład:</p>
+<div class="highlight"><pre><span></span>P(0):
+    turn = 1
+P(1):
+    blocked[1] = true
+    turn = 0
+
+    while(blocked[0] &amp;&amp; turn == 0)
+    // wchodzimy bo blocked[0] == false
+P(0):
+    blocked[0] = true
+    while(blocked[1] &amp;&amp; turn == 1)
+    // wchodzimy bo turn == true
+</pre></div>
+
+<h3
+id="następnie-pokaż-gdzie-trzeba-wstawić-instrukcje-bariery-pamięciowej3-więcej-niż-jedną-aby-program-zachowywał-się-poprawnie.">Następnie
+pokaż gdzie trzeba wstawić instrukcje bariery pamięciowej3 (więcej niż
+jedną!), aby program zachowywał się poprawnie.</h3>
+<p>Bariery na x86-64 przed while i przed blocked[id] = false. Na ARMv7
+jeszcze między blocked i turn.</p>
+<h2 id="zadanie-4">Zadanie 4</h2>
+<div class="highlight"><pre><span></span>Podaj w pseudokodzie implementację blokady współdzielonej z operacjami «init», «rdlock»,
+«wrlock» i «unlock» używając wyłącznie muteksów i zmiennych warunkowych. Nie definiujemy zachowania
+dla następujących przypadków: zwalnianie blokady do odczytu więcej razy niż została wzięta; zwalnianie
+blokady do zapisu, gdy nie jest się jej właścicielem; wielokrotne zakładanie blokady do zapisu z tego samego
+wątku. Twoje rozwiązanie może dopuszczać głodzenie pisarzy.
+</pre></div>
+
+<div id="cb9" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="n">RWLock</span> <span class="o">=</span> <span class="p">{</span><span class="n">owner</span><span class="p">:</span> <span class="n">Thread</span><span class="p">,</span> <span class="n">readers</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">critsec</span><span class="p">:</span> <span class="n">Mutex</span><span class="p">,</span> <span class="n">noreaders</span><span class="p">:</span> <span class="n">CondVar</span><span class="p">,</span> <span class="n">nowriter</span><span class="p">:</span> <span class="n">CondVar</span><span class="p">,</span> <span class="n">writer</span><span class="p">:</span> <span class="n">Mutex</span><span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">init</span><span class="p">():</span>
+    <span class="n">owner</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">readers</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">critsec</span> <span class="o">=</span> <span class="n">Mutex</span><span class="p">()</span>
+    <span class="n">noreaders</span> <span class="o">=</span> <span class="n">CondVar</span><span class="p">()</span>
+    <span class="n">nowriter</span>  <span class="o">=</span> <span class="n">CondVar</span><span class="p">()</span>
+    <span class="n">writer</span>  <span class="o">=</span> <span class="n">Mutex</span><span class="p">()</span>
+    <span class="n">rwlock</span> <span class="o">=</span> <span class="o">...</span>
+    <span class="k">return</span> <span class="n">rwlock</span>
+
+<span class="k">def</span> <span class="nf">rdlock</span><span class="p">(</span><span class="n">rwlock</span><span class="p">):</span>
+    <span class="n">lock</span><span class="p">(</span><span class="n">rwlock</span><span class="o">.</span><span class="n">critsec</span><span class="p">)</span>
+    <span class="c1"># ownerem moze byc tylko writer</span>
+    <span class="k">while</span> <span class="n">rwlock</span><span class="o">.</span><span class="n">owner</span><span class="p">:</span>
+        <span class="n">wait</span><span class="p">(</span><span class="n">rwlock</span><span class="o">.</span><span class="n">noreaders</span><span class="o">.</span><span class="n">wait</span><span class="p">,</span> <span class="n">rwlock</span><span class="o">.</span><span class="n">critsec</span><span class="p">)</span>
+    <span class="c1"># ktoś nas uwolnił</span>
+    <span class="n">rwlock</span><span class="o">.</span><span class="n">readers</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">unlock</span><span class="p">(</span><span class="n">rwlock</span><span class="o">.</span><span class="n">crisec</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">wrlock</span><span class="p">(</span><span class="n">rwlock</span><span class="p">):</span>
+    <span class="n">lock</span><span class="p">(</span><span class="n">rwlock</span><span class="o">.</span><span class="n">critsec</span><span class="p">)</span>
+    
+    <span class="k">while</span> <span class="n">rwlock</span><span class="o">.</span><span class="n">readers</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">rwlock</span><span class="o">.</span><span class="n">owner</span><span class="p">:</span>
+        <span class="n">wait</span><span class="p">(</span><span class="n">rwlock</span><span class="o">.</span><span class="n">nowriters</span><span class="o">.</span><span class="n">wait</span><span class="p">,</span> <span class="n">rwlock</span><span class="o">.</span><span class="n">critsec</span><span class="p">)</span>
+
+    <span class="n">owner</span> <span class="o">=</span> <span class="n">threadid</span><span class="p">()</span>
+    <span class="n">unlock</span><span class="p">(</span><span class="n">rwlock</span><span class="o">.</span><span class="n">critsec</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">unlock</span><span class="p">(</span><span class="n">rwlock</span><span class="p">):</span>
+    <span class="n">lock</span><span class="p">(</span><span class="n">rwlock</span><span class="o">.</span><span class="n">critsec</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">readers</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">readers</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">readers</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nowriter</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">notify</span><span class="p">(</span><span class="n">nowriter</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">owner</span> <span class="ow">and</span> <span class="n">owner</span> <span class="o">==</span> <span class="n">threadid</span><span class="p">():</span>
+        <span class="n">owner</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nowriter</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">notify</span><span class="p">(</span><span class="n">nowriter</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">noreaders</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">notify</span>\<span class="n">_all</span><span class="p">(</span><span class="n">noreaders</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="err">???</span>
+    <span class="n">unlock</span><span class="p">(</span><span class="n">rwlock</span><span class="o">.</span><span class="n">critsec</span><span class="p">)</span>
+</pre></div>
+
+</div>
+  </body>
+</html>

@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="date" content=''>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/../style.css"/>
+
+    <title>writeup</title>
+
+  </head>
+  <body>
+
+<ul>
+<li><a href="#zadanie-1" id="toc-zadanie-1">zadanie 1</a>
+<ul>
+<li><a href="#do-czego-służy-kod-sterujący-cpr-opisany-w-csi-sequences1"
+id="toc-do-czego-służy-kod-sterujący-cpr-opisany-w-csi-sequences1">Do
+czego służy kod sterujący «CPR» opisany w CSI sequences1?</a></li>
+<li><a
+href="#posiłkując-się-tty_ioctl4-wytłumacz-semantykę-rozkazów-tcgets-i-tcsetsw-wykorzystywanych-odpowiednio-przez-tcgetattr3-i-tcsetattr3-oraz-tiocinq-i-tiocsti."
+id="toc-posiłkując-się-tty_ioctl4-wytłumacz-semantykę-rozkazów-tcgets-i-tcsetsw-wykorzystywanych-odpowiednio-przez-tcgetattr3-i-tcsetattr3-oraz-tiocinq-i-tiocsti.">Posiłkując
+się tty_ioctl(4) wytłumacz semantykę rozkazów «TCGETS» i «TCSETSW»,
+wykorzystywanych odpowiednio przez tcgetattr(3) i tcsetattr(3), oraz
+«TIOCINQ» i «TIOCSTI».</a></li>
+<li><a
+href="#na-podstawie-termios4-wyjaśnij-jak-flagi-echo-icanon-cread-wpływają-na-działanie-sterownika-terminala."
+id="toc-na-podstawie-termios4-wyjaśnij-jak-flagi-echo-icanon-cread-wpływają-na-działanie-sterownika-terminala.">Na
+podstawie termios(4) wyjaśnij jak flagi «ECHO», «ICANON», «CREAD»
+wpływają na działanie sterownika terminala.</a></li>
+</ul></li>
+<li><a href="#zadanie-2" id="toc-zadanie-2">Zadanie 2</a></li>
+<li><a href="#zadanie-3" id="toc-zadanie-3">Zadanie 3</a></li>
+<li><a href="#zadanie-4" id="toc-zadanie-4">Zadanie 4</a>
+<ul>
+<li><a
+href="#przeczytaj-2-34.2-i-wyjaśnij-czemu-dla-każdego-podprocesu-wywołanie-setpgid2-jest-robione-zarówno-w-procesie-powłoki-jak-i-w-procesie-potomnym"
+id="toc-przeczytaj-2-34.2-i-wyjaśnij-czemu-dla-każdego-podprocesu-wywołanie-setpgid2-jest-robione-zarówno-w-procesie-powłoki-jak-i-w-procesie-potomnym">Przeczytaj
+[ 2, 34.2] i wyjaśnij czemu dla każdego podprocesu wywołanie setpgid(2)
+jest robione zarówno w procesie powłoki jak i w procesie
+potomnym?</a></li>
+<li><a
+href="#kiedy-powłoka-ustala-grupę-pierwszoplanową-przy-pomocy-ioctl2-realizuje-tcsetpgrp3-na-jakiej-podstawie-powłoka-wyznacza-kod-wyjścia-potoku"
+id="toc-kiedy-powłoka-ustala-grupę-pierwszoplanową-przy-pomocy-ioctl2-realizuje-tcsetpgrp3-na-jakiej-podstawie-powłoka-wyznacza-kod-wyjścia-potoku">Kiedy
+powłoka ustala grupę pierwszoplanową przy pomocy ioctl(2) (realizuje
+tcsetpgrp(3))? Na jakiej podstawie powłoka wyznacza kod wyjścia
+potoku?</a></li>
+</ul></li>
+<li><a href="#zadanie-5." id="toc-zadanie-5.">Zadanie 5.</a></li>
+<li><a
+href="#zadanie-5.-czemu-nie-można-czytać-i-modyfikować-katalogów-przy-pomocy-wywołań-read2-i-write2"
+id="toc-zadanie-5.-czemu-nie-można-czytać-i-modyfikować-katalogów-przy-pomocy-wywołań-read2-i-write2">Zadanie
+5. Czemu nie można czytać i modyfikować katalogów przy pomocy wywołań
+read(2) i write(2)?</a>
+<ul>
+<li><a
+href="#jakim-wywołaniem-systemowym-można-wczytać-rekord-katalogu-ang.-directory-entry"
+id="toc-jakim-wywołaniem-systemowym-można-wczytać-rekord-katalogu-ang.-directory-entry">Jakim
+wywołaniem systemowym można wczytać rekord katalogu (ang. directory
+entry )?</a></li>
+<li><a href="#dlaczego-zawartość-katalogu-nie-jest-posortowana"
+id="toc-dlaczego-zawartość-katalogu-nie-jest-posortowana">Dlaczego
+zawartość katalogu nie jest posortowana?</a></li>
+<li><a
+href="#wyświetl-metadane-katalogu-głównego-przy-pomocy-polecenia-stat-a-następnie-wyjaśnij-z-czego-wynika-podana-liczba-dowiązań-ang.-hard-link"
+id="toc-wyświetl-metadane-katalogu-głównego-przy-pomocy-polecenia-stat-a-następnie-wyjaśnij-z-czego-wynika-podana-liczba-dowiązań-ang.-hard-link">Wyświetl
+metadane katalogu głównego «/» przy pomocy polecenia «stat», a następnie
+wyjaśnij z czego wynika podana liczba dowiązań (ang. hard
+link)?</a></li>
+<li><a
+href="#a-następnie-wyjaśnij-z-czego-wynika-podana-liczba-dowiązań-ang.-hard-link"
+id="toc-a-następnie-wyjaśnij-z-czego-wynika-podana-liczba-dowiązań-ang.-hard-link">a
+następnie wyjaśnij z czego wynika podana liczba dowiązań (ang. hard
+link)?</a></li>
+</ul></li>
+<li><a href="#zadanie-6." id="toc-zadanie-6.">Zadanie 6.</a></li>
+<li><a href="#zadanie-7" id="toc-zadanie-7">Zadanie 7</a></li>
+<li><a href="#zadanie-8" id="toc-zadanie-8">Zadanie 8</a></li>
+</ul>
+<h2 id="zadanie-1">zadanie 1</h2>
+<div class="highlight"><pre><span></span>Zadanie 1. W bieżącej wersji biblioteki «libcsapp» znajdują się pliki «terminal.h» i «terminal.c».  
+Przeczytaj [2 , 62.1 i 62.2], a następnie zreferuj działanie procedury «tty_curpos» odczytującej pozycję kursora terminala.  
+Do czego służy kod sterujący «CPR» opisany w CSI sequences1?  
+Posiłkując się tty_ioctl(4) wytłumacz semantykę rozkazów «TCGETS» i «TCSETSW», wykorzystywanych odpowiednio przez tcgetattr(3) i tcsetattr(3), oraz «TIOCINQ» i «TIOCSTI».  
+Na podstawie termios(4) wyjaśnij jak flagi «ECHO», «ICANON», «CREAD» wpływają na działanie sterownika terminala.
+</pre></div>
+
+<h3 id="do-czego-służy-kod-sterujący-cpr-opisany-w-csi-sequences1">Do
+czego służy kod sterujący «CPR» opisany w CSI sequences1?</h3>
+<div class="highlight"><pre><span></span>Reports the cursor position (CPR) by transmitting ESC[n;mR, where n is the row and m is the column.
+</pre></div>
+
+<h3
+id="posiłkując-się-tty_ioctl4-wytłumacz-semantykę-rozkazów-tcgets-i-tcsetsw-wykorzystywanych-odpowiednio-przez-tcgetattr3-i-tcsetattr3-oraz-tiocinq-i-tiocsti.">Posiłkując
+się tty_ioctl(4) wytłumacz semantykę rozkazów «TCGETS» i «TCSETSW»,
+wykorzystywanych odpowiednio przez tcgetattr(3) i tcsetattr(3), oraz
+«TIOCINQ» i «TIOCSTI».</h3>
+<div class="highlight"><pre><span></span>TCGETS Equivalent to tcgetattr(fd, argp).
+Get the current serial port settings.
+</pre></div>
+
+<div class="highlight"><pre><span></span>TCSETSW Equivalent to tcsetattr(fd, TCSADRAIN, argp).
+
+TCSADRAIN
+      the change occurs after all output written to fd has been
+      transmitted.  This option should be used when changing
+      parameters that affect output.
+</pre></div>
+
+<div class="highlight"><pre><span></span>FIONREAD
+      Get the number of bytes in the input buffer.
+
+TIOCINQ
+      Same as FIONREAD.
+</pre></div>
+
+<div class="highlight"><pre><span></span>TIOCSTI Insert the given byte in the input queue.
+</pre></div>
+
+<h3
+id="na-podstawie-termios4-wyjaśnij-jak-flagi-echo-icanon-cread-wpływają-na-działanie-sterownika-terminala.">Na
+podstawie termios(4) wyjaśnij jak flagi «ECHO», «ICANON», «CREAD»
+wpływają na działanie sterownika terminala.</h3>
+<div class="highlight"><pre><span></span>If ECHO is set, input characters    are echoed back to the  terminal.   If
+ECHO is not set,    input characters are not echoed.
+</pre></div>
+
+<div class="highlight"><pre><span></span>If  ICANON  is  set, canonical processing is enabled.  This enables the
+erase and kill edit functions, and the  assembly     of  input  characters
+into  lines  delimited  by NL, EOF, and EOL, as described in &quot;Canonical Mode Input Processing&quot;.
+</pre></div>
+
+<div class="highlight"><pre><span></span>If CREAD    is set, the receiver is enabled.  Otherwise, no  character  is
+received.   Not all hardware supports this bit.  In fact, this flag is
+pretty silly and    if it were not part of the  termios  specification  it
+would be    omitted.
+</pre></div>
+
+<h2 id="zadanie-2">Zadanie 2</h2>
+<div class="highlight"><pre><span></span>Zadanie 2. Na podstawie [ 1 , 19.2] wyjaśnij działanie programu script(1).  
+Nagraj interaktywną sesję z powłoką «dash» przy pomocy polecenia «script -T timing -c dash».  
+Wykonaj kilka poleceń i zakończ powłokę przy pomocy polecenia «exit 42», po czym odtwórz sesję przy pomocy polecenia «scriptreplay -t timing».  
+Następnie uruchom polecenie powyższe polecenie przy pomocy «strace -f -e read,write -o script.log» i na podstawie zawartości pliku «script.log» pokaż jak «script» używa pseudoterminala do komunikacji z programami działającymi pod kontrolą powłoki «dash».  
+Pokaż, że sterownik terminala przepisuje znaki zgodnie z flagami «ICRNL» i «ONLCR» opisanymi w termios(4).
+</pre></div>
+
+<div class="highlight"><pre><span></span>ioctl(1, TCGETS, {c_iflag=ICRNL|IXON, c_oflag=NL0|CR0|TAB0|BS0|VT0|FF0|OPOST|ONLCR, c_cflag=B38400|CS8|CREAD, c_lflag=ISIG|ICANON|ECHO|ECHOE|ECHOK|IEXTEN|ECHOCTL|ECHOKE, ...}) = 0
+ioctl(1, TCSETS, {c_iflag=IXON,       c_oflag=NL0|CR0|TAB0|BS0|VT0|FF0|ONLCR,       c_cflag=B38400|CS8|CREAD, c_lflag=ISIG|            ECHOE|ECHOK|       ECHOCTL|ECHOKE, ...}) = 0
+</pre></div>
+
+<p>Wyłącza icanon, echo, iexten, opost i icrnl icanon - tryb kanoniczny
+echo - echo iexten- IEXTEN enable DISCARD and LNEXT opost -oznajmia czy
+interpretowac c_oflag</p>
+<p>ready i write’y:</p>
+<div id="cb12" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="m">248060</span><span class="w"> </span>read<span class="o">(</span><span class="m">3</span>,<span class="w"> </span><span class="s2">&quot;\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0&gt;\0\1\0\0\0\340_\2\0\0\0\0\0&quot;</span>...,<span class="w"> </span><span class="m">832</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">832</span>
+<span class="m">248060</span><span class="w"> </span>read<span class="o">(</span><span class="m">3</span>,<span class="w"> </span><span class="s2">&quot;0.007878 2\n2.652390 1\n0.043096 1&quot;</span>...,<span class="w"> </span><span class="m">4096</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">309</span>
+<span class="m">248060</span><span class="w"> </span>read<span class="o">(</span><span class="m">4</span>,<span class="w"> </span><span class="s2">&quot;Script started on 2024-10-27 21:&quot;</span>...,<span class="w"> </span><span class="m">4096</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">239</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;</span>$<span class="s2"> &quot;</span>,<span class="w"> </span><span class="m">2</span><span class="o">)</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="m">2</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;l&quot;</span>,<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;s&quot;</span>,<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;\10 \10&quot;</span>,<span class="w"> </span><span class="m">3</span><span class="o">)</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="m">3</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;\10 \10&quot;</span>,<span class="w"> </span><span class="m">3</span><span class="o">)</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="m">3</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;c&quot;</span>,<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;a&quot;</span>,<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;t&quot;</span>,<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot; &quot;</span>,<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;\10 \10\10 \10\10 \10\10 \10&quot;</span>,<span class="w"> </span><span class="m">12</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;e&quot;</span>,<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;c&quot;</span>,<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;h&quot;</span>,<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;o&quot;</span>,<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot; &quot;</span>,<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;&#39;&quot;</span>,<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;a&quot;</span>,<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;&#39;&quot;</span>,<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;\r\n&quot;</span>,<span class="w"> </span><span class="m">2</span><span class="o">)</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="m">2</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;a\r\n</span>$<span class="s2"> &quot;</span>,<span class="w"> </span><span class="m">5</span><span class="o">)</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="m">5</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;e&quot;</span>,<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;x&quot;</span>,<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;i&quot;</span>,<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;t&quot;</span>,<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot; &quot;</span>,<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;4&quot;</span>,<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;2&quot;</span>,<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="m">248060</span><span class="w"> </span>read<span class="o">(</span><span class="m">3</span>,<span class="w"> </span><span class="s2">&quot;&quot;</span>,<span class="w"> </span><span class="m">4096</span><span class="o">)</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;\r\n&quot;</span>,<span class="w"> </span><span class="m">2</span><span class="o">)</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="m">2</span>
+<span class="m">248060</span><span class="w"> </span>write<span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="s2">&quot;\n&quot;</span>,<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="m">248060</span><span class="w"> </span>+++<span class="w"> </span>exited<span class="w"> </span>with<span class="w"> </span><span class="m">0</span><span class="w"> </span>+++
+</pre></div>
+
+</div>
+<p><img src="assets/heh.png" /></p>
+<h2 id="zadanie-3">Zadanie 3</h2>
+<div class="highlight"><pre><span></span>Zadanie 3. Uruchom potok (ang. pipeline) «ps -ef | grep sh | wc -l &gt; cnt» w powłoce utwo-
+rzonej przy pomocy polecenia «strace -o pipeline.log -f dash». Na podstawie zawartości pliku
+«pipeline.log» opisz jak powłoka realizuje funkcje łączenia procesów rurami (ang. pipe) i wykonuje
+przekierowanie standardowego wyjścia do pliku. W szczególności wskaż które procesy i w jakiej kolejno-
+ści będą wołały następujące wywołania systemowe: openat(2) z flagą «O_CREAT» (realizuje creat(2)),
+dup2(2), pipe(2), close(2), clone(2) (realizuje fork(2)) i execve(2). Zwróć szczególną uwagę na to
+kiedy powłoka tworzy rury i kiedy są zamykane ich poszczególne końce.
+</pre></div>
+
+<div id="cb14" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="m">86905</span><span class="w"> </span>-<span class="w"> </span>dash
+<span class="m">86911</span><span class="w"> </span>-<span class="w"> </span>ps
+<span class="m">86912</span><span class="w"> </span>-<span class="w"> </span>grep
+<span class="m">86913</span><span class="w"> </span>-<span class="w"> </span>wc
+
+<span class="c1"># Start the shell process (dash), which initializes the pipeline.</span>
+<span class="m">86905</span><span class="w"> </span>execve<span class="o">(</span><span class="s2">&quot;/usr/bin/dash&quot;</span>,<span class="w"> </span><span class="o">[</span><span class="s2">&quot;dash&quot;</span><span class="o">]</span>,<span class="w"> </span>0x7ffcaab9fee8<span class="w"> </span>/*<span class="w"> </span><span class="m">41</span><span class="w"> </span>vars<span class="w"> </span>*/<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+
+<span class="c1"># Create a pipe with file descriptors 3 (read end) and 4 (write end) to connect `ps` output to `grep`.</span>
+<span class="m">86905</span><span class="w"> </span>pipe2<span class="o">([</span><span class="m">3</span>,<span class="w"> </span><span class="m">4</span><span class="o">]</span>,<span class="w"> </span><span class="m">0</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+
+<span class="c1"># Fork a new process (86911) to execute the `ps -ef` command.</span>
+<span class="m">86905</span><span class="w"> </span>clone<span class="o">(</span><span class="nv">child_stack</span><span class="o">=</span>NULL,<span class="w"> </span><span class="nv">flags</span><span class="o">=</span>CLONE_CHILD_CLEARTID<span class="p">|</span>CLONE_CHILD_SETTID<span class="p">|</span>SIGCHLD,<span class="w"> </span><span class="nv">child_tidptr</span><span class="o">=</span>0x7c0243f1de50<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">86911</span>
+<span class="c1"># Child process 86911 (`ps`):</span>
+<span class="w">    </span><span class="c1"># Close the read end of the pipe as it will only write to `grep`.</span>
+<span class="w">    </span><span class="m">86911</span><span class="w"> </span>close<span class="o">(</span><span class="m">3</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="w">    </span><span class="c1"># Duplicate FD 4 to FD 1 (stdout), redirecting output to the pipe connected to `grep`.</span>
+<span class="w">    </span><span class="m">86911</span><span class="w"> </span>dup2<span class="o">(</span><span class="m">4</span>,<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w"> </span>&lt;unfinished<span class="w"> </span>...&gt;
+<span class="w">    </span><span class="c1"># Close FD 4 after redirecting stdout; all output now goes to `grep`.</span>
+<span class="w">    </span><span class="m">86911</span><span class="w"> </span>close<span class="o">(</span><span class="m">4</span><span class="o">)</span><span class="w"> </span>&lt;unfinished<span class="w"> </span>...&gt;
+<span class="w">    </span><span class="c1"># Execute the `ps -ef` command, listing all processes.</span>
+<span class="w">    </span><span class="m">86911</span><span class="w"> </span>execve<span class="o">(</span><span class="s2">&quot;/usr/bin/ps&quot;</span>,<span class="w"> </span><span class="o">[</span><span class="s2">&quot;ps&quot;</span>,<span class="w"> </span><span class="s2">&quot;-ef&quot;</span><span class="o">]</span>,<span class="w"> </span>0x5c5416bfbc20<span class="w"> </span>/*<span class="w"> </span><span class="m">41</span><span class="w"> </span>vars<span class="w"> </span>*/<span class="w"> </span>&lt;unfinished<span class="w"> </span>...&gt;
+
+<span class="c1"># Parent process closes the write end of the pipe, as it will be used by `ps`.</span>
+<span class="m">86905</span><span class="w"> </span>close<span class="o">(</span><span class="m">4</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+
+<span class="c1"># Create another pipe (FD 4 for reading, FD 5 for writing) to connect `grep` output to `wc`.</span>
+<span class="m">86905</span><span class="w"> </span>pipe2<span class="o">([</span><span class="m">4</span>,<span class="w"> </span><span class="m">5</span><span class="o">]</span>,<span class="w"> </span><span class="m">0</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+
+<span class="c1"># Fork another process (86912) to execute `grep sh`.</span>
+<span class="m">86905</span><span class="w"> </span>clone<span class="o">(</span><span class="nv">child_stack</span><span class="o">=</span>NULL,<span class="w"> </span><span class="nv">flags</span><span class="o">=</span>CLONE_CHILD_CLEARTID<span class="p">|</span>CLONE_CHILD_SETTID<span class="p">|</span>SIGCHLD,<span class="w"> </span><span class="nv">child_tidptr</span><span class="o">=</span>0x7c0243f1de50<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">86912</span>
+<span class="c1"># Child process 86912 (`grep`):</span>
+<span class="w">    </span><span class="c1"># Close FD 4, as `grep` only reads input from the pipe.</span>
+<span class="w">    </span><span class="m">86912</span><span class="w"> </span>close<span class="o">(</span><span class="m">4</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="w">    </span><span class="c1"># Redirect stdin (FD 0) to FD 3, so it reads from `ps`&#39;s output pipe.</span>
+<span class="w">    </span><span class="m">86912</span><span class="w"> </span>dup2<span class="o">(</span><span class="m">3</span>,<span class="w"> </span><span class="m">0</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="w">    </span><span class="c1"># Close FD 3 after redirecting it to stdin; `grep` now reads only from `ps`.</span>
+<span class="w">    </span><span class="m">86912</span><span class="w"> </span>close<span class="o">(</span><span class="m">3</span><span class="o">)</span><span class="w"> </span>&lt;unfinished<span class="w"> </span>...&gt;
+<span class="w">    </span><span class="c1"># Duplicate FD 5 to FD 1 (stdout), redirecting output to the `wc` pipe.</span>
+<span class="w">    </span><span class="m">86912</span><span class="w"> </span>dup2<span class="o">(</span><span class="m">5</span>,<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w"> </span>&lt;unfinished<span class="w"> </span>...&gt;
+<span class="w">    </span><span class="c1"># Close FD 5 after redirecting stdout; output now goes to `wc`.</span>
+<span class="w">    </span><span class="m">86912</span><span class="w"> </span>close<span class="o">(</span><span class="m">5</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="w">    </span><span class="c1"># Execute the `grep sh` command, filtering for lines containing &quot;sh&quot;.</span>
+<span class="w">    </span><span class="m">86912</span><span class="w"> </span>execve<span class="o">(</span><span class="s2">&quot;/usr/bin/grep&quot;</span>,<span class="w"> </span><span class="o">[</span><span class="s2">&quot;grep&quot;</span>,<span class="w"> </span><span class="s2">&quot;sh&quot;</span><span class="o">]</span>,<span class="w"> </span>0x5c5416bfbc20<span class="w"> </span>/*<span class="w"> </span><span class="m">41</span><span class="w"> </span>vars<span class="w"> </span>*/<span class="w"> </span>&lt;unfinished<span class="w"> </span>...&gt;
+
+<span class="c1"># Parent process closes FD 5 (write end of the second pipe) as it will be used by `wc`.</span>
+<span class="m">86905</span><span class="w"> </span>close<span class="o">(</span><span class="m">5</span><span class="w"> </span>&lt;unfinished<span class="w"> </span>...&gt;
+
+<span class="c1"># Fork a new process to handle the `wc -l` command.</span>
+<span class="m">86905</span><span class="w"> </span>clone<span class="o">(</span><span class="nv">child_stack</span><span class="o">=</span>NULL,<span class="w"> </span><span class="nv">flags</span><span class="o">=</span>CLONE_CHILD_CLEARTID<span class="p">|</span>CLONE_CHILD_SETTID<span class="p">|</span>SIGCHLD<span class="w"> </span>&lt;unfinished<span class="w"> </span>...&gt;
+<span class="c1"># Child process 86913 (`wc`):</span>
+<span class="w">    </span><span class="c1"># Redirect stdin to FD 4 so `wc` can read from `grep` output.</span>
+<span class="w">    </span><span class="m">86913</span><span class="w"> </span>dup2<span class="o">(</span><span class="m">4</span>,<span class="w"> </span><span class="m">0</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="w">    </span><span class="c1"># Close FD 4 after redirecting stdin.</span>
+<span class="w">    </span><span class="m">86913</span><span class="w"> </span>close<span class="o">(</span><span class="m">4</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="w">    </span><span class="c1"># Open the file &quot;cnt&quot; for writing, creating it if it doesn’t exist and truncating it if it does; assigns it FD 3.</span>
+<span class="w">    </span><span class="m">86913</span><span class="w"> </span>openat<span class="o">(</span>AT_FDCWD,<span class="w"> </span><span class="s2">&quot;cnt&quot;</span>,<span class="w"> </span>O_WRONLY<span class="p">|</span>O_CREAT<span class="p">|</span>O_TRUNC,<span class="w"> </span><span class="m">0666</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span>
+<span class="w">    </span><span class="c1"># Close its stdout (FD 1) to prepare redirecting output to the file `cnt`.</span>
+<span class="w">    </span><span class="m">86913</span><span class="w"> </span>close<span class="o">(</span><span class="m">1</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="w">    </span><span class="c1"># Duplicate FD 3 to FD 1 (stdout), so output is redirected to &quot;cnt&quot;.</span>
+<span class="w">    </span><span class="m">86913</span><span class="w"> </span>dup2<span class="o">(</span><span class="m">3</span>,<span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="w">    </span><span class="c1"># Close FD 3 after redirecting stdout to it; output now goes to file &quot;cnt&quot;.</span>
+<span class="w">    </span><span class="m">86913</span><span class="w"> </span>close<span class="o">(</span><span class="m">3</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="w">    </span><span class="c1"># Execute the `wc -l` command, counting lines from `grep` and saving the result in &quot;cnt&quot;.</span>
+<span class="w">    </span><span class="m">86913</span><span class="w"> </span>execve<span class="o">(</span><span class="s2">&quot;/usr/bin/wc&quot;</span>,<span class="w"> </span><span class="o">[</span><span class="s2">&quot;wc&quot;</span>,<span class="w"> </span><span class="s2">&quot;-l&quot;</span><span class="o">]</span>,<span class="w"> </span>0x5c5416bfbc38<span class="w"> </span>/*<span class="w"> </span><span class="m">41</span><span class="w"> </span>vars<span class="w"> </span>*/<span class="w"> </span>&lt;unfinished<span class="w"> </span>...&gt;
+
+<span class="c1"># Parent shell process performs cleanup, closing any remaining unnecessary FDs.</span>
+<span class="m">86905</span><span class="w"> </span>close<span class="o">(</span>-1<span class="w"> </span>&lt;unfinished<span class="w"> </span>...&gt;
+</pre></div>
+
+</div>
+<h2 id="zadanie-4">Zadanie 4</h2>
+<div class="highlight"><pre><span></span>Zadanie 4. Przyjrzyjmy się raz jeszcze plikowi «pipeline.log» z poprzedniego zadania. Zauważ, że wszyst-
+kie procesy należące do potoku muszą zostać umieszczone w jednej grupie procesów. Wskaż kiedy powłoka
+tworzy nową grupę procesów i jak umieszcza tam procesy realizujące potok. Przeczytaj [ 2, 34.2] i wyja-
+śnij czemu dla każdego podprocesu wywołanie setpgid(2) jest robione zarówno w procesie powłoki jak
+i w procesie potomnym? Kiedy powłoka ustala grupę pierwszoplanową przy pomocy ioctl(2) (realizuje
+tcsetpgrp(3))? Na jakiej podstawie powłoka wyznacza kod wyjścia potoku?
+</pre></div>
+
+<div id="cb16" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="w">  </span><span class="m">1</span><span class="w"> </span><span class="m">145046</span><span class="w"> </span>execve<span class="o">(</span><span class="s2">&quot;/usr/bin/dash&quot;</span>,<span class="w"> </span><span class="o">[</span><span class="s2">&quot;dash&quot;</span><span class="o">]</span>,<span class="w"> </span>0x7ffec3e0bfa8<span class="w"> </span>/*<span class="w"> </span><span class="m">41</span><span class="w"> </span>vars<span class="w"> </span>*/<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="w">  </span><span class="m">2</span><span class="w"> </span><span class="m">145046</span><span class="w"> </span>setpgid<span class="o">(</span><span class="m">0</span>,<span class="w"> </span><span class="m">145046</span><span class="o">)</span><span class="w">               </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="w">  </span><span class="m">3</span><span class="w"> </span><span class="m">145046</span><span class="w"> </span>clone<span class="o">(</span><span class="nv">child_stack</span><span class="o">=</span>NULL,<span class="w"> </span><span class="nv">flags</span><span class="o">=</span>CLONE_CHILD_CLEARTID<span class="p">|</span>CLONE_CHILD_SETTID<span class="p">|</span>SIGCHLD,<span class="w"> </span><span class="nv">child_tidptr</span><span class="o">=</span>0x73b39187de50<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">145093</span>
+<span class="w">  </span><span class="m">4</span><span class="w"> </span><span class="m">145046</span><span class="w"> </span>setpgid<span class="o">(</span><span class="m">145093</span>,<span class="w"> </span><span class="m">145093</span><span class="o">)</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="w">  </span><span class="m">5</span><span class="w"> </span><span class="m">145093</span><span class="w"> </span>setpgid<span class="o">(</span><span class="m">0</span>,<span class="w"> </span><span class="m">145093</span><span class="o">)</span><span class="w">               </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="w">  </span><span class="m">6</span><span class="w"> </span><span class="m">145046</span><span class="w"> </span>clone<span class="o">(</span><span class="nv">child_stack</span><span class="o">=</span>NULL,<span class="w"> </span><span class="nv">flags</span><span class="o">=</span>CLONE_CHILD_CLEARTID<span class="p">|</span>CLONE_CHILD_SETTID<span class="p">|</span>SIGCHLD,<span class="w"> </span><span class="nv">child_tidptr</span><span class="o">=</span>0x73b39187de50<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">145094</span>
+<span class="w">  </span><span class="m">7</span><span class="w"> </span><span class="m">145046</span><span class="w"> </span>setpgid<span class="o">(</span><span class="m">145094</span>,<span class="w"> </span><span class="m">145093</span><span class="o">)</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="w">  </span><span class="m">8</span><span class="w"> </span><span class="m">145094</span><span class="w"> </span>setpgid<span class="o">(</span><span class="m">0</span>,<span class="w"> </span><span class="m">145093</span><span class="o">)</span><span class="w">               </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="w">  </span><span class="m">9</span><span class="w"> </span><span class="m">145046</span><span class="w"> </span>clone<span class="o">(</span><span class="nv">child_stack</span><span class="o">=</span>NULL,<span class="w"> </span><span class="nv">flags</span><span class="o">=</span>CLONE_CHILD_CLEARTID<span class="p">|</span>CLONE_CHILD_SETTID<span class="p">|</span>SIGCHLD<span class="w"> </span>&lt;unfinished<span class="w"> </span>...&gt;
+<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">145093</span><span class="w"> </span>execve<span class="o">(</span><span class="s2">&quot;/usr/bin/ps&quot;</span>,<span class="w"> </span><span class="o">[</span><span class="s2">&quot;ps&quot;</span>,<span class="w"> </span><span class="s2">&quot;-ef&quot;</span><span class="o">]</span>,<span class="w"> </span>0x5fb29fc65c20<span class="w"> </span>/*<span class="w"> </span><span class="m">41</span><span class="w"> </span>vars<span class="w"> </span>*/<span class="w"> </span>&lt;unfinished<span class="w"> </span>...&gt;
+<span class="w"> </span><span class="m">11</span><span class="w"> </span><span class="m">145046</span><span class="w"> </span>&lt;...<span class="w"> </span>clone<span class="w"> </span>resumed&gt;,<span class="w"> </span><span class="nv">child_tidptr</span><span class="o">=</span>0x73b39187de50<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">145095</span>
+<span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="m">145046</span><span class="w"> </span>setpgid<span class="o">(</span><span class="m">145095</span>,<span class="w"> </span><span class="m">145093</span><span class="o">)</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">145095</span><span class="w"> </span>setpgid<span class="o">(</span><span class="m">0</span>,<span class="w"> </span><span class="m">145093</span><span class="o">)</span><span class="w">               </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="w"> </span><span class="m">14</span><span class="w"> </span><span class="m">145094</span><span class="w"> </span>execve<span class="o">(</span><span class="s2">&quot;/usr/bin/grep&quot;</span>,<span class="w"> </span><span class="o">[</span><span class="s2">&quot;grep&quot;</span>,<span class="w"> </span><span class="s2">&quot;sh&quot;</span><span class="o">]</span>,<span class="w"> </span>0x5fb29fc65c20<span class="w"> </span>/*<span class="w"> </span><span class="m">41</span><span class="w"> </span>vars<span class="w"> </span>*/<span class="w"> </span>&lt;unfinished<span class="w"> </span>...&gt;
+<span class="w"> </span><span class="m">15</span><span class="w"> </span><span class="m">145093</span><span class="w"> </span>&lt;...<span class="w"> </span>execve<span class="w"> </span>resumed&gt;<span class="o">)</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="w"> </span><span class="m">16</span><span class="w"> </span><span class="m">145094</span><span class="w"> </span>&lt;...<span class="w"> </span>execve<span class="w"> </span>resumed&gt;<span class="o">)</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="w"> </span><span class="m">17</span><span class="w"> </span><span class="m">145095</span><span class="w"> </span>execve<span class="o">(</span><span class="s2">&quot;/usr/bin/wc&quot;</span>,<span class="w"> </span><span class="o">[</span><span class="s2">&quot;wc&quot;</span>,<span class="w"> </span><span class="s2">&quot;-l&quot;</span><span class="o">]</span>,<span class="w"> </span>0x5fb29fc65c38<span class="w"> </span>/*<span class="w"> </span><span class="m">41</span><span class="w"> </span>vars<span class="w"> </span>*/<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+</pre></div>
+
+</div>
+<h3
+id="przeczytaj-2-34.2-i-wyjaśnij-czemu-dla-każdego-podprocesu-wywołanie-setpgid2-jest-robione-zarówno-w-procesie-powłoki-jak-i-w-procesie-potomnym">Przeczytaj
+[ 2, 34.2] i wyjaśnij czemu dla każdego podprocesu wywołanie setpgid(2)
+jest robione zarówno w procesie powłoki jak i w procesie potomnym?</h3>
+<div class="highlight"><pre><span></span>However, because the scheduling of the parent and child is indeterminate after a fork() (Section 24.4), we can’t rely on the parent changing
+the child’s process group ID before the child does an exec(); nor can we rely on the
+child changing its process group ID before the parent tries to send any job-control
+signals to it. (Dependence on either one of these behaviors would result in a race con-
+dition.) Therefore, job-control shells are programmed so that the parent and the
+child process both call setpgid() to change the child’s process group ID to the same
+value immediately after a fork(), and the parent ignores any occurrence of the
+EACCES error on the setpgid() call. In other words, in a job-control shell, we’ll find
+code something like that shown in Listing 34-1
+</pre></div>
+
+<h3
+id="kiedy-powłoka-ustala-grupę-pierwszoplanową-przy-pomocy-ioctl2-realizuje-tcsetpgrp3-na-jakiej-podstawie-powłoka-wyznacza-kod-wyjścia-potoku">Kiedy
+powłoka ustala grupę pierwszoplanową przy pomocy ioctl(2) (realizuje
+tcsetpgrp(3))? Na jakiej podstawie powłoka wyznacza kod wyjścia
+potoku?</h3>
+<p>Na początku powłoka ustawia grupe pierwszoplanowa na siebie</p>
+<div id="cb18" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="m">147228</span><span class="w"> </span>openat<span class="o">(</span>AT_FDCWD,<span class="w"> </span><span class="s2">&quot;/dev/tty&quot;</span>,<span class="w"> </span>O_RDWR<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span>
+<span class="m">147228</span><span class="w"> </span>fcntl<span class="o">(</span><span class="m">3</span>,<span class="w"> </span>F_DUPFD,<span class="w"> </span><span class="m">10</span><span class="o">)</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="m">10</span>
+<span class="m">147228</span><span class="w"> </span>close<span class="o">(</span><span class="m">3</span><span class="o">)</span><span class="w">                         </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="m">147228</span><span class="w"> </span>fcntl<span class="o">(</span><span class="m">10</span>,<span class="w"> </span>F_SETFD,<span class="w"> </span>FD_CLOEXEC<span class="o">)</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="m">147228</span><span class="w"> </span>ioctl<span class="o">(</span><span class="m">10</span>,<span class="w"> </span>TIOCGPGRP,<span class="w"> </span><span class="o">[</span><span class="m">147225</span><span class="o">])</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="m">147228</span><span class="w"> </span>getpgrp<span class="o">()</span><span class="w">                        </span><span class="o">=</span><span class="w"> </span><span class="m">147225</span>
+ioctl<span class="o">(</span><span class="m">10</span>,<span class="w"> </span>TIOCSPGRP,<span class="w"> </span><span class="o">[</span><span class="m">147228</span><span class="o">])</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+</pre></div>
+
+</div>
+<p>Po wywołaniu komendy tworzony jest nowy proces (pozniej stanie sie
+p), który staje się grupą pierwszoplanową.<br />
+Reszcie procesów w pipe’a shell przyporządkowuje te samą grupę
+pierwszoplanową, czyli pierwszy proces.</p>
+<p>Kod wyjścia zależy od kodu wyjścia ostatniego procesu.</p>
+<h2 id="zadanie-5.">Zadanie 5.</h2>
+<div class="highlight"><pre><span></span>Zadanie 5. Czemu nie można czytać i modyfikować katalogów przy pomocy wywołań read(2) i write(2)?
+Jakim wywołaniem systemowym można wczytać rekord katalogu (ang. directory entry )? 
+Dlaczego zawartość katalogu nie jest posortowana? Wyświetl metadane katalogu głównego «/» przy pomocy polecenia «stat»,
+a następnie wyjaśnij z czego wynika podana liczba dowiązań (ang. hard link)?
+</pre></div>
+
+<h2
+id="zadanie-5.-czemu-nie-można-czytać-i-modyfikować-katalogów-przy-pomocy-wywołań-read2-i-write2">Zadanie
+5. Czemu nie można czytać i modyfikować katalogów przy pomocy wywołań
+read(2) i write(2)?</h2>
+<p>Bo zwracają rekordy a nie raw bajty.</p>
+<h3
+id="jakim-wywołaniem-systemowym-można-wczytać-rekord-katalogu-ang.-directory-entry">Jakim
+wywołaniem systemowym można wczytać rekord katalogu (ang. directory
+entry )?</h3>
+<p>readdir()</p>
+<h3 id="dlaczego-zawartość-katalogu-nie-jest-posortowana">Dlaczego
+zawartość katalogu nie jest posortowana?</h3>
+<p>Myślę, że łatwiej posortować dynamicznie output readdir(), niż
+grzebać w filesystemie, nalezy jak najmniej czasu spedzac nad io</p>
+<h3
+id="wyświetl-metadane-katalogu-głównego-przy-pomocy-polecenia-stat-a-następnie-wyjaśnij-z-czego-wynika-podana-liczba-dowiązań-ang.-hard-link">Wyświetl
+metadane katalogu głównego «/» przy pomocy polecenia «stat», a następnie
+wyjaśnij z czego wynika podana liczba dowiązań (ang. hard link)?</h3>
+<div id="cb20" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="o">[</span>crusom@crusomcarbon<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>stat<span class="w"> </span>/
+<span class="w">  </span>File:<span class="w"> </span>/
+<span class="w">  </span>Size:<span class="w"> </span><span class="m">4096</span><span class="w">            </span>Blocks:<span class="w"> </span><span class="m">8</span><span class="w">          </span>IO<span class="w"> </span>Block:<span class="w"> </span><span class="m">4096</span><span class="w">   </span>directory
+Device:<span class="w"> </span><span class="m">254</span>,2<span class="w">   </span>Inode:<span class="w"> </span><span class="m">2</span><span class="w">           </span>Links:<span class="w"> </span><span class="m">18</span>
+Access:<span class="w"> </span><span class="o">(</span><span class="m">0755</span>/drwxr-xr-x<span class="o">)</span><span class="w">  </span>Uid:<span class="w"> </span><span class="o">(</span><span class="w">    </span><span class="m">0</span>/<span class="w">    </span>root<span class="o">)</span><span class="w">   </span>Gid:<span class="w"> </span><span class="o">(</span><span class="w">    </span><span class="m">0</span>/<span class="w">    </span>root<span class="o">)</span>
+Access:<span class="w"> </span><span class="m">2024</span>-10-29<span class="w"> </span><span class="m">21</span>:39:27.486898484<span class="w"> </span>+0100
+Modify:<span class="w"> </span><span class="m">2013</span>-01-28<span class="w"> </span><span class="m">04</span>:54:18.000000000<span class="w"> </span>+0100
+Change:<span class="w"> </span><span class="m">2024</span>-07-17<span class="w"> </span><span class="m">20</span>:17:41.250009250<span class="w"> </span>+0200
+<span class="w"> </span>Birth:<span class="w"> </span><span class="m">2023</span>-10-20<span class="w"> </span><span class="m">13</span>:38:56.000000000<span class="w"> </span>+0200
+</pre></div>
+
+</div>
+<h3
+id="a-następnie-wyjaśnij-z-czego-wynika-podana-liczba-dowiązań-ang.-hard-link">a
+następnie wyjaśnij z czego wynika podana liczba dowiązań (ang. hard
+link)?</h3>
+<p>“.”, “..” i “..” w podkatalogach</p>
+<h2 id="zadanie-6.">Zadanie 6.</h2>
+<div class="highlight"><pre><span></span>Zadanie 6. Intencją autora poniższego kodu było użycie plików jako blokad międzyprocesowych. Istnienie
+pliku o podanej nazwie w systemie plików oznacza, że blokada została założona. Brak tegoż pliku, że blokadę
+można założyć. Niestety w poniższym kodzie jest błąd TOCTTOU2, który opisano również w [4 , 39.17].
+Zlokalizuj w poniższym kodzie wyścig i napraw go! Opowiedz jakie zagrożenia niesie ze sobą taki błąd.
+1 #include &quot;csapp.h&quot;
+2
+3 bool f_lock(const char *path) {
+4 if (access(path, F_OK) == 0)
+5 return false;
+6 (void)Open(path, O_CREAT|O_WRONLY, 0700);
+7 return true;
+8 }
+9
+10 void f_unlock(const char *path) {
+11 Unlink(path);
+12 }
+</pre></div>
+
+<div id="cb22" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="mi">1</span><span class="w"> </span><span class="err">#</span><span class="n">include</span><span class="w"> </span><span class="s">&quot;csapp.h&quot;</span>
+<span class="mi">2</span>
+<span class="mi">3</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">f_lock</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">path</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">Open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">O_CREAT</span><span class="o">|</span><span class="n">O_EXCL</span><span class="o">|</span><span class="n">O_WRONLY</span><span class="p">,</span><span class="w"> </span><span class="mo">0700</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="mi">8</span><span class="w"> </span><span class="p">}</span>
+<span class="mi">9</span>
+<span class="mi">10</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">f_unlock</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">path</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="mi">11</span><span class="w"> </span><span class="n">Unlink</span><span class="p">(</span><span class="n">path</span><span class="p">);</span>
+<span class="mi">12</span><span class="w"> </span><span class="p">}</span>
+</pre></div>
+
+</div>
+<h2 id="zadanie-7">Zadanie 7</h2>
+<div class="highlight"><pre><span></span>Zadanie 7. Program «leaky» symuluje aplikację, która posiada dostęp do danych wrażliwych. Pod deskryp-
+torem pliku o nieustalonym numerze kryje się otwarty plik «mypasswd». W wyniku normalnego działania
+«leaky» uruchamia zewnętrzny program «innocent» dostarczony przez złośliwego użytkownika.
+Uzupełnij kod programu «innocent», aby przeszukał otwarte deskryptory plików, a następnie przepisał
+zawartość otwartych plików do pliku «/tmp/hacker». Zauważ, że pliki zwykłe posiadają kursor. Do pliku
+wyjściowego należy wpisać również numer deskryptora pliku i ścieżkę do pliku, tak jak na poniższym wydruku:
+1 File descriptor 826 is ’/home/cahir/lista_4/mypasswd’ file!
+2 cahir:...:0:0:Krystian Baclawski:/home/cahir:/bin/bash
+Żeby odnaleźć nazwę pliku należy wykorzystać zawartość katalogu «/proc/self/fd» opisaną w procfs(5).
+Potrzebujesz odczytać plik docelowy odpowiedniego dowiązania symbolicznego przy pomocy readlink(2).
+Następnie napraw program «leaky» – zakładamy, że nie może on zamknąć pliku z wrażliwymi danymi.
+Wykorzystaj fcntl(2) do ustawienia odpowiedniej flagi deskryptora wymienionej w open(2).
+Zainstaluj pakiet «john» (John The Ripper3). Następnie złam hasło znajdujące się pliku, który wyciekł w wy-
+niku podatności pozostawionej przez programistę, który nie przeczytał uważnie podręcznika do execve(2).
+Wskazówka: Procedura «dprintf» drukuje korzystając z deskryptora pliku, a nie struktury «FILE»
+</pre></div>
+
+<div id="cb24" class="sourceCode">
+<div class="highlight"><pre><span></span><span class="o">[</span>crusom@crusomcarbon<span class="w"> </span>so21_lista_4<span class="o">]</span>$<span class="w"> </span>john<span class="w"> </span>&lt;<span class="o">(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;tQkrCdv1bf6aU&quot;</span><span class="o">)</span>
+-----<span class="w"> </span>snip<span class="w"> </span>------
+Proceeding<span class="w"> </span>with<span class="w"> </span>wordlist:/usr/share/john/password.lst,<span class="w"> </span>rules:Wordlist
+Proceeding<span class="w"> </span>with<span class="w"> </span>incremental:ASCII
+Warning:<span class="w"> </span><span class="nv">MaxLen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">13</span><span class="w"> </span>is<span class="w"> </span>too<span class="w"> </span>large<span class="w"> </span><span class="k">for</span><span class="w"> </span>the<span class="w"> </span>current<span class="w"> </span><span class="nb">hash</span><span class="w"> </span>type,<span class="w"> </span>reduced<span class="w"> </span>to<span class="w"> </span><span class="m">8</span>
+cirilla<span class="w">          </span><span class="o">(</span>?<span class="o">)</span>
+1g<span class="w"> </span><span class="m">0</span>:00:00:03<span class="w"> </span>DONE<span class="w"> </span><span class="m">3</span>/3<span class="w"> </span><span class="o">(</span><span class="m">2024</span>-10-30<span class="w"> </span><span class="m">19</span>:53<span class="o">)</span><span class="w"> </span><span class="m">0</span>.2770g/s<span class="w"> </span>2580Kp/s<span class="w"> </span>2580Kc/s<span class="w"> </span>2580KC/s<span class="w"> </span>cine143..aprume!
+Use<span class="w"> </span>the<span class="w"> </span><span class="s2">&quot;--show&quot;</span><span class="w"> </span>option<span class="w"> </span>to<span class="w"> </span>display<span class="w"> </span>all<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>cracked<span class="w"> </span>passwords<span class="w"> </span>reliably
+Session<span class="w"> </span>completed
+</pre></div>
+
+</div>
+<h2 id="zadanie-8">Zadanie 8</h2>
+<div class="highlight"><pre><span></span>Zadanie 8. Uruchom program «mkholes», a następnie odczytaj metadane pliku «holes.bin» przy pomocy
+polecenia stat(1). Wszystkie pola struktury «stat» są opisane w stat(2). Oblicz faktyczną objętość pliku
+na podstawie liczby używanych bloków «st_blocks» i rozmiaru pojedynczego bloku «st_blksize» systemu
+pliku. Czemu liczba używanych bloków jest mniejsza od tej wynikającej z objętości pliku z pola «st_size»?
+Czemu jest większa od liczby faktycznie używanych bloków zgłaszanych przez «mkholes»? Wyjaśnij to
+zjawisko na podstawie [1, 3.6]
+</pre></div>
+
+<div class="highlight"><pre><span></span>[crusom@crusomcarbon so21_lista_4]$ stat holes.bin
+  File: holes.bin
+  Size: 33550336        Blocks: 1112       IO Block: 4096   regular file
+Device: 254,2   Inode: 11840711    Links: 1
+Access: (0644/-rw-r--r--)  Uid: ( 1000/  crusom)   Gid: ( 1000/  crusom)
+Access: 2024-10-30 19:56:00.422926389 +0100
+Modify: 2024-10-30 19:54:53.659595394 +0100
+Change: 2024-10-30 19:54:53.659595394 +0100
+ Birth: 2024-10-30 19:54:50.246262181 +0100
+</pre></div>
+
+<p><a
+href="https://elixir.bootlin.com/linux/v6.11.5/source/include/uapi/asm-generic/stat.h#L24"
+class="uri">https://elixir.bootlin.com/linux/v6.11.5/source/include/uapi/asm-generic/stat.h#L24</a></p>
+<div class="highlight"><pre><span></span>struct stat {
+    unsigned long   st_dev;     /* Device.  */
+    unsigned long   st_ino;     /* File serial number.  */
+    unsigned int    st_mode;    /* File mode.  */
+    unsigned int    st_nlink;   /* Link count.  */
+    unsigned int    st_uid;     /* User ID of the file&#39;s owner.  */
+    unsigned int    st_gid;     /* Group ID of the file&#39;s group. */
+    unsigned long   st_rdev;    /* Device number, if device.  */
+    unsigned long   __pad1;
+    long        st_size;    /* Size of file, in bytes.  */
+    int     st_blksize; /* Optimal block size for I/O.  */
+    int     __pad2;
+    long        st_blocks;  /* Number 512-byte blocks allocated. */
+    long        st_atime;   /* Time of last access.  */
+    unsigned long   st_atime_nsec;
+    long        st_mtime;   /* Time of last modification.  */
+    unsigned long   st_mtime_nsec;
+    long        st_ctime;   /* Time of last status change.  */
+    unsigned long   st_ctime_nsec;
+    unsigned int    __unused4;
+    unsigned int    __unused5;
+};
+</pre></div>
+
+<p>Sektory majo po 512 bajtów, można sprawdzić zawsze
+<code>sudo fdisk -l</code></p>
+  </body>
+</html>
