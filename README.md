@@ -6,6 +6,9 @@ $ cd 3/
 $ python -m http.server -d html/
 Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
 ```
+### Programy i biblioteka
+Do list dołączone są programy, które trzeba było napisać/uzupełnić, znajdują się one w podkatalogach so21_lista_X.
+Nie dołączyłem biblioteki libcsapp potrzebnej do kompilacji.
 ### Poprawność programów
 Pliki w C, w tym repozytorium, są takimi jakimi je zostawiłem po prezentacji na zajęciach.
 Nie gwarantuję, że są w pełni poprawne ani że w pełni odpowiadają poleceniu (w trakcie zajęć były często eksperymenty z programami).
